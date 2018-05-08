@@ -83,7 +83,7 @@ class IndexView extends DestructableView{
 			title: 'Wallet password',
 			input: 'password',
 			showCancelButton: true,
-			confirmButtonText: 'open',
+			confirmButtonText: 'Open',
 		}).then((result:any) => {
 			if (result.value) {
 				let savePassword = result.value;

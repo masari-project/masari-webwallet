@@ -14,6 +14,12 @@
  */
 
 import {Router} from "./lib/numbersLab/Router";
+import {Mnemonic} from "./model/Mnemonic";
+
+//bridge for cnUtil with the new mnemonic class
+(<any>window).mn_random = Mnemonic.mn_random;
+(<any>window).mn_encode = Mnemonic.mn_encode;
+(<any>window).mn_decode = Mnemonic.mn_decode;
 
 let isMenuHidden = $('body').hasClass('menuHidden');
 

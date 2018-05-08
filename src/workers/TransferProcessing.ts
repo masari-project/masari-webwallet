@@ -1,5 +1,11 @@
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {Wallet} from "../model/Wallet";
+import {Mnemonic} from "../model/Mnemonic";
+
+//bridge for cnUtil with the new mnemonic class
+(<any>self).mn_random = Mnemonic.mn_random;
+(<any>self).mn_decode = Mnemonic.mn_decode;
+(<any>self).mn_encode = Mnemonic.mn_encode;
 
 let currentWallet : Wallet|null = null;
 

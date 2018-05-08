@@ -1,6 +1,10 @@
-define(["require", "exports", "../model/TransactionsExplorer", "../model/Wallet"], function (require, exports, TransactionsExplorer_1, Wallet_1) {
+define(["require", "exports", "../model/TransactionsExplorer", "../model/Wallet", "../model/Mnemonic"], function (require, exports, TransactionsExplorer_1, Wallet_1, Mnemonic_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    //bridge for cnUtil with the new mnemonic class
+    self.mn_random = Mnemonic_1.Mnemonic.mn_random;
+    self.mn_decode = Mnemonic_1.Mnemonic.mn_decode;
+    self.mn_encode = Mnemonic_1.Mnemonic.mn_encode;
     var currentWallet = null;
     onmessage = function (data) {
         if (data.isTrusted) {

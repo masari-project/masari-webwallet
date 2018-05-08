@@ -28,7 +28,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numbersLab/VueAnnotate", "../model/TransactionsExplorer", "../model/blockchain/BlockchainExplorerRpc2", "../lib/numbersLab/DependencyInjector", "../model/Constants", "../model/Wallet", "sweetalert2"], function (require, exports, DestructableView_1, VueAnnotate_1, TransactionsExplorer_1, BlockchainExplorerRpc2_1, DependencyInjector_1, Constants_1, Wallet_1, sweetalert2_1) {
+define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numbersLab/VueAnnotate", "../model/TransactionsExplorer", "../model/blockchain/BlockchainExplorerRpc2", "../lib/numbersLab/DependencyInjector", "../model/Constants", "../model/Wallet"], function (require, exports, DestructableView_1, VueAnnotate_1, TransactionsExplorer_1, BlockchainExplorerRpc2_1, DependencyInjector_1, Constants_1, Wallet_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var wallet = DependencyInjector_1.DependencyInjectorInstance().getInstance(Wallet_1.Wallet.name, 'default', false);
@@ -45,7 +45,7 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                 if (amount > 0 && self.destinationAddress !== null) {
                     //todo use BigInteger
                     if (amount * Math.pow(10, config.coinUnitPlaces) > wallet.unlockedAmount(height)) {
-                        sweetalert2_1.default({
+                        swal({
                             type: 'error',
                             title: 'Oops...',
                             text: 'You don\'t have enough funds in your wallet to execute this transfer',
@@ -55,11 +55,11 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                     //TODO use biginteger
                     var amountToSend_1 = amount * Math.pow(10, config.coinUnitPlaces);
                     var destinationAddress_1 = self.destinationAddress;
-                    sweetalert2_1.default({
+                    swal({
                         title: 'Creating transfer ...',
                         text: 'Please wait...',
                         onOpen: function () {
-                            sweetalert2_1.default.showLoading();
+                            swal.showLoading();
                         }
                         // showCancelButton: true,
                         // confirmButtonText: 'Confirm',
@@ -68,7 +68,7 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                         // let mix_outs : any[] = [];
                         console.log('------------------------------mix_outs', mix_outs);
                         TransactionsExplorer_1.TransactionsExplorer.createTx(destinationAddress_1, amountToSend_1, wallet, mix_outs, function (amount, feesAmount) {
-                            return sweetalert2_1.default({
+                            return swal({
                                 title: 'Confirm transfer ?',
                                 html: 'Amount: ' + Vue.options.filters.piconero(amount) + '<br/>Fees: ' + Vue.options.filters.piconero(feesAmount),
                                 showCancelButton: true,
@@ -84,12 +84,12 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                                 var watchdog = DependencyInjector_1.DependencyInjectorInstance().getInstance(BlockchainExplorerRpc2_1.WalletWatchdog.name);
                                 if (watchdog !== null)
                                     watchdog.checkMempool();
-                                sweetalert2_1.default({
+                                swal({
                                     type: 'success',
                                     title: 'Transfer sent !',
                                 });
                             }).catch(function (data) {
-                                sweetalert2_1.default({
+                                swal({
                                     type: 'error',
                                     title: 'Oops...',
                                     text: 'An error occurred. Please report us this error: ' + JSON.stringify(data),
@@ -103,7 +103,7 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                     });
                 }
                 else {
-                    sweetalert2_1.default({
+                    swal({
                         type: 'error',
                         title: 'Oops...',
                         text: 'Invalid amount',

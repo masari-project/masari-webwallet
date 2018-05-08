@@ -42,8 +42,14 @@ body.menuHidden{
 .onlyWhenConnected{
 	display: none !important;
 }
+.onlyNotConnected{
+	display:block !important;
+}
 .connected .onlyWhenConnected{
 	display: block !important;
+}
+.connected .onlyNotConnected{
+	display: none !important;
 }
 
 #topBar{

@@ -12,9 +12,13 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-define(["require", "exports", "./lib/numbersLab/Router"], function (require, exports, Router_1) {
+define(["require", "exports", "./lib/numbersLab/Router", "./model/Mnemonic"], function (require, exports, Router_1, Mnemonic_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    //bridge for cnUtil with the new mnemonic class
+    window.mn_random = Mnemonic_1.Mnemonic.mn_random;
+    window.mn_encode = Mnemonic_1.Mnemonic.mn_encode;
+    window.mn_decode = Mnemonic_1.Mnemonic.mn_decode;
     var isMenuHidden = $('body').hasClass('menuHidden');
     function toggleMenu() {
         isMenuHidden = !isMenuHidden;

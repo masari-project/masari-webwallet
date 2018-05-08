@@ -75,7 +75,7 @@ define(["require", "exports", "../model/WalletRepository", "../lib/numbersLab/De
                 title: 'Wallet password',
                 input: 'password',
                 showCancelButton: true,
-                confirmButtonText: 'open',
+                confirmButtonText: 'Open',
             }).then(function (result) {
                 if (result.value) {
                     var savePassword = result.value;

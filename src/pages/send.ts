@@ -22,7 +22,6 @@ import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
-import swal from "sweetalert2";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -60,7 +59,7 @@ class SendView extends DestructableView{
 					title: 'Creating transfer ...',
 					text:'Please wait...',
 					onOpen: () => {
-						swal.showLoading()
+						swal.showLoading();
 					}
 					// showCancelButton: true,
 					// confirmButtonText: 'Confirm',
