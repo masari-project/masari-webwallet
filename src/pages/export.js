@@ -49,7 +49,7 @@ define(["require", "exports", "../lib/numbersLab/VueAnnotate", "../lib/numbersLa
                 title: 'Wallet password',
                 input: 'password',
                 showCancelButton: true,
-                confirmButtonText: 'open',
+                confirmButtonText: 'Export',
             }).then(function (result) {
                 if (result.value) {
                     var savePassword = result.value;
@@ -79,29 +79,49 @@ define(["require", "exports", "../lib/numbersLab/VueAnnotate", "../lib/numbersLa
                 title: 'Wallet password',
                 input: 'password',
                 showCancelButton: true,
-                confirmButtonText: 'open',
-            }).then(function (result) {
-                if (result.value) {
-                    var savePassword = result.value;
-                    // let password = prompt();
-                    // let wallet = WalletRepository.getMain();
-                    var wallet_2 = WalletRepository_1.WalletRepository.getLocalWalletWithPassword(savePassword);
-                    if (wallet_2 !== null) {
-                        var privateSpend = 'aff6f35943dc9a364f6ca6b6a91074be5ec55d33cc30bf994d2b7b2f41679e07';
-                        var mnemonic = Mnemonic_1.Mnemonic.mn_encode(privateSpend, 'english');
-                        swal({
-                            title: 'Private keys',
-                            html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the english dictionary is:<br/>' +
-                                mnemonic
-                        });
-                    }
-                    else {
-                        swal({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Your password seems invalid',
-                        });
-                    }
+                confirmButtonText: 'Export',
+            }).then(function (passwordResult) {
+                if (passwordResult.value) {
+                    swal({
+                        title: 'In which lang do you want your mnemonic phrase ?',
+                        input: 'select',
+                        showCancelButton: true,
+                        confirmButtonText: 'Export',
+                        inputOptions: {
+                            'english': 'English',
+                            'chinese': 'Chinese (simplified)',
+                            'dutch': 'Dutch',
+                            'electrum': 'Electrum',
+                            'esperanto': 'Esperanto',
+                            'french': 'French',
+                            'italian': 'Italian',
+                            'japanese': 'Japanese',
+                            'lojban': 'Lojban',
+                            'portuguese': 'Portuguese',
+                            'russian': 'Russian',
+                            'spanish': 'Spanish',
+                        }
+                    }).then(function (mnemonicLangResult) {
+                        var savePassword = passwordResult.value;
+                        // let password = prompt();
+                        // let wallet = WalletRepository.getMain();
+                        var wallet = WalletRepository_1.WalletRepository.getLocalWalletWithPassword(savePassword);
+                        if (wallet !== null) {
+                            var mnemonic = Mnemonic_1.Mnemonic.mn_encode(wallet.keys.priv.spend, mnemonicLangResult.value);
+                            swal({
+                                title: 'Private keys',
+                                html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the english dictionary is:<br/>' +
+                                    mnemonic
+                            });
+                        }
+                        else {
+                            swal({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Your password seems invalid',
+                            });
+                        }
+                    });
                 }
             });
         };
@@ -110,15 +130,15 @@ define(["require", "exports", "../lib/numbersLab/VueAnnotate", "../lib/numbersLa
                 title: 'Wallet password',
                 input: 'password',
                 showCancelButton: true,
-                confirmButtonText: 'open',
+                confirmButtonText: 'Export',
             }).then(function (result) {
                 if (result.value) {
                     var savePassword = result.value;
                     // let password = prompt();
                     // let wallet = WalletRepository.getMain();
-                    var wallet_3 = WalletRepository_1.WalletRepository.getLocalWalletWithPassword(savePassword);
-                    if (wallet_3 !== null) {
-                        var exported = WalletRepository_1.WalletRepository.getEncrypted(wallet_3, savePassword);
+                    var wallet_2 = WalletRepository_1.WalletRepository.getLocalWalletWithPassword(savePassword);
+                    if (wallet_2 !== null) {
+                        var exported = WalletRepository_1.WalletRepository.getEncrypted(wallet_2, savePassword);
                         var blob = new Blob([JSON.stringify(exported)], { type: "application/json" });
                         saveAs(blob, "wallet.json");
                     }
