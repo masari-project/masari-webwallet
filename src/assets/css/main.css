@@ -1,0 +1,486 @@
+/*
+ * Copyright (c) 2018, Gnock
+ * Copyright (c) 2018, The Masari Project
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+body,html{margin:0;padding:0;height:100%;overflow-x:hidden}
+div,p,input,label{box-sizing: border-box;}
+
+body{
+	overflow-y: hidden;
+	font-family: Lato,"Arial";
+	font-weight: normal;
+}
+body.menuHidden{
+	overflow-y: auto;
+}
+@media screen and (min-width: 600px) {
+	body.menuHidden,body{
+		overflow-y: auto;
+	}
+}
+@media screen and (max-width: 600px) {
+	onlyMobile{
+		display: none;
+	}
+}
+
+.hidden{
+	display: none !important;
+}
+
+.onlyWhenConnected{
+	display: none !important;
+}
+.connected .onlyWhenConnected{
+	display: block !important;
+}
+
+#topBar{
+	height:40px;line-height:40px;
+	position: fixed;
+	top:0;
+	background: #005B95;
+	color:white;
+	font-size:20px;
+	font-weight: bold;
+	padding:0 15px;
+	z-index: 20;
+	left:280px;right:-280px;
+}
+#topBar a{
+	color:white;
+}
+body.menuHidden #topBar{
+	left:0;right:0;
+}
+/* computer */
+@media screen and (min-width: 600px) {
+	body.menuHidden #topBar,#topBar{
+		left: 280px;
+		right:0;
+	}
+}
+
+#topBar .actions{
+	display: inline-block;
+	text-align: right;
+	float: right;
+}
+@media screen and (max-width: 600px) {
+	#topBar .actions {
+		display: none;
+	}
+}
+@media screen and (min-width: 600px) {
+	#topBar .toggleMenu{
+		display: none;
+	}
+}
+#topBar .actions a{
+	text-decoration: none;
+	font-size:14px;
+	display: inline-block;
+	margin-left: 5px;
+}
+#topBar .actions a:hover{
+	font-weight: bold;
+}
+
+#menu{
+	z-index:40;
+	position: fixed;
+	left:0;top:0;bottom: 0;
+	width:280px;
+}
+body.menuHidden #menu {
+	left:-100%;
+}
+/* computer */
+@media screen and (min-width: 600px) {
+	body.menuHidden #menu,#menu{
+		left:0;
+	}
+}
+
+#menu{
+	background: #222;
+	color: white;
+	padding:10px 15px;
+}
+#menu a{
+	display: block;
+	border-bottom:1px solid #a1a1a1;
+	color:white;
+	font-size: 20px;
+	padding:10px 0;
+	text-decoration: none;
+}
+#menu a:last-child{
+	border-bottom:none;
+}
+#menu a .icon{display:inline-block;width:30px;text-align: center;}
+#menu img{
+	max-width: 100%;
+	max-height: 40px;
+}
+
+#pageLoading{
+	position: fixed;
+	left:60%;
+	top:40px;
+	bottom:0;
+	width: 100%;
+	background: rgba(255,255,255,0.6);
+	z-index: 10;
+	text-align: center;
+}
+#pageLoading i{
+	position: relative;
+	top:50%;
+	margin-top:-20px;
+	font-size: 40px;
+}
+body.menuHidden #pageLoading{
+	left:0;
+}
+
+#page{
+	position: relative;
+	padding-top:40px;
+	left:280px;
+}
+body.menuHidden #page{
+	left:0;
+}
+/* computer */
+@media screen and (min-width: 600px) {
+	body.menuHidden #page,#page{
+		left:0;right:0;
+		margin-left: 280px;
+	}
+}
+
+.copyright{
+	text-align: center;
+}
+
+
+.walletHeader{
+	background: #005B95;
+	color:white;
+	padding:15px 5px;
+}
+.walletHeader .amount{
+	text-align: center;
+	font-size: 30px;
+}
+.walletHeader .amount.unlocked{
+	font-size:18px;
+}
+.walletHeader .connectionStatus{
+	text-align: right;
+}
+
+.transactions table{
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+.transactions .transaction{
+	border-bottom: 1px solid #E2E2E2;
+}
+.transactions .transaction td{
+	padding:8px 0;
+}
+.transactions td.noTransactions{
+	text-align: center;
+}
+
+.transactions .transaction div{
+	font-size: 16px;
+}
+.transactions .transaction .direction{
+	font-size: 20px;
+	width: 5%;
+	padding-left:5px;
+}
+.transactions .transaction .timestamp{
+	width: 50%;
+	font-size: 20px;
+}
+.transactions .transaction .amount{
+	font-size: 20px;
+	width: 45%;
+	text-align: right;
+	padding-right:10px;
+}
+.transactions .transaction .amount.more{color:#6bc534;}
+.transactions .transaction .amount.less{color:#5b5b5b;}
+
+.receiveTab .qrCode{
+	text-align: center;
+	padding-top:20px;
+}
+.receiveTab .qrCode img{
+	width: 80%;
+	image-rendering: pixelated;
+	display: inline-block !important;
+	max-width: 300px;
+}
+
+.receiveTab .address{
+	text-align: center;
+	padding: 10px;
+}
+.receiveTab .fakeInput{
+	border:1px solid gray;
+}
+.receiveTab .address input{
+	width:calc(100% - 50px);
+	font-size: 20px;
+	border:none;
+	padding:5px;
+}
+.receiveTab .address .copy{
+	width:20px;
+	font-size: 20px;
+	height:100%;
+	border-left:1px solid gray;
+	padding:5px;
+}
+
+
+.tab{
+	display: block;
+	padding:20px 5px;
+}
+.tab .button{
+	width: 100%;
+}
+
+.importKeys{
+
+}
+
+.sendTab{
+
+}
+.sendTab .icon{
+	text-align: center;
+	padding-top:20px;
+}
+.sendTab .icon i{
+	font-size: 60px;
+	color:#146DBD;
+}
+.sendTab label{
+	display: block;
+	text-align: left;
+	font-size: 18px;
+}
+
+.sendTab input{
+	display: block;
+	width: 100%;
+	padding:5px;
+}
+.sendTab .row{
+	padding:20px 10px;
+	text-align: center;
+}
+
+
+
+.button{
+	display: inline-block;
+	padding: 10px;
+	font-size: 16px;
+	background: none;
+	border: 3px solid #005B95;
+	color:#005B95;
+	text-decoration: none;
+}
+.button:hover{
+	background: #005B95;
+	color:white;
+}
+
+
+.indexTab .mainBlock{
+	min-height:50vh;
+	background: url(../img/binary-background.jpg) #146DBD;
+	text-align: center;
+	padding-top:80px;
+	padding-bottom:40px;
+}
+.indexTab .mainBlock .step:first-child{
+}
+.indexTab .mainBlock .step{
+	margin-bottom:35px;
+}
+.indexTab .mainBlock h1{
+	display: inline-block;
+	color:white;
+	border-bottom:1px solid white;
+	padding: 0 20px;
+	margin-bottom: 0;
+}
+
+.indexTab .mainBlock h2{
+	color:white;
+	font-size:16px;
+}
+.indexTab .mainBlock .actions{
+	text-align: center;
+}
+.indexTab .mainBlock .button{
+	background: white;
+	color:#146DBD;
+	border:none;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	padding:20px;
+	margin-bottom:20px;
+	margin-right:20px;
+}
+.indexTab .mainBlock .button:hover{
+	background:#d6d6d6;
+}
+
+.indexTab .walletImportSelector{
+	z-index: 90;
+	position: fixed;
+	padding-top:10%;
+	top:0;bottom:0;left:0;right:0;
+	background:rgba(0,0,0,0.9);
+}
+.indexTab .walletImportSelector .close{
+	position: absolute;
+	right:20px;
+	top:20px;
+	font-size: 30px;
+	color:white;
+	border:3px solid white;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	width: 40px;height:40px;
+	line-height: 35px;
+	text-align: center;
+}
+.indexTab .walletImportSelector .close:hover{
+	background: white;
+	color:#146DBD;
+}
+.indexTab .walletImportSelector .container{
+	max-height: 80%;
+	margin:0 10%;
+}
+.indexTab .walletImportSelector .container .text{
+	color:white;
+	font-weight: bold;
+	font-size:24px;
+	margin-bottom:20px;
+	text-align: center;
+}
+.indexTab .walletImportSelector .container .options{
+	display: block;
+	max-width: 1000px;
+}
+.indexTab .walletImportSelector .container .walletOption{
+	display: inline-block;
+	width: 30%;
+	margin-right:4%;
+	/*background: white;*/
+	color:white;
+	margin-bottom: 20px;
+	text-align: center;
+}
+.indexTab .walletImportSelector .container .walletOption .subcontainer{
+	display: inline-block;
+	padding:15px 20px;
+	border:3px solid white;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+.indexTab .walletImportSelector .container .walletOption .subcontainer:hover{
+	background: white;
+	color:#146DBD;
+}
+.indexTab .walletImportSelector .container .walletOption i{
+	font-size: 60px;
+	margin-bottom:10px;
+}
+@media screen and (max-width: 600px) {
+	.indexTab .walletImportSelector .container .walletOption{
+		display: block;
+		width: 100%;
+		margin-right: 0;
+	}
+}
+.indexTab .walletImportSelector .container .walletOption:last-child{
+	margin-right: 0;
+}
+
+.indexTab .why{
+	text-align: center;
+	padding:40px 20px;
+}
+.indexTab .advantage{
+	display: inline-block;
+	text-align: center;
+	margin-right: 30px;
+	margin-bottom:40px;
+	max-width: 200px;
+	vertical-align: top;
+}
+.indexTab .advantage i{
+	font-size: 60px;
+	color:#005B95;
+}
+.indexTab .green i{
+	color:#4cb860;
+}
+.indexTab .advantage h3, .indexTab .text h3{
+	color:#212529;
+	font-size: 24px;
+	margin: 0;
+	margin-bottom:5px;
+	font-weight: normal;
+}
+.indexTab .advantage a{
+	text-decoration: none;
+}
+.indexTab .advantage h4, .indexTab .text h4{
+	color:#868e96;
+	font-size: 14px;
+	margin: 0;
+	font-weight: normal;
+}
+
+.indexTab .text{
+	margin-bottom:20px;
+}
+.indexTab .text h3{
+	font-size: 28px;
+}
+.indexTab .text h4{
+	font-size: 18px;
+}
+.indexTab .text.paragraph{
+	text-align: left;
+	padding:0 40px;
+}

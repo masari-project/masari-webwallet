@@ -1,0 +1,1 @@
+declare var cnBase58 : any;

@@ -1,0 +1,19 @@
+<div id="app" >
+	<div class="tab" >
+		Your public address: <br/>
+		<span style="word-wrap: break-word;" >{{publicAddress}}</span>
+	</div>
+	<div>
+		If you choose to save your private keys or your mnemonic phrase, PLEASE DO NOT store them in clear and non encrypted for your own safety.<br/>
+		The file is an alternate solution where your keys are encrypted and contains a backup of all your transactions to spare you a future scan of the blockchain.
+	</div>
+	<div class="tab" >
+		<button class="button" @click="getPrivateKeys()" >Get my private keys</button>
+	</div>
+	<div class="tab" >
+		<button class="button" @click="getMnemonicPhrase()" >Get my mnemonic phrase</button>
+	</div>
+	<div class="tab" >
+		<button class="button" @click="fileExport()" >Export to a file</button>
+	</div>
+</div>

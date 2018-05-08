@@ -1,0 +1,22 @@
+<div id="app" class="sendTab">
+	<div class="icon">
+		<i class="fa fa-paper-plane" aria-hidden="true"></i>
+	</div>
+	<div class="row">
+		<label>Destination address</label>
+		<input type="text" v-model="destinationAddress" placeholder="Destination address"/>
+		<div v-if="!destinationAddressValid && destinationAddress != ''" >
+			The destination address is invalid
+		</div>
+	</div>
+	<div class="row">
+		<label>Amount to send</label>
+		<input type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
+		<div v-if="!amountToSendValid && amountToSend != ''" >
+			The amount is invalid
+		</div>
+	</div>
+	<div class="row">
+		<button type="button" class="button" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
+	</div>
+</div>
