@@ -49,7 +49,7 @@ class AccountView extends DestructableView{
 			image:document.getElementById('masariQrCodeLogo'),
 			size:300,
 			mode:'image',
-			mSize: 15,
+			mSize: 10,
 			mPosX: 50,
 			mPosY: 50,
 		});
