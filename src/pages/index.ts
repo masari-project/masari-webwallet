@@ -308,13 +308,16 @@ class IndexView extends DestructableView{
 		<select id="importWalletMnemonicLang" >
 			<option value="english" >English</option>
 			<option value="chinese" >Chinese (simplified)</option>
-			<option value="french" >French</option>
 			<option value="dutch" >Dutch</option>
-			<option value="italian" >Italian</option>
-			<option value="spanish" >Spanish</option>
-			<option value="portuguese" >Portuguese</option>
-			<option value="japanese" >Japanese</option>
 			<option value="electrum" >Electrum</option>
+			<option value="esperanto" >Esperanto</option>
+			<option value="french" >French</option>
+			<option value="italian" >Italian</option>
+			<option value="japanese" >Japanese</option>
+			<option value="lojban" >Lojban</option>
+			<option value="portuguese" >Portuguese</option>
+			<option value="russian" >Russian</option>
+			<option value="spanish" >Spanish</option>
 		</select>
 	</div>
 	<div>
