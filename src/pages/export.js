@@ -110,7 +110,7 @@ define(["require", "exports", "../lib/numbersLab/VueAnnotate", "../lib/numbersLa
                             var mnemonic = Mnemonic_1.Mnemonic.mn_encode(wallet.keys.priv.spend, mnemonicLangResult.value);
                             swal({
                                 title: 'Private keys',
-                                html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the english dictionary is:<br/>' +
+                                html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the ' + mnemonicLangResult.value + ' dictionary is:<br/>' +
                                     mnemonic
                             });
                         }

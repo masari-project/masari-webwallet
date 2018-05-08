@@ -106,7 +106,7 @@ class ExportView extends DestructableView{
 
 						swal({
 							title: 'Private keys',
-							html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the english dictionary is:<br/>' +
+							html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the '+mnemonicLangResult.value+' dictionary is:<br/>' +
 							mnemonic
 						});
 					} else {
