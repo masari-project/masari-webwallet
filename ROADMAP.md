@@ -1,6 +1,7 @@
 # Roadmap 
 The order of this list may not reflect the order in which those functionalities will be implemented  
   
+- wallet translation in multiple languages
 - qr code scanning on send page
 - receive page: add payment id support
 - receive page: add mempool check (only when payment id) & progression
