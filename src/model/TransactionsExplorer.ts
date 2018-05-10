@@ -448,7 +448,7 @@ export class TransactionsExplorer{
 			let priority = default_priority;
 			let fee_multiplayer = fee_multiplayers[priority - 1];
 			let mixin = 12;
-			let neededFee = feePerKB.multiply(13);
+			let neededFee = feePerKB.multiply(13).multiply(fee_multiplayer);
 			let pid_encrypt = false; //don't encrypt payment ID unless we find an integrated one
 
 			let totalAmountWithoutFee = new JSBigInt(0);
@@ -517,7 +517,7 @@ export class TransactionsExplorer{
 			}
 
 			console.log("Selected outs:",usingOuts);
-			if (usingOuts.length >= 1) {
+			if (usingOuts.length > 1) {
 				let newNeededFee = JSBigInt(Math.ceil(cnUtil.estimateRctSize(usingOuts.length, mixin, 2) / 1024)).multiply(feePerKB).multiply(fee_multiplayer);
 				totalAmount = totalAmountWithoutFee.add(newNeededFee);
 				//add outputs 1 at a time till we either have them all or can meet the fee

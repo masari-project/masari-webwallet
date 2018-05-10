@@ -363,7 +363,7 @@ define(["require", "exports", "./Transaction", "./CryptoUtils", "./MathUtil"], f
                 var priority = default_priority;
                 var fee_multiplayer = fee_multiplayers[priority - 1];
                 var mixin = 12;
-                var neededFee = feePerKB.multiply(13);
+                var neededFee = feePerKB.multiply(13).multiply(fee_multiplayer);
                 var pid_encrypt = false; //don't encrypt payment ID unless we find an integrated one
                 var totalAmountWithoutFee = new JSBigInt(0);
                 var paymentIdIncluded = 0;
@@ -422,7 +422,7 @@ define(["require", "exports", "./Transaction", "./CryptoUtils", "./MathUtil"], f
                     console.log("Using output: " + out.amount + " - " + JSON.stringify(out));
                 }
                 console.log("Selected outs:", usingOuts);
-                if (usingOuts.length >= 1) {
+                if (usingOuts.length > 1) {
                     var newNeededFee = JSBigInt(Math.ceil(cnUtil.estimateRctSize(usingOuts.length, mixin, 2) / 1024)).multiply(feePerKB).multiply(fee_multiplayer);
                     totalAmount = totalAmountWithoutFee.add(newNeededFee);
                     //add outputs 1 at a time till we either have them all or can meet the fee
