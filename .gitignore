@@ -1,5 +1,10 @@
 .idea/
 *.iml
+package.json
 node_modules
 src/api/cache
 src/api/cache-testnet
+src/**/*.js
+src/**/*.js.map
+!src/lib/*.js
+src/lib/numbersLab/*.js

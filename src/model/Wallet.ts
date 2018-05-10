@@ -166,7 +166,7 @@ export class Wallet extends Observable{
 			// 	amount -= transaction.fees;
 			// }
 			//TODO UNLOCK VALUE NOT GOOD
-			if(transaction.blockHeight+10 <= currentBlockHeight || currentBlockHeight === -1)
+			if(transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
 				for(let out of transaction.outs){
 					amount += out.amount;
 				}
@@ -181,7 +181,7 @@ export class Wallet extends Observable{
 			// for(let out of transaction.outs){
 			// 	amount += out.amount;
 			// }
-			if(transaction.blockHeight+10 <= currentBlockHeight || currentBlockHeight === -1)
+			if(transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
 				for(let nout of transaction.outs){
 					amount += nout.amount;
 					// console.log('+'+nout.amount);

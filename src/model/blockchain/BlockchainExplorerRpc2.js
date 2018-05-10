@@ -203,19 +203,23 @@ define(["require", "exports", "../TransactionsExplorer", "../CryptoUtils", "../T
                 if (self.lastBlockLoading !== height) {
                     var previousStartBlock = self.lastBlockLoading;
                     var startBlock = Math.floor(self.lastBlockLoading / 100) * 100;
-                    var endBlock = height;
-                    if (endBlock - startBlock > 100) {
-                        endBlock = startBlock + 100;
+                    var endBlock_1 = height;
+                    if (endBlock_1 - startBlock > 100) {
+                        endBlock_1 = startBlock + 100;
                     }
                     // console.log('=>',self.lastBlockLoading, endBlock, height, startBlock, self.lastBlockLoading);
-                    self.lastBlockLoading = endBlock;
-                    console.log('load block from ' + startBlock + ' to ' + endBlock);
+                    console.log('load block from ' + startBlock + ' to ' + endBlock_1);
                     self.explorer.getTransactionsForBlocks(previousStartBlock).then(function (transactions) {
                         //to ensure no pile explosion
+                        self.lastBlockLoading = endBlock_1;
                         self.processTransactions(transactions);
                         setTimeout(function () {
                             self.loadHistory();
                         }, 1);
+                    }).catch(function () {
+                        setTimeout(function () {
+                            self.loadHistory();
+                        }, 30 * 1000); //retry 30s later if an error occurred
                     });
                 }
                 else {
@@ -313,19 +317,15 @@ define(["require", "exports", "../TransactionsExplorer", "../CryptoUtils", "../T
             return this.getHeight().then(function (height) {
                 var txs = [];
                 var promises = [];
+                var heightWithMature = height - config.txMinConfirms;
                 for (var i = 0; i < nbOutsNeeded; ++i) {
-                    var randomBlock = Math.floor(Math.random() * height);
+                    var randomBlock = Math.floor(Math.random() * heightWithMature);
                     var promise = self.getTransactionsForBlocks(Math.floor(randomBlock / 100) * 100).then(function (rawTransactions) {
-                        // if(rawTransactions.length > 0){
-                        // 	let randomTransaction = Math.floor(Math.random()*rawTransactions.length);
-                        // 	outs.push(rawTransactions[randomTransaction]);
-                        // }
                         txs.push.apply(txs, rawTransactions);
                     });
                     promises.push(promise);
                 }
                 return Promise.all(promises).then(function () {
-                    var count = Math.floor(Math.random() * 100);
                     for (var iOut = 0; iOut < txs.length; ++iOut) {
                         var tx = txs[iOut];
                         // let output_idx_in_tx = Math.floor(Math.random()*out.vout.length);
@@ -370,8 +370,6 @@ define(["require", "exports", "../TransactionsExplorer", "../CryptoUtils", "../T
                                     global_index: globalIndex,
                                 };
                                 self.existingOuts.push(newOut);
-                                // formattedOuts.push(newOut);
-                                count += Math.floor(Math.random() * 100);
                             }
                         }
                     }

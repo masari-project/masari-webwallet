@@ -39,11 +39,11 @@ class SendView extends DestructableView{
 
 	send(){
 		let self = this;
-		blockchainExplorer.getHeight().then(function(height:number){
+		blockchainExplorer.getHeight().then(function(blockchainHeight:number){
 			let amount = parseFloat(self.amountToSend);
 			if(amount > 0 && self.destinationAddress !== null){
 				//todo use BigInteger
-				if(amount*Math.pow(10,config.coinUnitPlaces) > wallet.unlockedAmount(height)){
+				if(amount*Math.pow(10,config.coinUnitPlaces) > wallet.unlockedAmount(blockchainHeight)){
 					swal({
 						type: 'error',
 						title: 'Oops...',
@@ -68,7 +68,7 @@ class SendView extends DestructableView{
 				blockchainExplorer.getRandomOuts(12).then(function(mix_outs:any[]){
 					// let mix_outs : any[] = [];
 					console.log('------------------------------mix_outs',mix_outs);
-					TransactionsExplorer.createTx(destinationAddress, amountToSend,wallet,mix_outs, function(amount:number, feesAmount : number) : Promise<void>{
+					TransactionsExplorer.createTx([{address:destinationAddress, amount:amountToSend}],'',wallet,blockchainHeight,mix_outs, function(amount:number, feesAmount : number) : Promise<void>{
 						return swal({
 							title: 'Confirm transfer ?',
 							html: 'Amount: '+Vue.options.filters.piconero(amount)+'<br/>Fees: '+Vue.options.filters.piconero(feesAmount),
@@ -79,8 +79,8 @@ class SendView extends DestructableView{
 								return Promise.reject<void>('');
 							}
 						});
-					}).then(function(rawTx : string){
-						blockchainExplorer.sendRawTx(rawTx).then(function(){
+					}).then(function(data : {raw : string, signed:any}){
+						blockchainExplorer.sendRawTx(data.raw).then(function(){
 							//force a mempool check so the user is up to date
 							let watchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
 							if(watchdog !== null)

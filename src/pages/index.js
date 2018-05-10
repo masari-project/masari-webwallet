@@ -154,7 +154,7 @@ define(["require", "exports", "../model/WalletRepository", "../lib/numbersLab/De
             var self = this;
             swal({
                 title: 'Import a wallet',
-                html: "\n<div class=\"importKeys\" >\n\t<div>\n\t\t<label>Password for the wallet</label>\n\t\t<input id=\"importWalletPassword\" placeholder=\"Password for the wallet\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>Spend key</label>\n\t\t<input id=\"importWalletSpendKey\" placeholder=\"Spend key\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>View key</label>\n\t\t<input id=\"importWalletViewKey\" placeholder=\"View key\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>Height from which to start scanning</label>\n\t\t<input type=\"number\" id=\"importWalletHeight\" placeholder=\"Height from which to start scanning\" value=\"0\">\n\t</div>\n</div>\n",
+                html: "\n<div class=\"importKeys\" >\n\t<div>\n\t\t<label>Password for the wallet</label>\n\t\t<input type=\"password\" id=\"importWalletPassword\" placeholder=\"Password for the wallet\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>Spend key</label>\n\t\t<input id=\"importWalletSpendKey\" placeholder=\"Spend key\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>View key</label>\n\t\t<input id=\"importWalletViewKey\" placeholder=\"View key\" autocomplete=\"off\">\n\t</div>\n\t<div>\n\t\t<label>Height from which to start scanning</label>\n\t\t<input type=\"number\" id=\"importWalletHeight\" placeholder=\"Height from which to start scanning\" value=\"0\">\n\t</div>\n</div>\n",
                 focusConfirm: false,
                 preConfirm: function () {
                     var passwordInput = document.getElementById('importWalletPassword');
@@ -172,7 +172,7 @@ define(["require", "exports", "../model/WalletRepository", "../lib/numbersLab/De
                 blockchainExplorer.getHeight().then(function (currentHeight) {
                     console.log(result.value);
                     if (result.value &&
-                        result.value.spend && result.value.view && result.value.password && result.value.height &&
+                        result.value.spend && result.value.view && result.value.password && result.value.height !== null &&
                         result.value.spend.length > 0 &&
                         result.value.view.length > 0 &&
                         result.value.height >= 0 &&
@@ -184,7 +184,7 @@ define(["require", "exports", "../model/WalletRepository", "../lib/numbersLab/De
                         if (result.value.height >= currentHeight) {
                             result.value.height = currentHeight - 1;
                         }
-                        var height = currentHeight - 10;
+                        var height = result.value.height;
                         if (height < 0)
                             height = 0;
                         newWallet.lastHeight = height;

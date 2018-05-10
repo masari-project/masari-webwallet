@@ -234,15 +234,18 @@ export class WalletWatchdog{
 					endBlock = startBlock + 100;
 				}
 				// console.log('=>',self.lastBlockLoading, endBlock, height, startBlock, self.lastBlockLoading);
-				self.lastBlockLoading = endBlock;
-
 				console.log('load block from '+startBlock+' to '+endBlock);
 				self.explorer.getTransactionsForBlocks(previousStartBlock).then(function(transactions : RawDaemonTransaction[]){
 					//to ensure no pile explosion
+					self.lastBlockLoading = endBlock;
 					self.processTransactions(transactions);
 					setTimeout(function () {
 						self.loadHistory();
 					}, 1);
+				}).catch(function(){
+					setTimeout(function () {
+						self.loadHistory();
+					}, 30*1000);//retry 30s later if an error occurred
 				});
 			}else{
 				setTimeout(function () {
@@ -351,21 +354,17 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 			let txs : RawDaemonTransaction[] = [];
 			let promises = [];
 
+			let heightWithMature = height - config.txMinConfirms;
+
 			for(let i = 0; i < nbOutsNeeded; ++i){
-				let randomBlock = Math.floor(Math.random()*height);
+				let randomBlock = Math.floor(Math.random()*heightWithMature);
 				let promise = self.getTransactionsForBlocks(Math.floor(randomBlock/100)*100).then(function(rawTransactions : RawDaemonTransaction[]){
-					// if(rawTransactions.length > 0){
-					// 	let randomTransaction = Math.floor(Math.random()*rawTransactions.length);
-					// 	outs.push(rawTransactions[randomTransaction]);
-					// }
 					txs.push.apply(txs,rawTransactions);
 				});
 				promises.push(promise);
 			}
 
 			return Promise.all(promises).then(function(){
-				let count = Math.floor(Math.random()*100);
-
 				for(let iOut  = 0; iOut < txs.length; ++iOut) {
 					let tx = txs[iOut];
 					// let output_idx_in_tx = Math.floor(Math.random()*out.vout.length);
@@ -413,8 +412,6 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 								// global_index: count,
 							};
 							self.existingOuts.push(newOut);
-							// formattedOuts.push(newOut);
-							count += Math.floor(Math.random() * 100);
 						}
 					}
 				}

@@ -174,7 +174,7 @@ define(["require", "exports", "./Transaction", "./KeysRepository", "../lib/numbe
                 // 	amount -= transaction.fees;
                 // }
                 //TODO UNLOCK VALUE NOT GOOD
-                if (transaction.blockHeight + 10 <= currentBlockHeight || currentBlockHeight === -1)
+                if (transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
                     for (var _b = 0, _c = transaction.outs; _b < _c.length; _b++) {
                         var out = _c[_b];
                         amount += out.amount;
@@ -191,7 +191,7 @@ define(["require", "exports", "./Transaction", "./KeysRepository", "../lib/numbe
                 // for(let out of transaction.outs){
                 // 	amount += out.amount;
                 // }
-                if (transaction.blockHeight + 10 <= currentBlockHeight || currentBlockHeight === -1)
+                if (transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
                     for (var _h = 0, _j = transaction.outs; _h < _j.length; _h++) {
                         var nout = _j[_h];
                         amount += nout.amount;

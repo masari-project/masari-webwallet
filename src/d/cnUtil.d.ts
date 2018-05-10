@@ -50,10 +50,10 @@ interface CnUtilClass{
 		sec_keys:{spend:string,view:string},
 		dsts : {address:string,amount:number}[],
 		outputs : {
-			amount:string,
+			amount:number,
 			public_key:string,
-			index:string,
-			global_index:string,
+			index:number,
+			global_index:number,
 			rct:string,
 			tx_pub_key:string,
 		}[],

@@ -150,4 +150,17 @@ export class Transaction{
 		}
 		return amount;
 	}
+
+	isCoinbase(){
+		return this.outs.length == 1 && this.outs[0].rtcAmount === '';
+	}
+
+	isConfirmed(blockchainHeight : number){
+		if(this.isCoinbase() && this.blockHeight+config.txCoinbaseMinConfirms < blockchainHeight){
+			return true;
+		}else if(!this.isCoinbase() && this.blockHeight+config.txMinConfirms < blockchainHeight){
+			return true;
+		}
+		return false;
+	}
 }

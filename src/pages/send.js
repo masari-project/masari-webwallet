@@ -40,11 +40,11 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
         }
         SendView.prototype.send = function () {
             var self = this;
-            blockchainExplorer.getHeight().then(function (height) {
+            blockchainExplorer.getHeight().then(function (blockchainHeight) {
                 var amount = parseFloat(self.amountToSend);
                 if (amount > 0 && self.destinationAddress !== null) {
                     //todo use BigInteger
-                    if (amount * Math.pow(10, config.coinUnitPlaces) > wallet.unlockedAmount(height)) {
+                    if (amount * Math.pow(10, config.coinUnitPlaces) > wallet.unlockedAmount(blockchainHeight)) {
                         swal({
                             type: 'error',
                             title: 'Oops...',
@@ -67,7 +67,7 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                     blockchainExplorer.getRandomOuts(12).then(function (mix_outs) {
                         // let mix_outs : any[] = [];
                         console.log('------------------------------mix_outs', mix_outs);
-                        TransactionsExplorer_1.TransactionsExplorer.createTx(destinationAddress_1, amountToSend_1, wallet, mix_outs, function (amount, feesAmount) {
+                        TransactionsExplorer_1.TransactionsExplorer.createTx([{ address: destinationAddress_1, amount: amountToSend_1 }], '', wallet, blockchainHeight, mix_outs, function (amount, feesAmount) {
                             return swal({
                                 title: 'Confirm transfer ?',
                                 html: 'Amount: ' + Vue.options.filters.piconero(amount) + '<br/>Fees: ' + Vue.options.filters.piconero(feesAmount),
@@ -78,8 +78,8 @@ define(["require", "exports", "../lib/numbersLab/DestructableView", "../lib/numb
                                     return Promise.reject('');
                                 }
                             });
-                        }).then(function (rawTx) {
-                            blockchainExplorer.sendRawTx(rawTx).then(function () {
+                        }).then(function (data) {
+                            blockchainExplorer.sendRawTx(data.raw).then(function () {
                                 //force a mempool check so the user is up to date
                                 var watchdog = DependencyInjector_1.DependencyInjectorInstance().getInstance(BlockchainExplorerRpc2_1.WalletWatchdog.name);
                                 if (watchdog !== null)

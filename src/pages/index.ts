@@ -171,7 +171,7 @@ class IndexView extends DestructableView{
 <div class="importKeys" >
 	<div>
 		<label>Password for the wallet</label>
-		<input id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
+		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
 	</div>
 	<div>
 		<label>Spend key</label>
@@ -204,7 +204,7 @@ class IndexView extends DestructableView{
 			blockchainExplorer.getHeight().then(function(currentHeight){
 				console.log(result.value);
 				if(	result.value &&
-					result.value.spend && result.value.view && result.value.password &&  result.value.height &&
+					result.value.spend && result.value.view && result.value.password && result.value.height !== null &&
 					result.value.spend.length > 0 &&
 					result.value.view.length > 0 &&
 					result.value.height >= 0 &&
@@ -219,7 +219,7 @@ class IndexView extends DestructableView{
 						result.value.height = currentHeight-1;
 					}
 
-					let height = currentHeight - 10;
+					let height = result.value.height;
 					if(height < 0)height = 0;
 					newWallet.lastHeight = height;
 
