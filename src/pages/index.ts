@@ -170,6 +170,9 @@ class IndexView extends DestructableView{
 			`
 <div class="importKeys" >
 	<div>
+		The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+	</div>
+	<div>
 		<label>Password for the wallet</label>
 		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
 	</div>
@@ -240,6 +243,9 @@ class IndexView extends DestructableView{
 				`
 <div class="importKeys" >
 	<div>
+		The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+	</div>
+	<div>
 		<label>Password for the wallet</label>
 		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
 	</div>
@@ -295,6 +301,9 @@ class IndexView extends DestructableView{
 			html:
 				`
 <div class="importKeys" >
+	<div>
+		The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+	</div>
 	<div>
 		<label>Password for the wallet</label>
 		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
