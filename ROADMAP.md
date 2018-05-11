@@ -1,6 +1,8 @@
 # Roadmap 
 The order of this list may not reflect the order in which those functionalities will be implemented  
   
+- page with some useful info: current blockchain height, last block time...
+- adding the wallet balance in the side menu
 - qr code scanning on send page
 - include subaddress support
 - drive storage for synchronisation (http://remotestoragejs.readthedocs.io/en/latest/index.html)
@@ -17,6 +19,7 @@ The order of this list may not reflect the order in which those functionalities 
 - integrated mining client (already have a working version)
 - improve tx fee calculation
 - detect when multiple tabs are open to prevent data collision
+- continue to scan while the page is not focused
 
 # Ideas, thoughts, links
 - take a small fee on each payment to cover server expenses

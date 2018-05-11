@@ -1,0 +1,20 @@
+{
+  "name": "masariwebwallet",
+  "version": "1.0.0",
+  "description": "Fully client side web wallet for masari",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gnock/masari-webwallet.git"
+  },
+  "author": "Gnock",
+  "license": "BSD-3",
+  "bugs": {
+    "url": "https://github.com/gnock/masari-webwallet/issues"
+  },
+  "homepage": "https://github.com/gnock/masari-webwallet#readme"
+}

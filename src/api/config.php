@@ -6,6 +6,6 @@
  * Time: 15:05
  */
 
-$testnet = true;
+$testnet = false;
 $cacheLocation = $testnet ? 'cache-testnet' : 'cache';
 $rpcPort = $testnet ? 48081 : 38081;

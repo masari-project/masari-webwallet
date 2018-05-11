@@ -4,7 +4,7 @@ global.config = {
     apiUrl: "http://127.0.0.1:1984/",
     mainnetExplorerUrl: "https://msrchain.net/",
     testnetExplorerUrl: "http://139.162.32.245:8082/",
-    testnet: true,
+    testnet: false,
     coinUnitPlaces: 12,
     txMinConfirms: 10,
     txCoinbaseMinConfirms: 60,

@@ -1,6 +1,6 @@
 .idea/
 *.iml
-package.json
+package-lock.json
 node_modules
 src/api/cache
 src/api/cache-testnet
