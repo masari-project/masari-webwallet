@@ -74,7 +74,7 @@ export class Wallet extends Observable{
 			wallet.keys = raw.keys;
 		}
 
-
+		wallet.recalculateKeyImages();
 		return wallet;
 	}
 
@@ -125,6 +125,7 @@ export class Wallet extends Observable{
 					}
 
 			// this.saveAll();
+			this.recalculateKeyImages();
 			this.modified = true;
 			this.notify();
 		}
@@ -138,13 +139,18 @@ export class Wallet extends Observable{
 	}
 
 	getTransactionKeyImages(){
+		return this.keyImages;
+	}
+
+	private keyImages : string[] = [];
+	private recalculateKeyImages(){
 		let keys : string[] = [];
 		for(let transaction of this.transactions){
 			for(let out of transaction.outs){
 				keys.push(out.keyImage);
 			}
 		}
-		return keys;
+		this.keyImages = keys;
 	}
 
 	getTransactionsCopy() : Transaction[]{
@@ -165,7 +171,6 @@ export class Wallet extends Observable{
 			// if(transaction.ins.length > 0){
 			// 	amount -= transaction.fees;
 			// }
-			//TODO UNLOCK VALUE NOT GOOD
 			if(transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
 				for(let out of transaction.outs){
 					amount += out.amount;
