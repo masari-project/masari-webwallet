@@ -85,10 +85,24 @@ class SendView extends DestructableView{
 							let watchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
 							if(watchdog !== null)
 								watchdog.checkMempool();
-							swal({
-								type:'success',
-								title: 'Transfer sent !',
-							});
+
+							if(destinationAddress === '5qfrSvgYutM1aarmQ1px4aDiY9Da7CLKKDo3UkPuUnQ7bT7tr7i4spuLaiZwXG1dFQbkCinRUNeUNLoNh342sVaqTaWqvt8'){
+								swal({
+									type:'success',
+									title: 'Thank you for donation !',
+									html:'Your help is appreciated. <br/>This donation will contribute to make this webwallet better'
+								});
+							}else if(destinationAddress === '5nYWvcvNThsLaMmrsfpRLBRou1RuGtLabUwYH7v6b88bem2J4aUwsoF33FbJuqMDgQjpDRTSpLCZu3dXpqXicE2uSWS4LUP'){
+								swal({
+									type:'success',
+									title: 'Thank you for donation !',
+									text:'Your help is appreciated'
+								});
+							}else
+								swal({
+									type:'success',
+									title: 'Transfer sent !',
+								});
 						}).catch(function(data:any){
 							swal({
 								type: 'error',
