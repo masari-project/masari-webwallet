@@ -148,6 +148,56 @@ class ExportView extends DestructableView{
 		});
 	}
 
+	exportEncryptedPdf(){
+		var publicQrCode = kjua({
+			render: 'canvas',
+			text: wallet.getPublicAddress(),
+			size:300,
+		});
+
+		var privateSpendQrCode = kjua({
+			render: 'canvas',
+			text: wallet.keys.priv.spend,
+			size:300,
+		});
+
+		var privateViewQrCode = kjua({
+			render: 'canvas',
+			text: wallet.keys.priv.view,
+			size:300,
+		});
+
+		var doc = new jsPDF('landscape');
+
+		//creating background
+		doc.setFillColor(9,28,38);
+		doc.rect(0,0,297,210, 'F');
+
+		//creating public key
+		doc.setFillColor(255,255,255);
+		doc.rect(10,10,80,80, 'F');
+		doc.rect(10,115,80,80, 'F');
+
+		doc.setDrawColor(255,255,255);
+		doc.setLineWidth(1);
+		doc.line(99,0,99,210);
+		doc.line(198,0,198,210);
+		doc.line(0,105,297,105);
+
+		//logos
+		doc.setFontSize(20);
+		doc.text(35, 25, "Masari");
+
+		doc.addImage(publicQrCode.toDataURL(), 'JPEG', 20, 20, 85, 85);
+
+		try {
+			doc.save('keys.pdf');
+		} catch(e) {
+			alert('Error ' + e);
+		}
+
+	}
+
 }
 
 if(wallet !== null && blockchainExplorer !== null)
