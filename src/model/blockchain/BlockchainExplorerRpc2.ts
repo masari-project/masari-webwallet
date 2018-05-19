@@ -442,4 +442,18 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 		});
 	}
 
+	resolveOpenAlias(domain : string) : Promise<{address:string, name:string|null}>{
+		let self = this;
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url: self.serverAddress+'openAlias.php?domain='+domain,
+				method: 'GET',
+			}).done(function (response: any) {
+				resolve(response);
+			}).fail(function (data: any) {
+				reject(data);
+			});
+		});
+	}
+
 }

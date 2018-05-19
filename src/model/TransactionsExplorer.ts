@@ -212,12 +212,6 @@ export class TransactionsExplorer{
 			let mine_output = (txout_k.key == generated_tx_pubkey);
 
 			if (mine_output) {
-				let m_key_image = CryptoUtils.generate_key_image_helper({
-					view_secret_key:wallet.keys.priv.view,
-					spend_secret_key:wallet.keys.priv.spend,
-					public_spend_key:wallet.keys.pub.spend,
-				},tx_pub_key, output_idx_in_tx, derivation);
-
 				let minerTx = false;
 
 				if(amount !== 0){//miner tx
@@ -245,9 +239,7 @@ export class TransactionsExplorer{
 					transactionOut.globalIndex = output_idx_in_tx;
 
 				transactionOut.amount = amount;
-				transactionOut.keyImage = m_key_image.key_image;
 				transactionOut.pubKey = txout_k.key;
-				transactionOut.ephemeralPub = m_key_image.ephemeral_pub;
 				transactionOut.outputIdx = output_idx_in_tx;
 
 				if(!minerTx) {
@@ -255,6 +247,18 @@ export class TransactionsExplorer{
 					transactionOut.rtcMask = rawTransaction.rct_signatures.ecdhInfo[output_idx_in_tx].mask;
 					transactionOut.rtcAmount = rawTransaction.rct_signatures.ecdhInfo[output_idx_in_tx].amount;
 				}
+
+				if(wallet.keys.priv.spend !== null && wallet.keys.priv.spend !== '') {
+					let m_key_image = CryptoUtils.generate_key_image_helper({
+						view_secret_key: wallet.keys.priv.view,
+						spend_secret_key: wallet.keys.priv.spend,
+						public_spend_key: wallet.keys.pub.spend,
+					}, tx_pub_key, output_idx_in_tx, derivation);
+
+					transactionOut.keyImage = m_key_image.key_image;
+					transactionOut.ephemeralPub = m_key_image.ephemeral_pub;
+				}
+
 				outs.push(transactionOut);
 
 				if(minerTx)
@@ -262,37 +266,59 @@ export class TransactionsExplorer{
 			} //  if (mine_output)
 		}
 
-		let keyImages = wallet.getTransactionKeyImages();
-		for (let iIn = 0; iIn < rawTransaction.vin.length; ++iIn) {
-			let vin = rawTransaction.vin[iIn];
+		//check if no read only wallet
+		if(wallet.keys.priv.spend !== null && wallet.keys.priv.spend !== '') {
+			let keyImages = wallet.getTransactionKeyImages();
+			for (let iIn = 0; iIn < rawTransaction.vin.length; ++iIn) {
+				let vin = rawTransaction.vin[iIn];
+				if (keyImages.indexOf(vin.key.k_image) != -1) {
+					// console.log('found in', vin);
+					let walletOuts = wallet.getAllOuts();
+					for (let ut of walletOuts) {
+						if (ut.keyImage == vin.key.k_image) {
+							// ins.push(vin.key.k_image);
+							// sumIns += ut.amount;
 
-			// let absolute_offsets = CryptoUtils.relative_output_offsets_to_absolute(vin.key.key_offsets);
-			// console.log(vin, vin.key.key_offsets, absolute_offsets);
+							let transactionIn = new TransactionIn();
+							transactionIn.amount = ut.amount;
+							transactionIn.keyImage = ut.keyImage;
 
-			// let mixin_outputs = CryptoUtils.get_output_keys(vin.key.amount, absolute_offsets);
-			// console.log(mixin_outputs);
-
-			// console.log(vin.key.k_image);
-			if (keyImages.indexOf(vin.key.k_image) != -1) {
-				// console.log('found in', vin);
-				let walletOuts = wallet.getAllOuts();
-				for (let ut of walletOuts) {
-					if (ut.keyImage == vin.key.k_image) {
-						// ins.push(vin.key.k_image);
-						// sumIns += ut.amount;
-
-						let transactionIn = new TransactionIn();
-						transactionIn.amount = ut.amount;
-						transactionIn.keyImage = ut.keyImage;
-
-						ins.push(transactionIn);
-						// console.log(ut);
-						break;
+							ins.push(transactionIn);
+							// console.log(ut);
+							break;
+						}
 					}
 				}
 			}
+		}else{
+			let txOutIndexes = wallet.getTransactionOutIndexes();
+			for (let iIn = 0; iIn < rawTransaction.vin.length; ++iIn) {
+				let vin = rawTransaction.vin[iIn];
 
-			// console.log('k_image', vin.key.k_image);
+				let absoluteOffets = vin.key.key_offsets.slice();
+				for (let i = 1; i < absoluteOffets.length; ++i) {
+					absoluteOffets[i] += absoluteOffets[i - 1];
+				}
+
+				let ownTx = -1;
+				for (let index of absoluteOffets) {
+					if (txOutIndexes.indexOf(index) !== -1) {
+						ownTx = index;
+						break;
+					}
+				}
+
+				if (ownTx !== -1) {
+					let txOut = wallet.getOutWithGlobalIndex(ownTx);
+					if (txOut !== null) {
+						let transactionIn = new TransactionIn();
+						transactionIn.amount = -txOut.amount;
+						transactionIn.keyImage = txOut.keyImage;
+
+						ins.push(transactionIn);
+					}
+				}
+			}
 		}
 
 		if(outs.length > 0 || ins.length){

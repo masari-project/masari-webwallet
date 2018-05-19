@@ -17,7 +17,7 @@
 	</div>
 	<div class="transactions" >
 		<table>
-		<template v-for="transaction of transactions">
+		<template v-for="transaction of transactions" v-if="transaction.isFullyChecked()">
 			<tr class="transaction" :class="(transaction.blockHeight === 0 ? 'pending' : '')">
 			<td class="direction" >
 				<i v-if="transaction.ins.length == 0" class="fa fa-level-down" aria-hidden="true"></i>

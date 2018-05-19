@@ -22,19 +22,30 @@ import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
+import {Url} from "../utils/Url";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
 
 
 class SendView extends DestructableView{
+	@VueVar('') destinationAddressUser : string;
 	@VueVar('') destinationAddress : string;
 	@VueVar(false) destinationAddressValid : boolean;
 	@VueVar('10.5') amountToSend : string;
 	@VueVar(true) amountToSendValid : boolean;
 
+	@VueVar(null) openAliasAddress : string|null;
+	@VueVar(null) openAliasName : string|null;
+	@VueVar(true) openAliasValid : boolean;
+
 	constructor(container : string){
 		super(container);
+		let sendAddress = Url.getHashSearchParameter('address');
+		console.log('==========>',sendAddress, Url.getHashSearchParameters());
+		if(sendAddress !== null){
+			this.destinationAddressUser = sendAddress;
+		}
 	}
 
 	send(){
@@ -127,12 +138,33 @@ class SendView extends DestructableView{
 	}
 
 	@VueWatched()
-	destinationAddressWatch(){
-		try {
-			cnUtil.decode_address(this.destinationAddress);
-			this.destinationAddressValid = true;
-		}catch(e){
-			this.destinationAddressValid = false;
+	destinationAddressUserWatch(){
+		if(this.destinationAddressUser.indexOf('.') !== -1){
+			let self = this;
+			blockchainExplorer.resolveOpenAlias(this.destinationAddressUser).then(function(data : {address:string,name:string|null}){
+				try {
+					// cnUtil.decode_address(data.address);
+					self.openAliasAddress = data.address;
+					self.openAliasName = data.name;
+					self.destinationAddress = data.address;
+					self.destinationAddressValid = true;
+					self.openAliasValid = true;
+				} catch (e) {
+					self.destinationAddressValid = false;
+					self.openAliasValid = false;
+				}
+			}).catch(function(){
+				self.openAliasValid = false;
+			});
+		}else {
+			this.openAliasValid = true;
+			try {
+				cnUtil.decode_address(this.destinationAddressUser);
+				this.destinationAddressValid = true;
+				this.destinationAddress = this.destinationAddressUser;
+			} catch (e) {
+				this.destinationAddressValid = false;
+			}
 		}
 	}
 

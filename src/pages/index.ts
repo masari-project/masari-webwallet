@@ -79,12 +79,14 @@ class IndexView extends DestructableView{
 	}
 
 	loadWallet(){
+		let self = this;
 		swal({
 			title: 'Wallet password',
 			input: 'password',
 			showCancelButton: true,
 			confirmButtonText: 'Open',
 		}).then((result:any) => {
+			setTimeout(function(){//for async
 			if (result.value) {
 				let savePassword = result.value;
 				// let password = prompt();
@@ -93,8 +95,8 @@ class IndexView extends DestructableView{
 					// let wallet = WalletRepository.getMain();
 					let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
 					if(wallet !== null) {
-						console.log(wallet);
-						this.setupWallet(wallet, savePassword);
+						wallet.recalculateIfNotViewOnly();
+						self.setupWallet(wallet, savePassword);
 						window.location.href = '#account';
 					}else{
 						swal({
@@ -105,6 +107,7 @@ class IndexView extends DestructableView{
 					}
 				}
 			}
+			},1);
 		});
 	}
 
@@ -122,20 +125,23 @@ class IndexView extends DestructableView{
 						showCancelButton: true,
 						confirmButtonText: 'open',
 					}).then((passwordResult:any) => {
-						if (passwordResult.value) {
-							let savePassword = passwordResult.value;
-							let newWallet = WalletRepository.getWithPassword(JSON.parse(fileReader.result),savePassword);
-							if(newWallet !== null) {
-								self.setupWallet(newWallet, savePassword);
-								window.location.href = '#account';
-							}else{
-								swal({
-									type: 'error',
-									title: 'Oops...',
-									text: 'Your password seems invalid',
-								});
+						setTimeout(function(){
+							if (passwordResult.value) {
+								let savePassword = passwordResult.value;
+								let newWallet = WalletRepository.getWithPassword(JSON.parse(fileReader.result),savePassword);
+								if(newWallet !== null) {
+									newWallet.recalculateIfNotViewOnly();
+									self.setupWallet(newWallet, savePassword);
+									window.location.href = '#account';
+								}else{
+									swal({
+										type: 'error',
+										title: 'Oops...',
+										text: 'Your password seems invalid',
+									});
+								}
 							}
-						}
+						},1);
 					});
 				};
 
@@ -235,6 +241,90 @@ class IndexView extends DestructableView{
 		});
 	}
 
+	importViewOnlyWallet(){
+		let self = this;
+		swal({
+			title: 'Import a view only wallet',
+			html:
+				`
+<div class="importKeys" >
+	<div>
+		The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+	</div>
+	<div>
+		<label>Password for the wallet</label>
+		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
+	</div>
+	<div>
+		<label>Public address</label>
+		<input id="importWalletPublicAddress" placeholder="Public address" autocomplete="off">
+	</div>
+	<div>
+		<label>View key</label>
+		<input id="importWalletViewKey" placeholder="View key" autocomplete="off">
+	</div>
+	<div>
+		<label>Height from which to start scanning</label>
+		<input type="number" id="importWalletHeight" placeholder="Height from which to start scanning" value="0">
+	</div>
+</div>
+`,
+			focusConfirm: false,
+			preConfirm: () => {
+				let passwordInput = <HTMLInputElement>document.getElementById('importWalletPassword');
+				let publicAddressInput = <HTMLInputElement>document.getElementById('importWalletPublicAddress');
+				let passwordView = <HTMLInputElement>document.getElementById('importWalletViewKey');
+				let passwordHeight = <HTMLInputElement>document.getElementById('importWalletHeight');
+				return {
+					password:passwordInput !== null ? passwordInput.value : null,
+					public:publicAddressInput !== null ? publicAddressInput.value : null,
+					view:passwordView !== null ? passwordView.value : null,
+					height:passwordHeight !== null ? parseInt(passwordHeight.value) : null,
+				}
+			}
+		}).then(function(result:{value:{password:string|null,public:string|null,view:string|null,height:number|null}}){
+			blockchainExplorer.getHeight().then(function(currentHeight){
+				console.log(result.value);
+				if(	result.value &&
+					result.value.public && result.value.view && result.value.password && result.value.height !== null &&
+					result.value.public.length > 0 &&
+					result.value.view.length > 0 &&
+					result.value.height >= 0 &&
+					result.value.password.length > 0
+				){
+					if(!self.checkPasswordConstraints(result.value.password))
+						return;
+
+					let decodedPublic = cnUtil.decode_address(result.value.public);
+
+					let newWallet = new Wallet();
+					newWallet.keys = {
+						priv:{
+							spend:'',
+							view:result.value.view
+						},
+						pub:{
+							spend:decodedPublic.spend,
+							view:decodedPublic.view,
+						}
+					};
+					if(result.value.height >= currentHeight){
+						result.value.height = currentHeight-1;
+					}
+
+					let height = result.value.height;
+					if(height < 0)height = 0;
+					newWallet.lastHeight = height;
+
+					self.setupWallet(newWallet, result.value.password);
+					window.location.href = '#account';
+					// }
+
+				}
+			});
+		});
+	}
+
 	createNewWallet(){
 		let self = this;
 		swal({
@@ -269,8 +359,6 @@ class IndexView extends DestructableView{
 						return;
 
 					let seed = cnUtil.sc_reduce32(cnUtil.rand_32());
-					console.log(seed,cnUtil.rand_32());
-
 					let keys = cnUtil.create_address(seed);
 
 					let newWallet = new Wallet();

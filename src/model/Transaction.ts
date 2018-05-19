@@ -60,6 +60,7 @@ export class TransactionOut{
 
 export class TransactionIn{
 	keyImage : string = '';
+	//if < 0, means the in has been seen but not checked (view only wallet)
 	amount : number = 0;
 
 	static fromRaw(raw : any){
@@ -162,5 +163,13 @@ export class Transaction{
 			return true;
 		}
 		return false;
+	}
+
+	isFullyChecked(){
+		for(let vin of this.ins){
+			if(vin.amount < 0)
+				return false;
+		}
+		return true;
 	}
 }

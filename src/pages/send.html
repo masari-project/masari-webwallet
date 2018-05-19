@@ -4,9 +4,13 @@
 	</div>
 	<div class="row">
 		<label>Destination address</label>
-		<input type="text" v-model="destinationAddress" placeholder="Destination address"/>
-		<div v-if="!destinationAddressValid && destinationAddress != ''" >
+		<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
+		<div v-if="!destinationAddressValid && destinationAddressUser != ''" >
 			The destination address is invalid
+		</div>
+		<div v-if="openAliasAddress !== null" style="word-wrap: break-word;">
+			The funds will be send to:<br/>
+			{{openAliasAddress}} <template v-if="openAliasName !== null" ><br/>({{openAliasName}})</template>
 		</div>
 	</div>
 	<div class="row">
