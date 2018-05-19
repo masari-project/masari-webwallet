@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Cedric
- * Date: 14/04/2018
- * Time: 10:34
- */
 
 include 'config.php';
 
