@@ -25,3 +25,5 @@ The order of this list may not reflect the order in which those functionalities 
 - take a small fee on each payment to cover server expenses
 - https://www.reddit.com/r/Monero/comments/8h1t2i/article_explaining_how_monerujos_upcoming/
 - https://www.reddit.com/r/Monero/comments/5fybe7/mymonero_is_now_available_as_a_chrome_extension/
+- An introduction to content security policy (html5 rocks)
+- subresource integrity (webdevelopper mozilla)
