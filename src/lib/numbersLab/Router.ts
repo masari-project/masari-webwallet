@@ -18,6 +18,8 @@ export class Router {
 	routerBaseHtmlRelativity = './';
 	routerBaseJsRelativity = '../';
 
+	urlPrefix = '!';
+
 	constructor(routerBaseHtmlRelativity  : string = './', routerBaseRelativity : string = '../') {
 		let self = this;
 		this.routerBaseHtmlRelativity = routerBaseHtmlRelativity;
@@ -30,11 +32,17 @@ export class Router {
 	 * @returns {any}
 	 */
 	static extractPageFromUrl() {
-		if (window.location.hash.indexOf('#') != -1) {
+		if (window.location.hash.indexOf('#!') != -1) {
+			return window.location.hash.substr(2);
+		}else if (window.location.hash.indexOf('#') != -1) {
 			return window.location.hash.substr(1);
 		} else {
 			return 'index';
 		}
+	}
+
+	changePageFromHash(){
+		this.changePage(Router.extractPageFromUrl());
 	}
 
 	/**
@@ -74,11 +82,10 @@ export class Router {
 			let jsContentPath = self.routerBaseJsRelativity+'pages/' + newPageName + '.js';
 
 			Promise.all([promiseContent]).then(function (data: string[]) {
-
 				if (!replaceState) {
-					history.pushState(null, '', '#' + completeNewPageName);
+					history.pushState(null, '', '#'+self.urlPrefix + completeNewPageName);
 				} else {
-					history.replaceState(null, '', '#' + completeNewPageName);
+					history.replaceState(null, '', '#'+self.urlPrefix + completeNewPageName);
 				}
 
 				let content = data[0];

@@ -56,5 +56,5 @@ window.onhashchange = function () {
 		(<any>window).GA('set', 'page', window.location.href);
 		(<any>window).GA('send', 'pageview');
 	}
-	router.changePage(window.location.hash.substr(1));
+	router.changePageFromHash();
 };
