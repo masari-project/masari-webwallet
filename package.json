@@ -4,7 +4,8 @@
   "description": "Fully client side web wallet for masari",
   "main": "index.js",
   "dependencies": {
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "workbox-build": "^3.2.0"
   },
   "devDependencies": {},
   "repository": {

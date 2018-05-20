@@ -13,52 +13,19 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {Router} from "./lib/numbersLab/Router";
-import {Mnemonic} from "./model/Mnemonic";
+const workboxBuild = require('workbox-build');
 
-//bridge for cnUtil with the new mnemonic class
-(<any>window).mn_random = Mnemonic.mn_random;
-(<any>window).mn_encode = Mnemonic.mn_encode;
-(<any>window).mn_decode = Mnemonic.mn_decode;
-
-let isMenuHidden = $('body').hasClass('menuHidden');
-
-function toggleMenu(){
-	isMenuHidden = !isMenuHidden;
-	console.log(isMenuHidden);
-	if(isMenuHidden)
-		$('body').addClass('menuHidden');
-	else
-		$('body').removeClass('menuHidden');
+// NOTE: This should be run *AFTER* all your assets are built
+const buildSW = () => {
+	// This will return a Promise
+	return workboxBuild.injectManifest({
+		swSrc: 'src/service-worker-raw.js',
+		swDest: 'src/service-worker.js',
+		globDirectory: 'src',
+		globPatterns: [
+			'**\/*.{js,css,html,png}',
+		]
+	});
 }
 
-$('#menu a').on('click',function(event:Event){
-	toggleMenu();
-});
-$('#menu').on('click',function(event:Event){
-	event.stopPropagation();
-});
-
-$('#topBar .toggleMenu').on('click',function(event:Event){
-	toggleMenu();
-	event.stopPropagation();
-	return false;
-});
-
-$(window).click(function() {
-	isMenuHidden = true;
-	$('body').addClass('menuHidden');
-});
-
-let router = new Router('./','../../');
-window.onhashchange = function () {
-	if("ga" in window) {
-		(<any>window).GA('set', 'page', window.location.href);
-		(<any>window).GA('send', 'pageview');
-	}
-	router.changePageFromHash();
-};
-
-if ('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('/service-worker.js');
-}
+buildSW();
