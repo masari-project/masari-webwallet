@@ -4,7 +4,10 @@
 	</div>
 	<div class="row">
 		<label>Destination address</label>
-		<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
+		<div class="destinationInput" >
+			<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
+			<i @click="startScan()" class="scanButton fa fa-camera" aria-hidden="true"></i>
+		</div>
 		<div v-if="!destinationAddressValid && destinationAddressUser != ''" >
 			The destination address is invalid
 		</div>
@@ -15,12 +18,23 @@
 	</div>
 	<div class="row">
 		<label>Amount to send</label>
-		<input type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
+		<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
 		<div v-if="!amountToSendValid && amountToSend != ''" >
 			The amount is invalid
 		</div>
 	</div>
 	<div class="row">
 		<button type="button" class="button" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
+	</div>
+
+	<div class="qrCodeScanningContainer" :class="(qrScanning ? '' : 'hidden')">
+	<!--<div class="qrCodeScanningContainer">-->
+		<div class="close" @click="stopScan()">
+			<i class="fa fa-close" aria-hidden="true"></i>
+		</div>
+		<h2>Present the QR code</h2>
+		<div class="videoContainer" >
+			<video width="100" id="cameraVideoFluxForDelivery" autoplay></video>
+		</div>
 	</div>
 </div>
