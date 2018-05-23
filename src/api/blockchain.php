@@ -240,9 +240,19 @@ if(getenv('generate') !== 'true'){
 	header('Content-Type: application/json');
 	echo json_encode($cacheContent);
 }else{
+	$lastRunStored = @file_get_contents('./lastRun.txt');
+	if($lastRunStored===false)
+		$lastRunStored = 0;
+	else
+		$lastRunStored = (int)$lastRunStored;
+	
+	if($lastRunStored+1*60 >= time())//concurrent run, 1min lock
+		exit;
+	file_put_contents('./lastRun.txt', time());
 	
 	$lastScanHeight = 0;
 	$timeStart = time();
+	$lastOutCount = 0;
 	while(time() - $timeStart < 59*60){
 		$blockchainHeight = getBlockchainHeight();
 		$lastBlockCacheContent = null;
@@ -261,29 +271,35 @@ if(getenv('generate') !== 'true'){
 			$cacheContent = retrieveCache($realStartHeight, $endHeight, false);
 			//		var_dump('==>',$lastBlockCacheContent,$cacheContent);
 			if($cacheContent === null){
-				if($lastBlockCacheContent !== null){
+				if($realStartHeight > 0){
+					$lastBlockCacheContent = retrieveCache($realStartHeight-100, $realStartHeight, false);
 					$decodedContent = json_decode($lastBlockCacheContent, true);
 					if(count($decodedContent) > 0){
 						$lastTr = $decodedContent[count($decodedContent) - 1];
 						$outCount = $lastTr['global_index_start'] + count($lastTr['vout']);
-//						var_dump('out count', $outCount);
+						var_dump('out count='.$outCount.' '.$lastTr['global_index_start'].' '.count($lastTr['vout']));
+					}else{
+						var_dump('Missing compacted block file. Weird case');
+						exit;
 					}
 					$lastBlockCacheContent = null;
 				}
 				
+				var_dump("generating...");
 				$cacheContent = createOptimizedBock($realStartHeight, $endHeight);
 				//			var_dump($cacheContent);
 				saveCache($realStartHeight, $endHeight, $cacheContent);
 				$cacheContent = json_encode($cacheContent);
 			}else{
-				if($cacheContent !== '[]' && $cacheContent !== null){
-					$lastBlockCacheContent = $cacheContent;
-				}
+//				if($cacheContent !== '[]' && $cacheContent !== null){
+//					$lastBlockCacheContent = $cacheContent;
+//				}
 			}
 			
-//			var_dump($outCount);
-			
+			var_dump($outCount);
 		}
+		
+		$lastOutCount = $outCount;
 		
 		var_dump('cleaning ...');
 		
@@ -301,6 +317,7 @@ if(getenv('generate') !== 'true'){
 		
 		$lastScanHeight = floor($blockchainHeight/100)*100;
 		
+		file_put_contents('./lastRun.txt', time());
 		sleep(10);
 	}
 }
