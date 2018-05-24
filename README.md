@@ -15,5 +15,9 @@ This requirement may be removed in the future once daemons evolved and returns e
 If you find a potential security issue, please contact me so we/i can patch it as soon as possible  
 Encryption is done with a certified library, [Tweetnacl.Js](https://github.com/dchest/tweetnacl-js)
 
+# Other coin/crypto
+If you are a dev of a cryptonight/monero fork and would like to get a fork, please contact me.
+Depending of you coin specificities, I can provide support, maintenance and development/updates for a payment in return, crypto only.
+
 # Roadmap
 See [ROADMAP.md](ROADMAP.md)

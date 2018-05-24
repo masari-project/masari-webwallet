@@ -21,6 +21,12 @@ The order of this list may not reflect the order in which those functionalities 
 - detect when multiple tabs are open to prevent data collision
 - continue to scan while the page is not focused
 
+# Bugs & things to improve
+- disable spend tab when view only wallet
+- errors on importing : no windows sometimes
+- password strength : disclaimer but allow not strong password ?
+- triangular distribution over [a,b) with a=0, mode c=b=up_index_limit
+
 # Ideas, thoughts, links
 - take a small fee on each payment to cover server expenses
 - https://www.reddit.com/r/Monero/comments/8h1t2i/article_explaining_how_monerujos_upcoming/
