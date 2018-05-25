@@ -14,7 +14,7 @@
  */
 
 import {DestructableView} from "../lib/numbersLab/DestructableView";
-import {VueVar} from "../lib/numbersLab/VueAnnotate";
+import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {WalletRepository} from "../model/WalletRepository";
 import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
@@ -22,8 +22,7 @@ import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 
-let wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 
 const ID_LOGIN = '0';
 const ID_SUBMIT = '1';
@@ -58,7 +57,7 @@ class Pool{
 	}
 
 	connect(){
-		this.socket = new WebSocket('ws://'+this.poolUrl+':'+this.poolPort+'/websocket');
+		this.socket = new WebSocket('ws://'+this.poolUrl+':'+this.poolPort);
 
 		let self = this;
 
@@ -100,6 +99,12 @@ class Pool{
 			console.log('Connection closed');
 			self.logged = false;
 
+			if(self.intervalKeepAlive !== 0)
+				clearInterval(self.intervalKeepAlive);
+
+			if(self.onClose)
+				self.onClose();
+
 			// setTimeout(function(){
 			// 	self.connect();
 			// }, 10*1000);
@@ -115,6 +120,7 @@ class Pool{
 
 	stop(){
 		clearInterval(this.intervalKeepAlive);
+		this.socket.close();
 	}
 
 	logOn() : Promise<void>{
@@ -140,19 +146,6 @@ class Pool{
 			}
 		}
 		console.log('logged');
-
-		/*let rawData = JSON.stringify({
-			id:ID_SUBMIT,
-			method:'submit',
-			params:{
-				id:'',
-				job_id:'',
-				// nonce:share.nonce,
-				result:'',
-			},
-		})+'\n';
-		this.socket.write(rawData);*/
-		// console.log();
 	}
 
 	private handlePoolNewJob(requestId : string, requestMethod : string, requestParams : any){
@@ -225,32 +218,173 @@ class Pool{
 		this.sendWorkerJob(job);
 	}
 
+	get isLogged(){
+		return this.logged;
+	}
+
 	onNewJob : Function|null;
+	onClose : Function|null;
 }
 
-let devPool = new Pool(
-'pool.masaricoin.com',
-3333,
-'5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj+100',
-'atmega',
-'cn',
-1);
-
 class MiningView extends DestructableView{
-	@VueVar('5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj') miningAddress : string;
+	@VueVar('') miningAddress : string;
 	@VueVar(1) threads : number;
+	@VueVar(1000) difficulty : number;
+	@VueVar(0) throttleMiner : number;
+	@VueVar(0) validShares : number;
+	@VueVar(0) hashRate : number = 0;
+	@VueVar(false) running : boolean;
+	@VueVar([]) miningAddressesAvailable : Array<{address:string,label:string}>;
+
+	workersThread : Worker[] = [];
+	pool : Pool|null = null;
+	hashCount : number = 0;
+
+	intervalRefreshHashrate = 0;
 
 	constructor(container : string){
 		super(container);
+
+		this.miningAddressesAvailable.push({
+			address:'5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj',
+			label:'Donation - WebWallet'
+		});
+		this.miningAddressesAvailable.push({
+			address:'5nYWvcvNThsLaMmrsfpRLBRou1RuGtLabUwYH7v6b88bem2J4aUwsoF33FbJuqMDgQjpDRTSpLCZu3dXpqXicE2uSWS4LUP',
+			label:'Donation - Masari'
+		});
+		// this.miningAddressesAvailable.push({
+		// 	address:'9ppu34ocgmeZiv4nS2FyQTFLL5wBFQZkhAfph7wGcnFkc8fkCgTJqxnXuBkaw1v2BrUW7iMwKoQy2HXRXzDkRE76Cz7WXkD',
+		// 	label:'Donation - Masari exchange listing'
+		// });
+
+		this.miningAddress = '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj';
+
+		if(wallet !== null)
+			this.miningAddressesAvailable.push({
+				address:wallet.getPublicAddress(),
+				label:'Your wallet'
+			});
+
+		let self = this;
+		this.intervalRefreshHashrate = setInterval(function(){
+			self.updateHashrate();
+		},1000);
+	}
+
+	destruct(): Promise<void> {
+		clearInterval(this.intervalRefreshHashrate);
+		return super.destruct();
 	}
 
 	start(){
+		let self = this;
+		if(this.pool !== null)
+			this.pool.stop();
 
+		this.updateThreads();
+		this.running = true;
+
+		this.pool = new Pool(
+// 'pool.masaricoin.com',
+			'localhost',
+			3335,
+			this.miningAddress+'+'+this.difficulty,
+			'atmega',
+			'cn',
+			1);
+
+		this.pool.onNewJob = function(){
+			for(let worker of self.workersThread)
+				self.sendJobToWorker(worker);
+		};
+
+		this.pool.onClose = function(){
+			self.stop(false);
+			self.pool = null;
+		};
 	}
 
-	stop(){
-
+	stop(stopPool:boolean=true){
+		this.stopWorkers();
+		if(stopPool) {
+			if (this.pool !== null)
+				this.pool.stop();
+			this.pool = null;
+		}
+		this.running = false;
 	}
+
+	updateThreads(){
+		if(this.threads < this.workersThread.length){
+			for(let i = this.threads; i < this.workersThread.length;++i){
+				this.workersThread[i].terminate();
+			}
+			this.workersThread = this.workersThread.slice(0, this.threads);
+		}else if(this.threads > this.workersThread.length){
+			for(let i = 0; i < this.threads-this.workersThread.length;++i) {
+				this.addWorker();
+			}
+		}
+	}
+
+	private sendJobToWorker(worker : Worker){
+		if(this.pool === null)
+			return;
+
+		let jbthrt = {
+			job: this.pool.pendingJob,
+			throttle: Math.max(0, Math.min(this.throttleMiner, 100))
+		};
+		worker.postMessage(jbthrt);
+	}
+	private sendJobToWorkers(){
+		for(let worker of this.workersThread) {
+			this.sendJobToWorker(worker);
+		}
+	}
+
+	private addWorker() {
+		let self = this;
+		let newWorker = new Worker('./lib/mining/worker.js');
+		newWorker.onmessage = function(message : MessageEvent){
+			if(message.data === 'hash') {
+				++self.hashCount;
+			}else if(message.data !== 'hash') {
+				let json = JSON.parse(message.data);
+
+				if(self.pool === null)
+					return;
+
+				self.pool.setJobResponse(json);
+				console.log('worker message', message.data);
+				++self.validShares;
+			}
+			// sendJobToWorker(<Worker>message.target);
+		};
+		this.workersThread.push(newWorker);
+		if(this.pool !== null && this.pool.isLogged){
+			this.sendJobToWorker(newWorker);
+		}
+	}
+
+	private stopWorkers(){
+		for(let worker of this.workersThread) {
+			worker.postMessage(null);
+		}
+	}
+
+	@VueWatched()
+	threadsWatch(){
+		this.updateThreads();
+	}
+
+	lastSharesCount = 0;
+	private updateHashrate(){
+		this.hashRate = (this.hashCount-this.lastSharesCount);
+		this.lastSharesCount = this.hashCount;
+	}
+
 }
 
 new MiningView('#app');

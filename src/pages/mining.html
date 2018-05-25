@@ -1,4 +1,12 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.min.js" ></script>
 <div id="app" >
 	Mining...
+	<select v-model="miningAddress" >
+		<option v-for="address in miningAddressesAvailable" :value="address.address" >{{address.label}}</option>
+	</select>
+	<input type="number" v-model="threads" />
+
+	<div>validShares:{{validShares}}</div>
+	<div>hashRate:{{hashRate}}h/s</div>
+	<button @click="start()" v-if="!running" >Start</button>
+	<button @click="stop()" v-if="running" >Stop</button>
 </div>

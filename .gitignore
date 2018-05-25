@@ -6,5 +6,6 @@ src/api/cache-testnet
 src/**/*.js
 src/**/*.js.map
 !src/lib/*.js
+!src/lib/**/*.js
 src/lib/numbersLab/*.js
 debug/
