@@ -166,6 +166,8 @@ class IndexView extends DestructableView{
 		DependencyInjectorInstance().register(WalletWatchdog.name,watchdog);
 
 		$('body').addClass('connected');
+		if(wallet.isViewOnly())
+			$('body').addClass('viewOnlyWallet');
 	}
 
 	importWallet(){

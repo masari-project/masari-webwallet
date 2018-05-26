@@ -22,7 +22,6 @@ The order of this list may not reflect the order in which those functionalities 
 - continue to scan while the page is not focused
 
 # Bugs & things to improve
-- disable spend tab when view only wallet
 - errors on importing : no windows sometimes
 - password strength : disclaimer but allow not strong password ?
 - triangular distribution over [a,b) with a=0, mode c=b=up_index_limit

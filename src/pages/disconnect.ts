@@ -24,5 +24,6 @@ let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'defa
 
 DependencyInjectorInstance().register(Wallet.name,undefined,'default');
 $('body').removeClass('connected');
+$('body').removeClass('viewOnlyWallet');
 
 window.location.href = '#index';

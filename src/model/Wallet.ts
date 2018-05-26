@@ -259,7 +259,7 @@ export class Wallet extends Observable{
 	}
 
 	recalculateIfNotViewOnly(){
-		if(this.keys.priv.spend !== null && this.keys.priv.spend !== '') {
+		if(!this.isViewOnly()) {
 			for(let tx of this.transactions){
 				let needDerivation = false;
 				for(let out of tx.outs) {

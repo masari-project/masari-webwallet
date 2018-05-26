@@ -51,6 +51,9 @@ body.menuHidden{
 .connected .onlyNotConnected{
 	display: none !important;
 }
+.viewOnlyWallet .notViewOnlyWallet{
+	display:none !important;
+}
 
 #topBar{
 	height:40px;line-height:40px;
