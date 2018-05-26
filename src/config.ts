@@ -24,5 +24,7 @@ global.config = {
 	idleWarningDuration: 20,
 	maxBlockNumber: 500000000,
 	avgBlockTime: 120,
-	debugMode: false
+	debugMode: false,
+	subAddressPrefix: 52,
+	subAddressPrefixTestnet: 73,
 };
