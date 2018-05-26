@@ -1,12 +1,26 @@
 <div id="app" >
-	Mining...
-	<select v-model="miningAddress" >
-		<option v-for="address in miningAddressesAvailable" :value="address.address" >{{address.label}}</option>
-	</select>
-	<input type="number" v-model="threads" />
+	<h2>Mine directly in your Browser to support the network</h2>
+	<div>
+		<label>Wallet to mine:</label><br/>
+		<select v-model="miningAddress" >
+			<option v-for="address in miningAddressesAvailable" :value="address.address" >{{address.label}}</option>
+		</select>
+	</div>
+	<div>
+		<label>Number of threads (more = higher hashrate)</label><br/>
+		<input type="number" v-model="threads" />
+	</div>
+	<div>Valid shares: {{validShares}}</div>
+	<div>HashRate: {{hashRate}}h/s</div>
+	<div>Max HashRate: {{maxHashRate}}h/s</div>
+	<div>
+		<button @click="start()" v-if="!running" >Start</button>
+		<button @click="stop()" v-if="running" >Stop</button>
+	</div>
 
-	<div>validShares:{{validShares}}</div>
-	<div>hashRate:{{hashRate}}h/s</div>
-	<button @click="start()" v-if="!running" >Start</button>
-	<button @click="stop()" v-if="running" >Stop</button>
+	<div>
+		With a dedicated software for mining, you could potential have a hashrate of {{hashRate*2}}h/s.<br/>
+		It would also also mining with graphic card.<br/>
+		<!--<a href="#!index" >More information on here</a>-->
+	</div>
 </div>

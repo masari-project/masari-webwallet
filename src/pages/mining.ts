@@ -53,12 +53,15 @@ class Pool{
 		this.algorithm = algorithm;
 		this.algorithmVariant = algorithmVariant;
 
+		this.reconnectCount = 0;
 		this.connect();
 	}
 
+	reconnectCount = 0;
+	maxReconnectCount = 5;
+
 	connect(){
 		this.socket = new WebSocket('ws://'+this.poolUrl+':'+this.poolPort);
-
 		let self = this;
 
 		this.socket.onopen = function() {
@@ -67,15 +70,12 @@ class Pool{
 		};
 
 		this.socket.onmessage = function(ev : MessageEvent) {
-			console.log(ev);
 			let data = ev.data;
 			try {
 				let decoded = JSON.parse(data);
 
 
 				if (decoded !== null) {
-					// console.log('POOL:', decoded);
-
 					let methodId = decoded.id;
 					let method = decoded.method;
 					if (methodId === ID_LOGIN || method == 'login') {
@@ -96,18 +96,22 @@ class Pool{
 		};
 
 		this.socket.onclose = function() {
-			console.log('Connection closed');
-			self.logged = false;
+			++self.reconnectCount;
 
-			if(self.intervalKeepAlive !== 0)
-				clearInterval(self.intervalKeepAlive);
+			if(self.reconnectCount < self.maxReconnectCount){
+				setTimeout(function(){
+					self.connect();
+				}, 10*1000);
+			}else {
+				console.log('Connection closed');
+				self.logged = false;
 
-			if(self.onClose)
-				self.onClose();
+				if (self.intervalKeepAlive !== 0)
+					clearInterval(self.intervalKeepAlive);
 
-			// setTimeout(function(){
-			// 	self.connect();
-			// }, 10*1000);
+				if (self.onClose)
+					self.onClose();
+			}
 		};
 
 		if(this.intervalKeepAlive !== 0)
@@ -145,7 +149,6 @@ class Pool{
 				if(this.onNewJob)this.onNewJob();
 			}
 		}
-		console.log('logged');
 	}
 
 	private handlePoolNewJob(requestId : string, requestMethod : string, requestParams : any){
@@ -157,14 +160,14 @@ class Pool{
 	}
 
 	validShareCount = 0;
+	invalidShareCount = 0;
 
 	private handleSubmitResult(id : any, error : string, result : string){
 		if(error === null) {
 			++this.validShareCount;
-			console.log('VALID SHARE:'+this.validShareCount);
 		}else{
-			this.validShareCount = 0;
-			console.log('INVALID SHARE, RESET');
+			++this.invalidShareCount;
+			console.log('INVALID SHARE');
 		}
 	}
 
@@ -194,7 +197,7 @@ class Pool{
 				nonce:share.nonce,
 				result:share.result,
 			},
-		})+'\n';
+		});
 		this.socket.send(rawData);
 	}
 
@@ -203,15 +206,17 @@ class Pool{
 			id:ID_GET_JOB,
 			method:'getJob',
 			params:{},
-		})+'\n');
+		}));
 	}
 
 	private keepAlive(){
 		this.socket.send(JSON.stringify({
 			id:ID_KEEP_ALIVE,
 			method:'keepalived',
-			params:{},
-		})+'\n');
+			params:{
+				id:this.poolId
+			},
+		}));
 	}
 
 	setJobResponse(job : any){
@@ -233,6 +238,7 @@ class MiningView extends DestructableView{
 	@VueVar(0) throttleMiner : number;
 	@VueVar(0) validShares : number;
 	@VueVar(0) hashRate : number = 0;
+	@VueVar(0) maxHashRate : number = 0;
 	@VueVar(false) running : boolean;
 	@VueVar([]) miningAddressesAvailable : Array<{address:string,label:string}>;
 
@@ -245,20 +251,27 @@ class MiningView extends DestructableView{
 	constructor(container : string){
 		super(container);
 
-		this.miningAddressesAvailable.push({
-			address:'5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj',
-			label:'Donation - WebWallet'
-		});
-		this.miningAddressesAvailable.push({
-			address:'5nYWvcvNThsLaMmrsfpRLBRou1RuGtLabUwYH7v6b88bem2J4aUwsoF33FbJuqMDgQjpDRTSpLCZu3dXpqXicE2uSWS4LUP',
-			label:'Donation - Masari'
-		});
-		// this.miningAddressesAvailable.push({
-		// 	address:'9ppu34ocgmeZiv4nS2FyQTFLL5wBFQZkhAfph7wGcnFkc8fkCgTJqxnXuBkaw1v2BrUW7iMwKoQy2HXRXzDkRE76Cz7WXkD',
-		// 	label:'Donation - Masari exchange listing'
-		// });
-
-		this.miningAddress = '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj';
+		if(!config.testnet) {
+			this.miningAddressesAvailable.push({
+				address: '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj',
+				label: 'Donation - WebWallet'
+			});
+			this.miningAddressesAvailable.push({
+				address: '5nYWvcvNThsLaMmrsfpRLBRou1RuGtLabUwYH7v6b88bem2J4aUwsoF33FbJuqMDgQjpDRTSpLCZu3dXpqXicE2uSWS4LUP',
+				label: 'Donation - Masari'
+			});
+			this.miningAddressesAvailable.push({
+				address: '9ppu34ocgmeZiv4nS2FyQTFLL5wBFQZkhAfph7wGcnFkc8fkCgTJqxnXuBkaw1v2BrUW7iMwKoQy2HXRXzDkRE76Cz7WXkD',
+				label: 'Donation - Masari exchange listing'
+			});
+			this.miningAddress = '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj';
+		}else{
+			this.miningAddressesAvailable.push({
+				address: '6dRJk2wif2c1nGWYEkd1k49D88SEg49E95j9YE4jb8SyAiB6aTwRBqcN2jndBB19zaAr9ZNrWGjKgLa6dJcL7EXFKAWhSFw',
+				label: 'Test wallet'
+			});
+			this.miningAddress = '6dRJk2wif2c1nGWYEkd1k49D88SEg49E95j9YE4jb8SyAiB6aTwRBqcN2jndBB19zaAr9ZNrWGjKgLa6dJcL7EXFKAWhSFw';
+		}
 
 		if(wallet !== null)
 			this.miningAddressesAvailable.push({
@@ -286,10 +299,9 @@ class MiningView extends DestructableView{
 		this.running = true;
 
 		this.pool = new Pool(
-// 'pool.masaricoin.com',
-			'localhost',
-			3335,
-			this.miningAddress+'+'+this.difficulty,
+			config.testnet ? 'testnet.masaricoin.com' : 'pool.masaricoin.com',
+			8080,
+			this.miningAddress + '+' + this.difficulty,
 			'atmega',
 			'cn',
 			1);
@@ -357,7 +369,6 @@ class MiningView extends DestructableView{
 					return;
 
 				self.pool.setJobResponse(json);
-				console.log('worker message', message.data);
 				++self.validShares;
 			}
 			// sendJobToWorker(<Worker>message.target);
@@ -383,11 +394,10 @@ class MiningView extends DestructableView{
 	private updateHashrate(){
 		this.hashRate = (this.hashCount-this.lastSharesCount);
 		this.lastSharesCount = this.hashCount;
+		if(this.hashRate > this.maxHashRate)
+			this.maxHashRate = this.hashRate;
 	}
 
 }
 
 new MiningView('#app');
-
-// if(wallet !== null && blockchainExplorer !== null)
-// 	window.location.href = '#index';
