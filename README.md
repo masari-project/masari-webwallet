@@ -19,5 +19,16 @@ Encryption is done with a certified library, [Tweetnacl.Js](https://github.com/d
 If you are a dev of a cryptonight/monero fork and would like to get a fork, please contact me.
 Depending of you coin specificities, I can provide support, maintenance and development/updates for a payment in return, crypto only.
 
+# Features (non-exhaustive)
+- complete wallet sync without server side processing for security
+- receive/send history
+- mempool support to check incoming transfers
+- send coin, qr code scanning included, subaddress support
+- receive page to generate a qr code
+- import from private keys, mnemonic, json file (exported by the wallet)
+- export keys, mnemonic phrase, json file (which include all the history)
+- view only wallet
+- basic network stats
+
 # Roadmap
 See [ROADMAP.md](ROADMAP.md)

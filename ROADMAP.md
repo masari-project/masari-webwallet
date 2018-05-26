@@ -1,10 +1,7 @@
 # Roadmap 
 The order of this list may not reflect the order in which those functionalities will be implemented  
   
-- page with some useful info: current blockchain height, last block time...
 - adding the wallet balance in the side menu
-- qr code scanning on send page
-- include subaddress support
 - drive storage for synchronisation (http://remotestoragejs.readthedocs.io/en/latest/index.html)
 - wallet translation in multiple languages (will include date and number format)
 - wasm to improve speed
