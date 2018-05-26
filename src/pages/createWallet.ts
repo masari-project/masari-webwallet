@@ -12,23 +12,99 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {VueVar} from "../lib/numbersLab/VueAnnotate";
+import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {DestructableView} from "../lib/numbersLab/DestructableView";
+import {KeysRepository} from "../model/KeysRepository";
+import {Wallet} from "../model/Wallet";
+import {Password} from "../model/Password";
+import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
+import {Mnemonic} from "../model/Mnemonic";
+
+let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 class NetworkView extends DestructableView{
 	@VueVar(0) step : number;
 
 	@VueVar('') walletPassword : string;
-	@VueVar(false) insecurePassword : symbol;
-	@VueVar(false) forceInsecurePassword : string;
+	@VueVar(false) insecurePassword : boolean;
+	@VueVar(false) forceInsecurePassword : boolean;
+
+	@VueVar(false) walletBackupMade : boolean;
+
+	@VueVar(null) newWallet : Wallet|null;
+	@VueVar('') mnemonicPhrase : string;
 
 	constructor(container : string){
 		super(container);
 		let self = this;
+		this.generateWallet();
 	}
 
 	destruct(): Promise<void> {
 		return super.destruct();
+	}
+
+	generateWallet(){
+		let self = this;
+		setTimeout(function(){
+			blockchainExplorer.getHeight().then(function(currentHeight){
+				let seed = cnUtil.sc_reduce32(cnUtil.rand_32());
+				let keys = cnUtil.create_address(seed);
+
+				let newWallet = new Wallet();
+				newWallet.keys = KeysRepository.fromPriv(keys.spend.sec, keys.view.sec);
+				let height = currentHeight - 10;
+				if(height < 0)height = 0;
+				newWallet.lastHeight = height;
+
+				self.newWallet = newWallet;
+				self.step = 1;
+
+				let phrase = Mnemonic.mn_encode(newWallet.keys.priv.spend, 'english');
+				if(phrase !== null)
+					self.mnemonicPhrase = phrase;
+			});
+		},0);
+	}
+
+	@VueWatched()
+	walletPasswordWatch(){
+		if(!Password.checkPasswordConstraints(this.walletPassword, false)){
+			this.insecurePassword = true;
+		}else
+			this.insecurePassword = false;
+	}
+
+	forceInsecurePasswordCheck(){
+		let self = this;
+		swal({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			type: 'warning',
+			showCancelButton: true,
+			reverseButtons:true,
+			confirmButtonText: 'Yes'
+		}).then((result:{value:boolean}) => {
+			if (result.value) {
+				self.forceInsecurePassword = true;
+			}
+		});
+	}
+
+	exportStep(){
+		this.step = 2;
+	}
+
+	downloadBackup(){
+		this.walletBackupMade = true;
+	}
+
+	finish(){
+		if(this.newWallet !== null) {
+			// this.setupWallet(this.newWallet, this.walletPassword);
+			window.location.href = '#account';
+		}
 	}
 
 }

@@ -1,0 +1,79 @@
+/*
+ * Copyright (c) 2018, Gnock
+ * Copyright (c) 2018, The Masari Project
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
+import {WalletWatchdog} from "./blockchain/BlockchainExplorerRpc2";
+import {Wallet} from "./Wallet";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
+import {Observable} from "../lib/numbersLab/Observable";
+import {WalletRepository} from "./WalletRepository";
+
+export class WalletWorker{
+	wallet : Wallet;
+	password : string;
+
+	intervalSave = 0;
+
+	constructor(wallet: Wallet, password:string) {
+		this.wallet = wallet;
+		this.password = password;
+		let self = this;
+		wallet.addObserver(Observable.EVENT_MODIFIED, function(){
+			if(self.intervalSave === 0)
+				self.intervalSave = setTimeout(function(){
+					self.save();
+					self.intervalSave = 0;
+				}, 1000);
+		});
+
+		this.save();
+	}
+
+	save(){
+		WalletRepository.save(this.wallet, this.password);
+	}
+}
+
+export class AppState{
+
+	static openWallet(wallet : Wallet, password:string){
+		let walletWorker = new WalletWorker(wallet, password);
+
+		DependencyInjectorInstance().register(Wallet.name,wallet);
+		let watchdog = BlockchainExplorerProvider.getInstance().watchdog(wallet);
+		DependencyInjectorInstance().register(WalletWatchdog.name,watchdog);
+		DependencyInjectorInstance().register(WalletWorker.name,walletWorker);
+
+		$('body').addClass('connected');
+		if(wallet.isViewOnly())
+			$('body').addClass('viewOnlyWallet');
+	}
+
+	static disconnect(){
+		let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
+		let walletWorker : WalletWorker = DependencyInjectorInstance().getInstance(WalletWorker.name,'default', false);
+		let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
+		if(walletWatchdog !== null)
+			walletWatchdog.stop();
+
+		DependencyInjectorInstance().register(Wallet.name,undefined,'default');
+		DependencyInjectorInstance().register(WalletWorker.name,undefined,'default');
+		DependencyInjectorInstance().register(WalletWatchdog.name,undefined,'default');
+		$('body').removeClass('connected');
+		$('body').removeClass('viewOnlyWallet');
+	}
+
+
+}

@@ -87,6 +87,10 @@ export class WalletWatchdog{
 		self.checkMempool();
 	}
 
+	stop(){
+		//TODO
+	}
+
 	checkMempool() : boolean{
 		let self = this;
 		if(this.lastMaximumHeight - this.lastBlockLoading > 1){//only check memory pool if the user is up to date to ensure outs & ins will be found in the wallet

@@ -15,6 +15,7 @@ The order of this list may not reflect the order in which those functionalities 
 - improve tx fee calculation
 - detect when multiple tabs are open to prevent data collision
 - continue to scan while the page is not focused
+- support https://github.com/monero-project/monero/wiki/URI-Formatting
 
 # Bugs & things to improve
 - errors on importing : no windows sometimes

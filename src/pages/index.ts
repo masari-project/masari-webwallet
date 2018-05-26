@@ -26,40 +26,13 @@ import {Observable, Observer} from "../lib/numbersLab/Observable";
 import {VueFilterDate} from "../filters/Filters";
 import {Mnemonic} from "../model/Mnemonic";
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
+import {AppState} from "../model/AppState";
+import {Password} from "../model/Password";
 
 let injector = DependencyInjectorInstance();
 
-let blockchainExplorer : BlockchainExplorerRpc2 = injector.getInstance(Constants.BLOCKCHAIN_EXPLORER);
-if(blockchainExplorer === null) {
-	blockchainExplorer = new BlockchainExplorerRpc2();
-	injector.register(Constants.BLOCKCHAIN_EXPLORER, blockchainExplorer);
-}
-
-class WalletWorker{
-	wallet : Wallet;
-	password : string;
-
-	intervalSave = 0;
-
-	constructor(wallet: Wallet, password:string) {
-		this.wallet = wallet;
-		this.password = password;
-		let self = this;
-		wallet.addObserver(Observable.EVENT_MODIFIED, function(){
-			if(self.intervalSave === 0)
-				self.intervalSave = setTimeout(function(){
-					self.save();
-					self.intervalSave = 0;
-				}, 1000);
-		});
-
-		this.save();
-	}
-
-	save(){
-		WalletRepository.save(this.wallet, this.password);
-	}
-}
+let blockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 class IndexView extends DestructableView{
 	@VueVar(false) hasLocalWallet : boolean;
@@ -96,7 +69,7 @@ class IndexView extends DestructableView{
 					let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
 					if(wallet !== null) {
 						wallet.recalculateIfNotViewOnly();
-						self.setupWallet(wallet, savePassword);
+						AppState.openWallet(wallet, savePassword);
 						window.location.href = '#account';
 					}else{
 						swal({
@@ -131,7 +104,7 @@ class IndexView extends DestructableView{
 								let newWallet = WalletRepository.getWithPassword(JSON.parse(fileReader.result),savePassword);
 								if(newWallet !== null) {
 									newWallet.recalculateIfNotViewOnly();
-									self.setupWallet(newWallet, savePassword);
+									AppState.openWallet(newWallet, savePassword);
 									window.location.href = '#account';
 								}else{
 									swal({
@@ -156,18 +129,6 @@ class IndexView extends DestructableView{
 		});
 		element.click();
 
-	}
-
-	setupWallet(wallet : Wallet, password:string){
-		let walletWorker = new WalletWorker(wallet, password);
-
-		DependencyInjectorInstance().register(Wallet.name,wallet);
-		let watchdog = blockchainExplorer.watchdog(wallet);
-		DependencyInjectorInstance().register(WalletWatchdog.name,watchdog);
-
-		$('body').addClass('connected');
-		if(wallet.isViewOnly())
-			$('body').addClass('viewOnlyWallet');
 	}
 
 	importWallet(){
@@ -221,7 +182,7 @@ class IndexView extends DestructableView{
 					result.value.height >= 0 &&
 					result.value.password.length > 0
 				){
-					if(!self.checkPasswordConstraints(result.value.password))
+					if(!Password.checkPasswordConstraints(result.value.password))
 						return;
 
 					let newWallet = new Wallet();
@@ -234,7 +195,7 @@ class IndexView extends DestructableView{
 					if(height < 0)height = 0;
 					newWallet.lastHeight = height;
 
-					self.setupWallet(newWallet, result.value.password);
+					AppState.openWallet(newWallet, result.value.password);
 					window.location.href = '#account';
 					// }
 
@@ -294,7 +255,7 @@ class IndexView extends DestructableView{
 					result.value.height >= 0 &&
 					result.value.password.length > 0
 				){
-					if(!self.checkPasswordConstraints(result.value.password))
+					if(!Password.checkPasswordConstraints(result.value.password))
 						return;
 
 					let decodedPublic = cnUtil.decode_address(result.value.public);
@@ -318,70 +279,13 @@ class IndexView extends DestructableView{
 					if(height < 0)height = 0;
 					newWallet.lastHeight = height;
 
-					self.setupWallet(newWallet, result.value.password);
+					AppState.openWallet(newWallet, result.value.password);
 					window.location.href = '#account';
 					// }
 
 				}
 			});
 		});
-	}
-
-	createNewWallet(){
-		let self = this;
-		swal({
-			title: 'New wallet',
-			html:
-				`
-<div class="importKeys" >
-	<div>
-		The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
-	</div>
-	<div>
-		<label>Password for the wallet</label>
-		<input type="password" id="importWalletPassword" placeholder="Password for the wallet" autocomplete="off">
-	</div>
-</div>
-`,
-			focusConfirm: false,
-			preConfirm: () => {
-				let passwordInput = <HTMLInputElement>document.getElementById('importWalletPassword');
-				return {
-					password:passwordInput !== null ? passwordInput.value : null,
-				}
-			}
-		}).then(function(result:{value:{password:string|null}}){
-			blockchainExplorer.getHeight().then(function(currentHeight){
-				console.log(result.value);
-				if(	result.value &&
-					result.value.password &&
-					result.value.password.length > 0
-				){
-					if(!self.checkPasswordConstraints(result.value.password))
-						return;
-
-					let seed = cnUtil.sc_reduce32(cnUtil.rand_32());
-					let keys = cnUtil.create_address(seed);
-
-					let newWallet = new Wallet();
-					newWallet.keys = KeysRepository.fromPriv(keys.spend.sec, keys.view.sec);
-					let height = currentHeight - 10;
-					if(height < 0)height = 0;
-					newWallet.lastHeight = height;
-					self.setupWallet(newWallet, result.value.password);
-
-					swal({
-						type: 'info',
-						title: 'Information',
-						text: 'Please make a backup of your private keys by going in the export tab',
-					});
-
-					window.location.href = '#account';
-				}
-			});
-		});
-
-
 	}
 
 	importFromMnemonic(){
@@ -447,7 +351,7 @@ class IndexView extends DestructableView{
 					result.value.password.length > 0 &&
 					result.value.mnemonic.length > 0
 				){
-					if(!self.checkPasswordConstraints(result.value.password))
+					if(!Password.checkPasswordConstraints(result.value.password))
 						return;
 
 					// let mnemonic = 'always afraid tobacco poetry woes today pause glass hesitate nail doing fitting obtains vexed bypass costume cupcake betting muzzle shrugged fruit getting adapt alarms doing';
@@ -464,7 +368,7 @@ class IndexView extends DestructableView{
 						let height = result.value.height - 10;
 						if (height < 0) height = 0;
 						newWallet.lastHeight = height;
-						self.setupWallet(newWallet, result.value.password);
+						AppState.openWallet(newWallet, result.value.password);
 						window.location.href = '#account';
 					}else{
 						swal({
@@ -476,42 +380,6 @@ class IndexView extends DestructableView{
 				}
 		});
 
-	}
-
-	checkPasswordConstraints(password : string, raiseError : boolean = true){
-		var anUpperCase = /[A-Z]/;
-		var aLowerCase = /[a-z]/;
-		var aNumber = /[0-9]/;
-		var aSpecial = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
-
-		var numUpper = 0;
-		var numLower = 0;
-		var numNums = 0;
-		var numSpecials = 0;
-		for(var i=0; i<password.length; i++){
-			if(anUpperCase.test(password[i]))
-				numUpper++;
-			else if(aLowerCase.test(password[i]))
-				numLower++;
-			else if(aNumber.test(password[i]))
-				numNums++;
-			else if(aSpecial.test(password[i]))
-				numSpecials++;
-		}
-
-		if(password.length < 8 || numUpper < 1 || numLower < 1 || numNums < 1 || numSpecials < 1){
-			if(raiseError){
-				swal({
-					type: 'error',
-					title: 'The password is not complex enough',
-					text: 'The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character',
-				});
-			}
-
-			return false;
-		}
-
-		return true;
 	}
 
 

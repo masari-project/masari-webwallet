@@ -9,7 +9,8 @@ declare function swal(params : {
 	focusConfirm?:boolean,
 	preConfirm?:Function
 	onOpen?:Function,
-	inputOptions?:Map<string,string>|any
+	inputOptions?:Map<string,string>|any,
+	reverseButtons?:boolean
 }) : Promise<any>;
 
 declare namespace swal{

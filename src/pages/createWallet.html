@@ -1,15 +1,48 @@
 <div id="app">
+	<div class="breadcrumb">
+		<span>Generation</span>
+		<span>Password</span>
+		<span>Backup</span>
+	</div>
 	<div v-if="step == 0" >
+		Your wallet is being generated...
+	</div>
+	<div v-if="step == 1" >
 		<h2>That was simple. Your account is ready !</h2><br/>
 		Choose a password to protect your credentials<br/>
 		<input type="password" v-model="walletPassword" autocomplete="off">
-		<button>use this password</button>
+		<span></span>
+		<div v-if="insecurePassword && !forceInsecurePassword" >
+			The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+			<button @click="forceInsecurePasswordCheck()">Disable this security, i understand the risk</button>
+		</div>
+
+		<button @click="exportStep()" >use this password</button>
 	</div>
-	<div v-if="step == 1" >
+	<div v-if="step == 2" >
 		And download an encrypted copy of your credentials for future use
-		<button>Download</button>
+
+		<div>
+			Choice 1
+			<button @click="downloadBackup()">Download</button>
+		</div>
+		<div>
+			Choice 2: write down my keys<br/>
+			Private spend key: {{newWallet.keys.priv.spend}}<br/>
+			Or<br/>
+			Mnemonic phrase {{mnemonicPhrase}}<br/>
+		</div>
+
+
+		**Do not lose it!** It cannot be recovered if you lose it.
+
+		**Do not share it!** Your funds will be stolen if you use this file on a malicious/phishing site.
+
+		**Make a backup!** Secure it like the millions of dollars it may one day be worth.
+
+		<button :disabled="!walletBackupMade" @click="finish()">I understand. Continue</button>
 	</div>
-	<div v-if="step == 2">
+	<div v-if="step == 3">
 		Continue
 	</div>
 </div>
