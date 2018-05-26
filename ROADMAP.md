@@ -5,7 +5,6 @@ The order of this list may not reflect the order in which those functionalities 
 - drive storage for synchronisation (http://remotestoragejs.readthedocs.io/en/latest/index.html)
 - wallet translation in multiple languages (will include date and number format)
 - wasm to improve speed
-- web mining directly included
 - receive page: add payment id support
 - receive page: add mempool check (only when payment id) & progression
 - better backup method for storing his keys (https://parall.ax/products/jspdf)
@@ -13,7 +12,6 @@ The order of this list may not reflect the order in which those functionalities 
 - p2p connection between a computer and another device(phone, ...) for a sync method (to reduce the heat on small devices)
 - and in the "long term" (3/6 month) it will connect directly on a masarid ! (i will work with the others (thaer, crypto) to improve the rpc so allow it)
 - disable the scanning of miner tx (to gain some performance as only a few people are actually solo mining)
-- integrated mining client (already have a working version)
 - improve tx fee calculation
 - detect when multiple tabs are open to prevent data collision
 - continue to scan while the page is not focused
