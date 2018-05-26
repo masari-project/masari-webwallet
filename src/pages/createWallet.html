@@ -1,0 +1,15 @@
+<div id="app">
+	<div v-if="step == 0" >
+		<h2>That was simple. Your account is ready !</h2><br/>
+		Choose a password to protect your credentials<br/>
+		<input type="password" v-model="walletPassword" autocomplete="off">
+		<button>use this password</button>
+	</div>
+	<div v-if="step == 1" >
+		And download an encrypted copy of your credentials for future use
+		<button>Download</button>
+	</div>
+	<div v-if="step == 2">
+		Continue
+	</div>
+</div>
