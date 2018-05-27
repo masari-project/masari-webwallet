@@ -1,3 +1,7 @@
+<img src="./assets/img/Masari_Vertical.png" id="verticalMasariLogo" style="display: none;"/>
+<canvas id="canvasExport" ></canvas>
+<iframe class="preview-pane" type="application/pdf" width="100%" height="650" frameborder="0" style="position:relative;z-index:999"></iframe>
+
 <div id="app" class="body-root receiveTab">
 	<div class="body-header" >
 		<div class="header-title">
@@ -13,6 +17,8 @@
 				</div>
 			</div>
 		</div>
+
+		<button @click="exportEncryptedPdf()" >Export</button>
 
 		<div class="panel inline">
 			<div class="body" >
