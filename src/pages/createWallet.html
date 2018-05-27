@@ -1,46 +1,116 @@
-<div id="app">
-	<div class="breadcrumb">
-		<span>Generation</span>
-		<span>Password</span>
-		<span>Backup</span>
+<div id="app" class="body-root">
+	<div class="body-header" v-if="step == 0">
+		<div class="header-title">
+			Your wallet is being generated...
+		</div>
+		<div class="header-subtitle" >
+			It's almost done
+		</div>
 	</div>
-	<div v-if="step == 0" >
-		Your wallet is being generated...
+	<div class="body-header" v-if="step == 1 || step == 2">
+		<div class="header-title">
+			That was simple. Your account is ready !
+		</div>
+		<div class="header-subtitle" >
+			Be ready to use Masari like you never have
+		</div>
 	</div>
-	<div v-if="step == 1" >
-		<h2>That was simple. Your account is ready !</h2><br/>
-		Choose a password to protect your credentials<br/>
-		<input type="password" v-model="walletPassword" autocomplete="off">
-		<span></span>
-		<div v-if="insecurePassword && !forceInsecurePassword" >
-			The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
-			<button @click="forceInsecurePasswordCheck()">Disable this security, i understand the risk</button>
+
+	<div class="body-content" >
+		<div class="panel" v-if="step == 0">
+			<div class="body" >
+				<div class="content tc" >
+					<div class="text loader">
+						Generating your wallet...
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel" v-if="step == 1">
+			<div class="body" >
+				<div class="header-title" >Protect your credentials</div>
+				<div class="content" >
+					<div class="field" >
+						<label>Choose a password to protect your credentials</label>
+						<input type="password" v-model="walletPassword" autocomplete="off">
+						<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
+							The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+							<div class="tc">
+								<button @click="forceInsecurePasswordCheck()" class="btn mini">Disable this security, i understand the risk</button>
+							</div>
+						</div>
+					</div>
+					<div class="actions tc">
+						<button @click="exportStep()" class="btn primary" :disabled="!(this.walletPassword !== '' && (!this.insecurePassword || this.forceInsecurePassword))">Use this password</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel" v-if="step == 2">
+			<div class="body" >
+				<div class="header-title" >And download an encrypted copy of your credentials for future use</div>
+				<div class="content" >
+					<div class="step">
+						<div class="title" >Option 1: Download an encrypted copy</div>
+						<div class="content tc actions" >
+							<button @click="downloadBackup()" class="btn">Download</button>
+						</div>
+					</div>
+					<div class="step">
+						<div class="title" >Option 2: Write down my keys</div>
+						<div class="content" >
+							<div class="message" >
+								<div class="title" >Private key</div>
+								<div class="content" >
+									{{newWallet.keys.priv.spend}}
+								</div>
+							</div>
+							Or<br/>
+							<div class="message" >
+								<div class="title" >Mnemonic phrase</div>
+								<div class="content" >
+									{{mnemonicPhrase}}
+								</div>
+							</div>
+							<div class="tc actions" >
+								<button @click="walletBackupMade=true" class="btn">I wrote them</button>
+							</div>
+						</div>
+					</div>
+					<div>
+						**Do not lose it!** It cannot be recovered if you lose it.<br/>
+						**Do not share it!** Your funds will be stolen if you use this file on a malicious/phishing site.<br/>
+						**Make a backup!** Secure it like the millions of dollars it may one day be worth.<br/>
+					</div>
+					<div class="actions" >
+						<button :disabled="!walletBackupMade" @click="finish()" class="btn green">I understand. Continue</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<button @click="exportStep()" >use this password</button>
+		<div class="panel inline" >
+			<div class="body" >
+				<div class="header-title" >You must save your Seed</div>
+				<div class="content" >
+					Above this information you will find your "Seed" of twenty five words. You must keep it secure and private. Remember that it is very important for you. This is the only way for you to login to your Monero account. We cannot store your "Seed" on the server and if you lost it we will not have opportunity to recover it. You cannot change your "Seed". If it is stolen you must move your funds to a new account with a new "Seed". The best way to backup your "Seed" is by writing it down on a piece of paper, laminating it and storing it in a secure place.
+				</div>
+			</div>
+		</div>
+		<div class="panel inline" >
+			<div class="body" >
+				<div class="header-title" >Risk of Using MasariWallet</div>
+				<div class="content" >
+					MasariWallet is a web-based interface. It helps you use Masari without running a full Masari node. <br/>
+					We recommend you treat MasariWallet like you will treat your actual wallet.
+				</div>
+			</div>
+		</div>
 	</div>
+
+
 	<div v-if="step == 2" >
-		And download an encrypted copy of your credentials for future use
 
-		<div>
-			Choice 1
-			<button @click="downloadBackup()">Download</button>
-		</div>
-		<div>
-			Choice 2: write down my keys<br/>
-			Private spend key: {{newWallet.keys.priv.spend}}<br/>
-			Or<br/>
-			Mnemonic phrase {{mnemonicPhrase}}<br/>
-		</div>
-
-
-		**Do not lose it!** It cannot be recovered if you lose it.
-
-		**Do not share it!** Your funds will be stolen if you use this file on a malicious/phishing site.
-
-		**Make a backup!** Secure it like the millions of dollars it may one day be worth.
-
-		<button :disabled="!walletBackupMade" @click="finish()">I understand. Continue</button>
 	</div>
 	<div v-if="step == 3">
 		Continue

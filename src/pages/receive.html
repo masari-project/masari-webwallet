@@ -1,16 +1,58 @@
 <textarea id="clipboardTextarea" style="width:0;height:0;position:absolute;top:0;left:0;"></textarea>
-<div id="app" class="receiveTab">
-	<div class="qrCode">
-		<div id="qrCodeContainer" ></div>
-	</div>
-	<div class="address">
-		<img src="./assets/img/logoQrCode.png" id="masariQrCodeLogo" style="display: none;"/>
-		<div>
-			Your Masari address to receive funds:
+<div id="app" class="body-root receiveTab">
+	<div class="body-header" >
+		<div class="header-title">
+			<i class="fa fa-level-down" aria-hidden="true"></i> Receive MSR
 		</div>
-		<div class="fakeInput" >
-			<input type="text" v-model="address" id="address" />
-			<span class="copy" @click="setInClipboard()" ><i class="fa fa-copy" ></i></span>
+	</div>
+	<div class="body-content" >
+		<div class="panel">
+			<div class="body" >
+				<div class="header-title" >Your address to receive funds</div>
+				<div class="content" >
+					<div class="field action" >
+						<label>Give this address to receive funds</label>
+						<div class="subfield" >
+							<input type="text" v-model="rawAddress" id="rawAddress" readonly="readonly"/>
+							<span class="action" @click="setInClipboard()" ><i class="fa fa-copy" ></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="header-title" >Or personalize the QR code</div>
+				<div class="content" >
+					<div class="field">
+						<label>Amount (optionnal)</label>
+						<input type="text" v-model="amount" maxlength="8"/>
+					</div>
+					<div class="field">
+						<label>Recipient name (optionnal)</label>
+						<input type="text" v-model="recipientName" maxlength="8"/>
+					</div>
+					<div class="field">
+						<label>Transaction description (optionnal)</label>
+						<input type="text" v-model="txDescription" maxlength="8"/>
+					</div>
+					<!--<div class="field">
+						<label>Identifier (optionnal)</label>
+						<input type="text" v-model="paymentId" maxlength="8"/>
+					</div>-->
+					<div class="actions" >
+						<button class="btn primary" @click="generateQrCode()" >Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<img src="./assets/img/logoQrCode.png" id="masariQrCodeLogo" style="display: none;"/>
+		<div class="panel inline">
+			<div class="body" >
+				<div class="header-title" >Address in a QR code</div>
+				<div class="content" >
+					<div class="qrCode">
+						<div id="qrCodeContainer" ></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

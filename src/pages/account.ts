@@ -19,6 +19,7 @@ import {Wallet} from "../model/Wallet";
 import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {Constants} from "../model/Constants";
 import {VueFilterDate, VueFilterPiconero} from "../filters/Filters";
+import {AppState} from "../model/AppState";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -38,6 +39,7 @@ class AccountView extends DestructableView{
 	constructor(container : string){
 		super(container);
 		let self = this;
+		AppState.enableLeftMenu();
 		this.intervalRefresh = setInterval(function(){
 			self.refresh();
 		}, 1*1000);

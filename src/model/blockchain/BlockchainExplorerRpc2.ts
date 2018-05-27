@@ -18,6 +18,7 @@ import {Wallet} from "../Wallet";
 import {TransactionsExplorer, TX_EXTRA_TAG_PUBKEY} from "../TransactionsExplorer";
 import {CryptoUtils} from "../CryptoUtils";
 import {Transaction} from "../Transaction";
+import {MathUtil} from "../MathUtil";
 
 export class WalletWatchdog{
 
@@ -347,6 +348,17 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 
 	nonRandomBlockConsumed = false;
 
+	getHeightAndMaxOut() : Promise<{height:number, numOuts: number}>{
+		let self = this;
+		return this.getHeight().then(function(height : number){
+			//TODO how to convert out index to block index
+			return self.getTransactionsForBlocks(height).then(function(rawTransactions : RawDaemonTransaction[]){
+
+				return {height:height, numOuts:height};
+			});
+		});
+	}
+
 	existingOuts : any[] = [];
 	getRandomOuts(nbOutsNeeded : number, initialCall=true) : Promise<any[]>{
 		let self = this;
@@ -358,15 +370,24 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 			let txs : RawDaemonTransaction[] = [];
 			let promises = [];
 
-			let heightWithMature = height - config.txMinConfirms;
+			let randomIndexesToGet : number[] = [];
+			let numOuts = 10000;
 
 			for(let i = 0; i < nbOutsNeeded; ++i){
-				let randomBlock = Math.floor(Math.random()*heightWithMature);
-				let promise = self.getTransactionsForBlocks(Math.floor(randomBlock/100)*100).then(function(rawTransactions : RawDaemonTransaction[]){
+				let selectedIndex : number;
+				do{
+					selectedIndex = MathUtil.randomTriangularSimplified(numOuts);
+				}while(randomIndexesToGet.indexOf(selectedIndex) !== -1);
+				randomIndexesToGet.push(selectedIndex);
+
+				let promise = self.getTransactionsForBlocks(Math.floor(selectedIndex/100)*100).then(function(rawTransactions : RawDaemonTransaction[]){
 					txs.push.apply(txs,rawTransactions);
 				});
 				promises.push(promise);
 			}
+
+			let heightWithMature = height - config.txMinConfirms;
+			let heightWithMatureCoinbase = height - config.txCoinbaseMinConfirms;
 
 			return Promise.all(promises).then(function(){
 				for(let iOut  = 0; iOut < txs.length; ++iOut) {

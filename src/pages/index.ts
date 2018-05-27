@@ -45,6 +45,7 @@ class IndexView extends DestructableView{
 		this.isWalletLoaded = DependencyInjectorInstance().getInstance(Wallet.name,'default', false) !== null;
 		this.hasLocalWallet = WalletRepository.hasOneStored();
 		// this.importWallet();
+		AppState.disableLeftMenu();
 	}
 
 	destruct(): Promise<void> {

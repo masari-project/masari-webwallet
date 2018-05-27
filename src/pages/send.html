@@ -1,30 +1,39 @@
-<div id="app" class="sendTab">
-	<div class="icon">
-		<i class="fa fa-paper-plane" aria-hidden="true"></i>
-	</div>
-	<div class="row">
-		<label>Destination address</label>
-		<div class="destinationInput" >
-			<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
-			<i @click="startScan()" class="scanButton fa fa-camera" aria-hidden="true"></i>
-		</div>
-		<div v-if="!destinationAddressValid && destinationAddressUser != ''" >
-			The destination address is invalid
-		</div>
-		<div v-if="openAliasAddress !== null" style="word-wrap: break-word;">
-			The funds will be send to:<br/>
-			{{openAliasAddress}} <template v-if="openAliasName !== null" ><br/>({{openAliasName}})</template>
+<div id="app" class="body-root sendTab">
+	<div class="body-header" >
+		<div class="header-title">
+			<i class="fa fa-level-up" aria-hidden="true"></i> Send MSR
 		</div>
 	</div>
-	<div class="row">
-		<label>Amount to send</label>
-		<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
-		<div v-if="!amountToSendValid && amountToSend != ''" >
-			The amount is invalid
+	<div class="body-content" >
+		<div class="panel">
+			<div class="body" >
+				<div class="field" >
+					<label>Destination address</label>
+					<div class="destinationInput" >
+						<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
+						<i @click="startScan()" class="scanButton fa fa-camera" aria-hidden="true"></i>
+					</div>
+					<div v-if="!destinationAddressValid && destinationAddressUser != ''" class="message error">
+						The destination address is invalid
+					</div>
+					<div v-if="openAliasAddress !== null" style="word-wrap: break-word;">
+						The funds will be send to:<br/>
+						{{openAliasAddress}} <template v-if="openAliasName !== null" ><br/>({{openAliasName}})</template>
+					</div>
+				</div>
+
+				<div class="field" >
+					<label>Amount to send</label>
+					<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
+					<div v-if="!amountToSendValid && amountToSend != ''" class="message error">
+						The amount is invalid
+					</div>
+				</div>
+				<div class="actions tc">
+					<button type="button" class="btn primary" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<button type="button" class="button" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
 	</div>
 
 	<div class="qrCodeScanningContainer" :class="(qrScanning ? '' : 'hidden')">

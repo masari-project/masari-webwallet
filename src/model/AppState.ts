@@ -75,5 +75,19 @@ export class AppState{
 		$('body').removeClass('viewOnlyWallet');
 	}
 
+	private static leftMenuEnabled = false;
+	static enableLeftMenu(){
+		if(!this.leftMenuEnabled) {
+			this.leftMenuEnabled = true;
+			$('body').removeClass('menuDisabled');
+		}
+	}
+	static disableLeftMenu(){
+		if(this.leftMenuEnabled) {
+			this.leftMenuEnabled = false;
+			$('body').addClass('menuDisabled');
+		}
+	}
+
 
 }

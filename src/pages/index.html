@@ -1,82 +1,54 @@
-<div id="app" class="indexTab">
+<div id="app" class="indexTab content">
 	<div class="mainBlock" >
-		<div class="step title" >
-			<h1>The Simplest Way to Use Masari</h1>
-			<h2>Send and receive Masari safely and securely, anywhere and any time</h2>
+		<div class="actions" >
+			<img src="./assets/img/logo_white.png" alt="Masari"/>
+			<div class="right">
+				<a href="#" @click="loadWallet()" class="btn mini basic">Load my wallet</a>
+				<button  @click="importSelectorActive = true" class="btn mini">Import a wallet</button>
+				<a href="#!createWallet" class="btn mini">Create</a>
+			</div>
 		</div>
-		<div class="actions step" >
-				<button v-if="hasLocalWallet" type="button" @click="loadWallet()" class="button" >Load my wallet</button>
-				<button type="button" @click="importSelectorActive = true" class="button" >Import a wallet</button>
-				<a type="button" href="#!createWallet" class="button" >Create a wallet</a>
+		<div class="headline" >
+			<h1>Secured Masari Wallet</h1>
+			<h2>The simplest way to use Masari, anywhere and any time</h2>
 		</div>
-	</div>
-	<div class="why" >
-		<div class="advantage" >
-			<i class="fa fa-lock" aria-hidden="true"></i><br/>
-			<h3>Secure</h3>
-			<h4>No data on our servers, everything on your computer & encrypted !</h4>
-		</div>
-		<div class="advantage" >
-			<i class="fa fa-paper-plane" aria-hidden="true"></i><br/>
-			<h3>Fast</h3>
-			<h4>Send Everywhere, Anytime!</h4>
-		</div>
-		<div class="advantage" >
-			<i class="fa fa-heart" aria-hidden="true"></i><br/>
-			<h3>Made with Love</h3>
-			<h4>Made with Love to Masari!</h4>
-		</div>
-		<div class="advantage" >
-			<i class="fa fa-arrows-v" aria-hidden="true"></i><br/>
-			<h3>Unique technology</h3>
-			<h4>You are connected directly on the Masari Blockchain, no middleman possible !</h4>
-		</div>
-		<div class="advantage" >
-			<i class="fa fa-folder-open-o" aria-hidden="true"></i><br/>
-			<h3>Fully open-source</h3>
-			<a href="https://github.com/gnock/masari-webwallet" target="_blank" rel="nofollow"><h4>Available on github</h4></a>
+		<div class="callToAction tc" >
+			<a type="button" href="#!createWallet" class="btn primary" >Create a wallet</a>
 		</div>
 	</div>
 
-
-	<div class="why green" >
-		<div class="text" >
-			<h3>Let's Get In Touch!</h3>
-			<h4>You have ideas, feedback that could help us improve the wallet ? Contact us !</h4>
-		</div>
-		<div class="advantage" >
-			<i class="fa fa-comments-o" aria-hidden="true"></i><br/>
-			<a href="https://discord.gg/sMCwMqs" target="_blank" rel="nofollow"><h3>Masari Discord Channel</h3></a>
-		</div>
-	</div>
-
-	<div class="why green" >
-		<div class="text" >
-			<h3>Security advice</h3>
-			<h4>We want your funds to be as secure as possible, consider reading how to maximise your funds security</h4>
-		</div>
-		<div class="text paragraph" >
-			<li>
-				The wallet is IN BETA. Even if we do a lot of tests, some bugs can still exist, and we can NOT be held responsible for a critical bug.<br/>
-				MasariCoin.com has extensively tested this product without issue, however there is a possibility of unforeseen issues that may arise.<br/>
-				Because of this, MasariCoin.com, its sub-domains, and/or its affiliates hold no liability whatsoever.
-			</li>
-			<li>
-				We cannot recover your funds or freeze your account if you visit a phishing site or lose your private key
-			</li>
-			<li>
-				We allow you to interact directly with the blockchain while remaining in full control of your keys & your funds : our servers CAN NOT access your keys and spend your money<br/>
-			</li>
-			<li>
-				You and only you are responsible for your security and your computer security : viruses, keyloggers can stole your computer data, and thus your keys
-			</li>
+	<div class="notesBlock" >
+		<div class="container" >
+			<div class="notes" >
+				<div class="block">
+					<i class="fa fa-lock" aria-hidden="true"></i><br/>
+					<h3>Secure</h3>
+					<h4>No servers, fully encrypted !</h4>
+				</div>
+			</div>
+			<div class="notes" >
+				<div class="block">
+					<i class="fa fa-paper-plane" aria-hidden="true"></i><br/>
+					<h3>Fast</h3>
+					<h4>Send Everywhere, Anytime!</h4>
+				</div>
+			</div>
+			<div class="notes" >
+				<div class="block">
+					<i class="fa fa-arrows-v" aria-hidden="true"></i><br/>
+					<h3>Unique technology</h3>
+					<h4>Connected directly on the Masari Blockchain !</h4>
+				</div>
+			</div>
+			<div class="notes" >
+				<div class="block">
+					<i class="fa fa-folder-open-o" aria-hidden="true"></i><br/>
+					<h3>Fully open-source</h3>
+					<a href="https://github.com/gnock/masari-webwallet" target="_blank" rel="nofollow"><h4>Available on github</h4></a>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<div class="copyright">
-		© 2018 wallet-beta.masaricoin.com
-	</div>
-
 
 	<div class="walletImportSelector" :class="(importSelectorActive ? '' : 'hidden')" >
 		<div class="close" @click="importSelectorActive=false">

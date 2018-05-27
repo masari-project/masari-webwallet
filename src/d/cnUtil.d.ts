@@ -101,6 +101,8 @@ interface CnUtilClass{
 
 	decrypt_payment_id(payment_id8 : string, tx_public_key : string, acc_prv_view_key : string) : string;
 
+	get_account_integrated_address(address : string, paymentId8 : string) : string;
+
 }
 
 declare var cnUtil : CnUtilClass;
