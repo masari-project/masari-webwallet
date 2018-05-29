@@ -89,6 +89,9 @@ export class WalletWatchdog{
 	}
 
 	stop(){
+		clearInterval(this.intervalTransactionsProcess);
+		this.transactionsToProcess = [];
+		clearInterval(this.intervalMempool);
 		//TODO
 	}
 

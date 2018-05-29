@@ -89,7 +89,7 @@ class AccountView extends DestructableView{
 	}
 
 	generateQrCode(){
-		let address = CoinUri.encode(
+		let address = CoinUri.encodeTx(
 			this.address,
 			this.paymentId !== '' ? this.paymentId : null,
 			this.amount !== '' ? this.amount : null,

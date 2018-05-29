@@ -23,6 +23,7 @@ import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
 import {Url} from "../utils/Url";
+import {CoinUri} from "../model/CoinUri";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -213,10 +214,12 @@ class SendView extends DestructableView{
 	@VueVar('') destinationAddress : string;
 	@VueVar(false) destinationAddressValid : boolean;
 	@VueVar('10.5') amountToSend : string;
+	@VueVar(false) lockedAmountToSend : boolean;
 	@VueVar(true) amountToSendValid : boolean;
 
-	@VueVar(null) openAliasAddress : string|null;
-	@VueVar(null) openAliasName : string|null;
+	@VueVar(null) domainAliasAddress : string|null;
+	@VueVar(null) txDestinationName : string|null;
+	@VueVar(null) txDescription : string|null;
 	@VueVar(true) openAliasValid : boolean;
 
 	@VueVar(false) qrScanning : boolean;
@@ -244,7 +247,32 @@ class SendView extends DestructableView{
 			let self = this;
 			this.qrScanning = true;
 			this.qrReader.scan(function(result : string){
-				self.destinationAddressUser = result;
+				let parsed = false;
+				try{
+					let txDetails  = CoinUri.decodeTx(result);
+					if(txDetails !== null){
+						self.destinationAddressUser = txDetails.address;
+						if(typeof txDetails.description !== 'undefined')self.txDescription = txDetails.description;
+						if(typeof txDetails.recipientName !== 'undefined')self.txDestinationName = txDetails.recipientName;
+						if(typeof txDetails.amount !== 'undefined'){
+							self.amountToSend = txDetails.amount;
+							self.lockedAmountToSend = true;
+						}
+						// if(typeof txDetails.paymentId !== 'undefined')self.paymentId = txDetails.paymentId;
+						parsed = true;
+					}
+				}catch(e){}
+
+				try{
+					let txDetails  = CoinUri.decodeWallet(result);
+					if(txDetails !== null){
+						self.destinationAddressUser = txDetails.address;
+						parsed = true;
+					}
+				}catch(e){}
+
+				if(!parsed && result.length === CoinUri.coinAddressLength)
+					self.destinationAddressUser = result;
 				self.qrScanning = false;
 				self.stopScan();
 			});
@@ -367,9 +395,9 @@ class SendView extends DestructableView{
 				blockchainExplorer.resolveOpenAlias(self.destinationAddressUser).then(function(data : {address:string,name:string|null}){
 					try {
 						// cnUtil.decode_address(data.address);
-						self.openAliasAddress = data.address;
-						self.openAliasName = data.name;
+						self.txDestinationName = data.name;
 						self.destinationAddress = data.address;
+						self.domainAliasAddress = data.address;
 						self.destinationAddressValid = true;
 						self.openAliasValid = true;
 					} catch (e) {

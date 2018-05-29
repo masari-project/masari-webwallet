@@ -760,6 +760,7 @@ body{
 	border-radius: .28571429rem;
 	-webkit-box-shadow: 0 0 0 1px rgba(34,36,38,.22) inset, 0 0 0 0 transparent;
 	box-shadow: 0 0 0 1px rgba(34,36,38,.22) inset, 0 0 0 0 transparent;
+	word-break: break-all;
 }
 .message > .title{font-weight: 700;padding-bottom:8px;}
 .message > .content{font-size:1em;}
@@ -848,6 +849,11 @@ body{
 	color: rgba(71, 78, 93, 0.7);
 	background: #FFFFFF;
 }
+
+.field input:read-only, .field input.readonly, .field .subfield.readonly{
+	background:#f8f8f9;
+}
+
 .field input[type=checkbox],
 .field input[type=radio]{
 	width: auto;

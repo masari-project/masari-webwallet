@@ -12,7 +12,7 @@
 				<div class="content" >
 					<div class="field action" >
 						<label>Give this address to receive funds</label>
-						<div class="subfield" >
+						<div class="subfield readonly" >
 							<input type="text" v-model="rawAddress" id="rawAddress" readonly="readonly"/>
 							<span class="action" @click="setInClipboard()" ><i class="fa fa-copy" ></i></span>
 						</div>
@@ -22,15 +22,15 @@
 				<div class="content" >
 					<div class="field">
 						<label>Amount (optionnal)</label>
-						<input type="text" v-model="amount" maxlength="8"/>
+						<input type="text" v-model="amount" />
 					</div>
 					<div class="field">
 						<label>Recipient name (optionnal)</label>
-						<input type="text" v-model="recipientName" maxlength="8"/>
+						<input type="text" v-model="recipientName" />
 					</div>
 					<div class="field">
 						<label>Transaction description (optionnal)</label>
-						<input type="text" v-model="txDescription" maxlength="8"/>
+						<input type="text" v-model="txDescription" />
 					</div>
 					<!--<div class="field">
 						<label>Identifier (optionnal)</label>

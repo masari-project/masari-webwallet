@@ -7,24 +7,29 @@
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
-				<div class="field" >
+				<div class="field action" >
 					<label>Destination address</label>
-					<div class="destinationInput" >
-						<input type="text" v-model="destinationAddressUser" placeholder="Destination address"/>
-						<i @click="startScan()" class="scanButton fa fa-camera" aria-hidden="true"></i>
+					<div class="subfield" >
+						<input type="text" v-model="destinationAddressUser" placeholder="Write the address where you want to send funds"/>
+						<span class="action" @click="startScan()"><i class="scanButton fa fa-camera" aria-hidden="true"></i></span>
 					</div>
 					<div v-if="!destinationAddressValid && destinationAddressUser != ''" class="message error">
 						The destination address is invalid
 					</div>
-					<div v-if="openAliasAddress !== null" style="word-wrap: break-word;">
-						The funds will be send to:<br/>
-						{{openAliasAddress}} <template v-if="openAliasName !== null" ><br/>({{openAliasName}})</template>
+					<div v-if="domainAliasAddress !== null" class="message">
+						The funds will be send to: {{destinationAddress}}
+					</div>
+					<div v-if="txDestinationName !== null"  class="message">
+						<b>Receiver: </b>{{txDestinationName}}
+					</div>
+					<div v-if="txDescription !== null" class="message">
+						<b>Description: </b>{{txDescription}}
 					</div>
 				</div>
 
 				<div class="field" >
 					<label>Amount to send</label>
-					<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR"/>
+					<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR" :readonly="lockedAmountToSend === true"/>
 					<div v-if="!amountToSendValid && amountToSend != ''" class="message error">
 						The amount is invalid
 					</div>

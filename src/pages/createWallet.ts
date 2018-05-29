@@ -21,6 +21,7 @@ import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {Mnemonic} from "../model/Mnemonic";
 import {AppState} from "../model/AppState";
+import {WalletRepository} from "../model/WalletRepository";
 
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
@@ -102,6 +103,8 @@ class NetworkView extends DestructableView{
 	}
 
 	downloadBackup(){
+		if(this.newWallet !== null)
+			WalletRepository.downloadEncryptedPdf(this.newWallet);
 		this.walletBackupMade = true;
 	}
 
