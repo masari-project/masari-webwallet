@@ -253,7 +253,7 @@ class MiningView extends DestructableView{
 
 		if(!config.testnet) {
 			this.miningAddressesAvailable.push({
-				address: '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj',
+				address: '5qfrSvgYutM1aarmQ1px4aDiY9Da7CLKKDo3UkPuUnQ7bT7tr7i4spuLaiZwXG1dFQbkCinRUNeUNLoNh342sVaqTaWqvt8',
 				label: 'Donation - WebWallet'
 			});
 			this.miningAddressesAvailable.push({
