@@ -23,7 +23,8 @@ export type RawWallet = {
 	lastHeight : number,
 	encryptedKeys?:string|Array<number>,
 	nonce:string,
-	keys?:UserKeys
+	keys?:UserKeys,
+	creationHeight?:number
 }
 
 export class Wallet extends Observable{
@@ -35,6 +36,7 @@ export class Wallet extends Observable{
 	private transactions : Transaction[] = [];
 	txsMem : Transaction[] = [];
 	private modified = true;
+	creationHeight : number = 0;
 
 	keys : UserKeys;
 
@@ -58,6 +60,8 @@ export class Wallet extends Observable{
 			else
 				data.encryptedKeys=this.keys.priv.view+this.keys.pub.view+this.keys.pub.spend;
 		}
+
+		if(this.creationHeight !== 0) data.creationHeight = this.creationHeight;
 
 		return data;
 	}
@@ -94,6 +98,7 @@ export class Wallet extends Observable{
 		if(includeKeys && typeof raw.keys !== 'undefined'){
 			wallet.keys = raw.keys;
 		}
+		if(typeof raw.creationHeight !== 'undefined') wallet.creationHeight = raw.creationHeight;
 
 		wallet.recalculateKeyImages();
 		return wallet;

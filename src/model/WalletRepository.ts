@@ -90,6 +90,7 @@ export class WalletRepository{
 			wallet.getPublicAddress(),
 			wallet.keys.priv.spend,
 			wallet.keys.priv.view,
+			wallet.creationHeight
 		);
 
 		let publicQrCode = kjua({

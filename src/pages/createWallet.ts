@@ -60,6 +60,7 @@ class NetworkView extends DestructableView{
 				let height = currentHeight - 10;
 				if(height < 0)height = 0;
 				newWallet.lastHeight = height;
+				newWallet.creationHeight = height;
 
 				self.newWallet = newWallet;
 				let phrase = Mnemonic.mn_encode(newWallet.keys.priv.spend, 'english');

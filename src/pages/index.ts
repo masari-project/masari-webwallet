@@ -195,6 +195,7 @@ class IndexView extends DestructableView{
 					let height = result.value.height;
 					if(height < 0)height = 0;
 					newWallet.lastHeight = height;
+					newWallet.creationHeight = newWallet.lastHeight;
 
 					AppState.openWallet(newWallet, result.value.password);
 					window.location.href = '#account';
@@ -279,6 +280,7 @@ class IndexView extends DestructableView{
 					let height = result.value.height;
 					if(height < 0)height = 0;
 					newWallet.lastHeight = height;
+					newWallet.creationHeight = newWallet.lastHeight;
 
 					AppState.openWallet(newWallet, result.value.password);
 					window.location.href = '#account';
@@ -369,6 +371,7 @@ class IndexView extends DestructableView{
 						let height = result.value.height - 10;
 						if (height < 0) height = 0;
 						newWallet.lastHeight = height;
+						newWallet.creationHeight = newWallet.lastHeight;
 						AppState.openWallet(newWallet, result.value.password);
 						window.location.href = '#account';
 					}else{
