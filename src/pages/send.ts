@@ -297,7 +297,7 @@ class SendView extends DestructableView{
 		let self = this;
 		blockchainExplorer.getHeight().then(function(blockchainHeight:number){
 			let amount = parseFloat(self.amountToSend);
-			if(amount > 0 && self.destinationAddress !== null){
+			if(self.destinationAddress !== null){
 				//todo use BigInteger
 				if(amount*Math.pow(10,config.coinUnitPlaces) > wallet.unlockedAmount(blockchainHeight)){
 					swal({

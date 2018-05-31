@@ -16,11 +16,11 @@ The order of this list may not reflect the order in which those functionalities 
 - detect when multiple tabs are open to prevent data collision
 - continue to scan while the page is not focused
 - support https://github.com/monero-project/monero/wiki/URI-Formatting
+- transactions export in CSV
 
 # Bugs & things to improve
 - errors on importing : no windows sometimes
 - password strength : disclaimer but allow not strong password ?
-- triangular distribution over [a,b) with a=0, mode c=b=up_index_limit
 
 # Ideas, thoughts, links
 - take a small fee on each payment to cover server expenses

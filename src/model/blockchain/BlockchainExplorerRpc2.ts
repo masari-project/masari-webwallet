@@ -351,17 +351,6 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 
 	nonRandomBlockConsumed = false;
 
-	getHeightAndMaxOut() : Promise<{height:number, numOuts: number}>{
-		let self = this;
-		return this.getHeight().then(function(height : number){
-			//TODO how to convert out index to block index
-			return self.getTransactionsForBlocks(height).then(function(rawTransactions : RawDaemonTransaction[]){
-
-				return {height:height, numOuts:height};
-			});
-		});
-	}
-
 	existingOuts : any[] = [];
 	getRandomOuts(nbOutsNeeded : number, initialCall=true) : Promise<any[]>{
 		let self = this;
@@ -373,15 +362,17 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 			let txs : RawDaemonTransaction[] = [];
 			let promises = [];
 
-			let randomIndexesToGet : number[] = [];
-			let numOuts = 10000;
+			let randomBlocksIndexesToGet : number[] = [];
+			let numOuts = height;
 
 			for(let i = 0; i < nbOutsNeeded; ++i){
-				let selectedIndex : number;
+				let selectedIndex : number = -1;
 				do{
 					selectedIndex = MathUtil.randomTriangularSimplified(numOuts);
-				}while(randomIndexesToGet.indexOf(selectedIndex) !== -1);
-				randomIndexesToGet.push(selectedIndex);
+					if(selectedIndex >= height-config.txCoinbaseMinConfirms)
+						selectedIndex = -1;
+				}while(selectedIndex === -1 || randomBlocksIndexesToGet.indexOf(selectedIndex) !== -1);
+				randomBlocksIndexesToGet.push(selectedIndex);
 
 				let promise = self.getTransactionsForBlocks(Math.floor(selectedIndex/100)*100).then(function(rawTransactions : RawDaemonTransaction[]){
 					txs.push.apply(txs,rawTransactions);
@@ -389,14 +380,25 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 				promises.push(promise);
 			}
 
+			console.log(randomBlocksIndexesToGet);
+
 			let heightWithMature = height - config.txMinConfirms;
 			let heightWithMatureCoinbase = height - config.txCoinbaseMinConfirms;
 
 			return Promise.all(promises).then(function(){
+				let txCandidates : any = {};
 				for(let iOut  = 0; iOut < txs.length; ++iOut) {
 					let tx = txs[iOut];
+
+					if(
+						(typeof tx.height !== 'undefined' && randomBlocksIndexesToGet.indexOf(tx.height) === -1) ||
+						typeof tx.height === 'undefined'
+					){
+						continue;
+					}
+
 					// let output_idx_in_tx = Math.floor(Math.random()*out.vout.length);
-					let extras = TransactionsExplorer.parseExtra(tx.extra);
+					/*let extras = TransactionsExplorer.parseExtra(tx.extra);
 					let publicKey = '';
 					for(let extra of extras)
 						if(extra.type === TX_EXTRA_TAG_PUBKEY){
@@ -405,7 +407,7 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 							}
 							publicKey = CryptoUtils.bintohex(publicKey);
 							break;
-						}
+						}*/
 
 					for (let output_idx_in_tx = 0; output_idx_in_tx < tx.vout.length; ++output_idx_in_tx) {
 						let rct = null;
@@ -422,7 +424,7 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 							rct = rtcOutPk + rtcMask + rtcAmount;
 						}
 
-						let checkExit = false;
+						/*let checkExit = false;
 						for (let fo of self.existingOuts) {
 							if (
 								fo.globalIndex === globalIndex
@@ -432,19 +434,31 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 							}
 						}
 
-						if (!checkExit) {
+						if (!checkExit) {*/
 							let newOut = {
 								rct: rct,
 								public_key: tx.vout[output_idx_in_tx].target.key,
 								global_index: globalIndex,
 								// global_index: count,
 							};
-							self.existingOuts.push(newOut);
-						}
+							if(typeof txCandidates[tx.height] === 'undefined')txCandidates[tx.height] = [];
+							txCandidates[tx.height].push(newOut);
+						//}
 					}
 				}
 
-				return self.existingOuts;
+				console.log(txCandidates);
+
+				let selectedOuts = [];
+				for(let txsOutsHeight in txCandidates){
+					let outIndexSelect = MathUtil.getRandomInt(0, txCandidates[txsOutsHeight].length-1);
+					console.log('select '+outIndexSelect+' for '+txsOutsHeight+' with length of '+txCandidates[txsOutsHeight].length);
+					selectedOuts.push(txCandidates[txsOutsHeight][outIndexSelect]);
+				}
+
+				console.log(selectedOuts);
+
+				return selectedOuts;
 			});
 		});
 	}
