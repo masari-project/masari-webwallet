@@ -24,8 +24,11 @@ const buildSW = () => {
 		globDirectory: 'src',
 		globPatterns: [
 			'**\/*.{js,css,html,png}',
+		],
+		globIgnores:[
+			'd/Vue.js'
 		]
 	});
-}
+};
 
 buildSW();
