@@ -15,12 +15,9 @@
 
 import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
-import {TransactionsExplorer} from "../model/TransactionsExplorer";
-import {WalletRepository} from "../model/WalletRepository";
-import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
-import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
+import {AppState} from "../model/AppState";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 
@@ -28,6 +25,8 @@ const ID_LOGIN = '0';
 const ID_SUBMIT = '1';
 const ID_GET_JOB = '2';
 const ID_KEEP_ALIVE = '3';
+
+AppState.enableLeftMenu();
 
 class Pool{
 	private socket : WebSocket;
@@ -264,7 +263,7 @@ class MiningView extends DestructableView{
 				address: '9ppu34ocgmeZiv4nS2FyQTFLL5wBFQZkhAfph7wGcnFkc8fkCgTJqxnXuBkaw1v2BrUW7iMwKoQy2HXRXzDkRE76Cz7WXkD',
 				label: 'Donation - Masari exchange listing'
 			});
-			this.miningAddress = '5mjiEyryD4HQYgRLBeFBudQXnMaNkphXpUkYpKu8jqDj1bEd3TG15YZctLBYf5p4db4PU7GWPzkL2NSqRTGHDfMmUE1krEj';
+			this.miningAddress = '5qfrSvgYutM1aarmQ1px4aDiY9Da7CLKKDo3UkPuUnQ7bT7tr7i4spuLaiZwXG1dFQbkCinRUNeUNLoNh342sVaqTaWqvt8';
 		}else{
 			this.miningAddressesAvailable.push({
 				address: '6dRJk2wif2c1nGWYEkd1k49D88SEg49E95j9YE4jb8SyAiB6aTwRBqcN2jndBB19zaAr9ZNrWGjKgLa6dJcL7EXFKAWhSFw',

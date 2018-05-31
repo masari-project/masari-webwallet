@@ -1,26 +1,49 @@
-<div id="app" >
-	<h2>Mine directly in your Browser to support the network</h2>
-	<div>
-		<label>Wallet to mine:</label><br/>
-		<select v-model="miningAddress" >
-			<option v-for="address in miningAddressesAvailable" :value="address.address" >{{address.label}}</option>
-		</select>
+<div id="app" class="body-root">
+	<div class="body-header" >
+		<div class="header-title">
+			Mine directly in your Browser
+		</div>
+		<div class="header-subtitle" >
+			Support the network but mining to improve the stability and be rewarded with MSR
+		</div>
 	</div>
-	<div>
-		<label>Number of threads (more = higher hashrate)</label><br/>
-		<input type="number" v-model="threads" />
-	</div>
-	<div>Valid shares: {{validShares}}</div>
-	<div>HashRate: {{hashRate}}h/s</div>
-	<div>Max HashRate: {{maxHashRate}}h/s</div>
-	<div>
-		<button @click="start()" v-if="!running" >Start</button>
-		<button @click="stop()" v-if="running" >Stop</button>
-	</div>
-
-	<div>
-		With a dedicated software for mining, you could potential have a hashrate of {{hashRate*2}}h/s.<br/>
-		It would also also mining with graphic card.<br/>
-		<!--<a href="#!index" >More information on here</a>-->
+	<div class="body-content" >
+		<div class="panel">
+			<div class="body" >
+				<div class="header-title" >Parameters</div>
+				<div class="content" >
+					<div class="field" >
+						<label>Wallet to mine:</label>
+						<select v-model="miningAddress" >
+							<option v-for="address in miningAddressesAvailable" :value="address.address" >{{address.label}}</option>
+						</select>
+					</div>
+					<div class="field" >
+						<label>Number of threads (more = higher hashrate)</label>
+						<input type="number" v-model="threads" />
+					</div>
+					<div class="actions" >
+						<button @click="start()" v-if="!running" >Start</button>
+						<button @click="stop()" v-if="running" >Stop</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel inline">
+			<div class="body" >
+				<div class="header-title" >Statistics</div>
+				<div class="content" >
+					<div><b>Valid shares: </b>{{validShares}}</div>
+					<div><b>HashRate: </b>{{hashRate}}h/s</div>
+					<div><b>Max HashRate: </b>{{maxHashRate}}h/s</div>
+					<div>
+						With a dedicated software for mining, you could potential have a hashrate of {{maxHashRate*2}}h/s.<br/>
+						It would also also mining with graphic card.<br/>
+						This mining is handled by <a href="https://get.masaricoin.com" target="_blank" ><i class="fa fa-institution" aria-hidden="true"></i>the mining pool get.masaricoin.com</a>
+						<!--<a href="#!index" >More information on here</a>-->
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

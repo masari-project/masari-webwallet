@@ -840,7 +840,7 @@ body{
 	font-weight: 400;
 	margin-bottom:5px;
 }
-.field input, .field .subfield{
+.field input, .field .subfield, .field select{
 	border: 1px solid #D9DCE7;
 	border-radius: 5px;
 	font-size: 14px;
