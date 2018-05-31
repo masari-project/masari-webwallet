@@ -21,6 +21,9 @@ import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
+import {AppState} from "../model/AppState";
+
+AppState.enableLeftMenu();
 
 class NetworkView extends DestructableView{
 	@VueVar(0) networkHashrate : number;

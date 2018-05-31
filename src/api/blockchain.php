@@ -238,7 +238,7 @@ if(getenv('generate') !== 'true'){
 	}
 	
 	header('Content-Type: application/json');
-	echo json_encode($cacheContent);
+	echo json_encode($txForUser);
 }else{
 	$lastRunStored = @file_get_contents('./lastRun.txt');
 	if($lastRunStored===false)
