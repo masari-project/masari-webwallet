@@ -3,8 +3,8 @@
 		<div class="actions" >
 			<img src="./assets/img/logo_white.png" alt="Masari"/>
 			<div class="right">
-				<a href="#" @click="loadWallet()" class="btn mini basic">Load my wallet</a>
-				<button  @click="importSelectorActive = true" class="btn mini">Import a wallet</button>
+				<a href="#" @click="loadWallet()" v-if="hasLocalWallet" class="btn mini basic">Load my wallet</a>
+				<a href="#!import" class="btn mini">Import a wallet</a>
 				<a href="#!createWallet" class="btn mini">Create</a>
 			</div>
 		</div>
@@ -13,7 +13,8 @@
 			<h2>The simplest way to use Masari, anywhere and any time</h2>
 		</div>
 		<div class="callToAction tc" >
-			<a type="button" href="#!createWallet" class="btn primary" >Create a wallet</a>
+			<a href="#" @click="loadWallet()" v-if="hasLocalWallet" class="btn basic">Load my wallet</a>
+			<a href="#!createWallet" class="btn primary" >Create a wallet</a>
 		</div>
 	</div>
 
@@ -50,40 +51,4 @@
 		</div>
 	</div>
 
-	<div class="walletImportSelector" :class="(importSelectorActive ? '' : 'hidden')" >
-		<div class="close" @click="importSelectorActive=false">
-			<i class="fa fa-close" aria-hidden="true"></i>
-		</div>
-		<div class="container" >
-			<div class="text" >
-				Which method do you want to use to import your wallet ?
-			</div>
-			<div class="options" >
-				<div class="walletOption" >
-					<div class="subcontainer" @click="importWallet()" >
-						<i class="fa fa-key" aria-hidden="true"></i><br>
-						Private keys
-					</div>
-				</div>
-				<div class="walletOption" >
-					<div class="subcontainer" @click="importFromMnemonic()" >
-						<i class="fa fa-quote-left" aria-hidden="true"></i><br>
-						Mnemonic phrase
-					</div>
-				</div>
-				<div class="walletOption" >
-					<div class="subcontainer" @click="loadWalletFromFile()" >
-						<i class="fa fa-file" aria-hidden="true"></i><br>
-						JSON File
-					</div>
-				</div>
-				<div class="walletOption" >
-					<div class="subcontainer" @click="importViewOnlyWallet()" >
-						<i class="fa fa-eye" aria-hidden="true"></i><br>
-						View only wallet
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>

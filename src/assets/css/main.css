@@ -834,6 +834,7 @@ body{
 /*==================FORMS===================*/
 .field{
 	margin-bottom:15px;
+	position: relative;
 }
 .field label {
 	display: block;
@@ -873,6 +874,72 @@ body{
 	padding: 18px 8px;
 	display: inline-block;
 	height: 100%;
+}
+
+.field.checkbox input{
+	position: absolute;
+	opacity: 0;
+	z-index: 8;
+	width: 3.5rem;
+	height: 1.5rem;
+}
+.field.checkbox label{
+	margin-left:70px;
+}
+.field.checkbox label:before{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 17px;
+	height: 17px;
+	content: '';
+	background: #fff;
+	border-radius: .21428571rem;
+	-webkit-transition: border .1s ease,opacity .1s ease,-webkit-transform .1s ease,-webkit-box-shadow .1s ease;
+	transition: border .1s ease,opacity .1s ease,-webkit-transform .1s ease,-webkit-box-shadow .1s ease;
+	transition: border .1s ease,opacity .1s ease,transform .1s ease,box-shadow .1s ease;
+	transition: border .1s ease,opacity .1s ease,transform .1s ease,box-shadow .1s ease,-webkit-transform .1s ease,-webkit-box-shadow .1s ease;
+	border: 1px solid #d4d4d5;
+
+	display: block;
+	position: absolute;
+	content: '';
+	z-index: 1;
+	-webkit-transform: none;
+	transform: none;
+	border: none;
+	top: 0;
+	background: rgba(0,0,0,.05);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	width: 3.5rem;
+	height: 1.5rem;
+	border-radius: 500rem;
+}
+.field.checkbox input:checked~label:before{
+	background-color: #2185d0;
+}
+.field.checkbox label:after{
+	background: #fff -webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0,0,.05)));
+	background: #fff -webkit-linear-gradient(transparent,rgba(0,0,0,.05));
+	background: #fff linear-gradient(transparent,rgba(0,0,0,.05));
+	position: absolute;
+	content: ''!important;
+	opacity: 1;
+	z-index: 2;
+	border: none;
+	-webkit-box-shadow: 0 1px 2px 0 rgba(34,36,38,.15), 0 0 0 1px rgba(34,36,38,.15) inset;
+	box-shadow: 0 1px 2px 0 rgba(34,36,38,.15), 0 0 0 1px rgba(34,36,38,.15) inset;
+	width: 1.5rem;
+	height: 1.5rem;
+	top: 0;
+	left: 0;
+	border-radius: 500rem;
+	-webkit-transition: background .3s ease,left .3s ease;
+	transition: background .3s ease,left .3s ease;
+}
+.field.checkbox input:checked~label:after{
+	left: 2.15rem;
 }
 
 

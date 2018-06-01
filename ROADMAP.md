@@ -19,8 +19,6 @@ The order of this list may not reflect the order in which those functionalities 
 - transactions export in CSV
 
 # Bugs & things to improve
-- errors on importing : no windows sometimes
-- password strength : disclaimer but allow not strong password ?
 
 # Ideas, thoughts, links
 - take a small fee on each payment to cover server expenses

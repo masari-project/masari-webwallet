@@ -97,6 +97,7 @@ interface CnUtilClass{
 	random_keypair() : {sec:any,pub:any}
 
 	sc_reduce32(seed : string) : string;
+	generate_keys(seed : string) : string;
 	rand_32() : string;
 
 	decrypt_payment_id(payment_id8 : string, tx_public_key : string, acc_prv_view_key : string) : string;

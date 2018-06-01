@@ -1,0 +1,69 @@
+<div id="app" class="body-root">
+	<div class="body-header" >
+		<div class="header-title">
+			Importing wallet from a mnemonic phrase
+		</div>
+		<div class="header-subtitle" >
+			Use your phrase to create a wallet
+		</div>
+	</div>
+	<div class="body-content" >
+		<div class="panel">
+			<div class="body" >
+				<div class="header-title" >Parameters</div>
+				<div class="content" >
+					<div class="field">
+						<label>Password to protect your wallet</label>
+						<input type="password" name="public" v-model="password">
+						<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
+							The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+							<div class="tc">
+								<button @click="forceInsecurePasswordCheck()" class="btn mini">Disable this security, i understand the risk</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="field">
+						<label>Confirm the password</label>
+						<input type="password" name="public" v-model="password2">
+						<div v-if="password != '' && password2 != '' && password != password2" class="message error">
+							The password does not match the first you wrote
+						</div>
+					</div>
+
+					<div class="field">
+						<label>Height to import from</label>
+						<input type="text" name="public" v-model="importHeight">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel" >
+			<div class="body" >
+				<div class="header-title" >Mnemonic phrase</div>
+				<div class="content" >
+					<div class="field">
+						<label>Mnemonic phrase : 25 words</label>
+						<input type="text" name="public" v-model="mnemonicPhrase">
+					</div>
+					<div class="field">
+						<label>Language</label>
+						<select v-model="language" >
+							<option :value="language.key" v-for="language in languages" >{{language.name}}</option>
+						</select>
+					</div>
+
+					<div v-if="mnemonicPhrase !== '' && !validMnemonicPhrase" class="message error">
+						The mnemonic phrase is invalid
+					</div>
+
+					<div class="actions tc" >
+						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >Import</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

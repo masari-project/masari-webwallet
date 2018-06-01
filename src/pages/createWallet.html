@@ -40,8 +40,17 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="field">
+						<label>Confirm the password</label>
+						<input type="password" name="public" v-model="walletPassword2">
+						<div v-if="walletPassword != '' && walletPassword2 != '' && walletPassword != walletPassword2" class="message error">
+							The password does not match the first you wrote
+						</div>
+					</div>
+
 					<div class="actions tc">
-						<button @click="exportStep()" class="btn primary" :disabled="!(this.walletPassword !== '' && (!this.insecurePassword || this.forceInsecurePassword))">Use this password</button>
+						<button @click="exportStep()" class="btn primary" :disabled="!(this.walletPassword !== '' && (!this.insecurePassword || this.forceInsecurePassword) && walletPassword == walletPassword2)">Use this password</button>
 					</div>
 				</div>
 			</div>

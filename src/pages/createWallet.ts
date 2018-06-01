@@ -29,6 +29,7 @@ class NetworkView extends DestructableView{
 	@VueVar(0) step : number;
 
 	@VueVar('') walletPassword : string;
+	@VueVar('') walletPassword2 : string;
 	@VueVar(false) insecurePassword : boolean;
 	@VueVar(false) forceInsecurePassword : boolean;
 
