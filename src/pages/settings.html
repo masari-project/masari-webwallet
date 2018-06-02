@@ -11,7 +11,27 @@
 		<div class="panel">
 			<div class="body" >
 				<div class="content" >
-					Available soon :)
+					<div class="field">
+						<label>Speed to update the wallet (will consume more energy)</label>
+						<select v-model="readSpeed" >
+							<option value="0" >Fastest</option>
+							<option value="10" >Fast</option>
+							<option value="50" >Medium</option>
+							<option value="100" >Slow</option>
+						</select>
+					</div>
+					<div class="field checkbox toggle">
+						<input type="checkbox" name="public" v-model="checkMinerTx">
+						<label>Read miner transactions (only for people solo mining)</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel inline">
+			<div class="body" >
+				<div class="content tc" >
+					<button class="btn" @click="deleteWallet()" >Delete my wallet (local copy)</button>
 				</div>
 			</div>
 		</div>

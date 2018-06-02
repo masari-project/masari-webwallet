@@ -111,89 +111,66 @@ export class TransactionsExplorer{
 		return extras;
 	}
 
+	static isMinerTx(rawTransaction : RawDaemonTransaction){
+		if(rawTransaction.vin.length > 0)
+			return false;
+		return rawTransaction.vout[0].amount !== 0;
+	}
+
 	static parse(rawTransaction : RawDaemonTransaction, wallet : Wallet) : Transaction|null{
 		let transaction : Transaction|null = null;
 
-			let tx_pub_key = '';
-			// for (let i = 1; i < 33; ++i) {
-			// 	tx_pub_key += String.fromCharCode(rawTransaction.extra[i]);
-				// console.log(transaction.extra[i]+' '+String.fromCharCode(transaction.extra[i]));
-			// }
-			// console.log('txPubKey',tx_pub_key,tx_pub_key.length);
-
-			let paymentId : string|null = null;
+		let tx_pub_key = '';
+		let paymentId : string|null = null;
 
 		let tx_extras = [];
 		try {
-				tx_extras = this.parseExtra(rawTransaction.extra);
-			}catch(e){
-				console.error(e);
-				console.log('Error when scanning transaction on block '+rawTransaction.height, rawTransaction);
-				return null;
+			tx_extras = this.parseExtra(rawTransaction.extra);
+		}catch(e){
+			console.error(e);
+			console.log('Error when scanning transaction on block '+rawTransaction.height, rawTransaction);
+			return null;
+		}
+		for(let extra of tx_extras){
+			if(extra.type === TX_EXTRA_TAG_PUBKEY){
+				for (let i = 0; i < 32; ++i) {
+					tx_pub_key += String.fromCharCode(extra.data[i]);
+				}
+				break;
 			}
-			for(let extra of tx_extras){
-				if(extra.type === TX_EXTRA_TAG_PUBKEY){
-					for (let i = 0; i < 32; ++i) {
-						tx_pub_key += String.fromCharCode(extra.data[i]);
+		}
+
+		if(tx_pub_key === '')
+			throw 'MISSING TX PUB KEY';
+		tx_pub_key = CryptoUtils.bintohex(tx_pub_key);
+
+		let encryptedPaymentId : string|null = null;
+
+		for(let extra of tx_extras){
+			if(extra.type === TX_EXTRA_NONCE){
+				if(extra.data[0] === TX_EXTRA_NONCE_PAYMENT_ID){
+					paymentId = '';
+					for (let i = 1; i < extra.data.length; ++i) {
+						paymentId += String.fromCharCode(extra.data[i]);
 					}
-					// break;
+					paymentId = CryptoUtils.bintohex(paymentId);
+				}else if(extra.data[0] === TX_EXTRA_NONCE_ENCRYPTED_PAYMENT_ID){
+					encryptedPaymentId = '';
+					for (let i = 1; i < extra.data.length; ++i) {
+						encryptedPaymentId += String.fromCharCode(extra.data[i]);
+					}
+					encryptedPaymentId = CryptoUtils.bintohex(encryptedPaymentId);
 				}
 			}
+		}
 
-			if(tx_pub_key === '')
-				throw 'MISSING TX PUB KEY';
-			tx_pub_key = CryptoUtils.bintohex(tx_pub_key);
-
-			let encryptedPaymentId : string|null = null;
-
-			for(let extra of tx_extras){
-				if(extra.type === TX_EXTRA_NONCE){
-					//console.log('---NONCE----', extra);
-					if(extra.data[0] === TX_EXTRA_NONCE_PAYMENT_ID){
-						paymentId = '';
-						for (let i = 1; i < extra.data.length; ++i) {
-							paymentId += String.fromCharCode(extra.data[i]);
-						}
-						// console.log('payment id:',CryptoUtils.bintohex(paymentId));
-						paymentId = CryptoUtils.bintohex(paymentId);
-					}else if(extra.data[0] === TX_EXTRA_NONCE_ENCRYPTED_PAYMENT_ID){
-						encryptedPaymentId = '';
-						for (let i = 1; i < extra.data.length; ++i) {
-							encryptedPaymentId += String.fromCharCode(extra.data[i]);
-						}
-						// console.log('payment id:',CryptoUtils.bintohex(paymentId));
-						let payment_id8 = CryptoUtils.bintohex(encryptedPaymentId);
-						encryptedPaymentId = payment_id8;
-					}
-				}
-			}
-
-			// console.log('EXXTTRAA',tx_extras);
-			// console.log('txPubKey',tx_pub_key,tx_pub_key.length);
-
-			let derivation = null;
-			try {
-				// console.log(tx_pub_key);
-				derivation = cnUtil.generate_key_derivation(tx_pub_key, wallet.keys.priv.view);//9.7ms
-				// console.log(derivation);
-			}catch(e){
-				console.log('UNABLE TO CREATE DERIVATION', e);
-				return null;
-			}
-
-			// let start = Date.now();
-			// let s = cnUtil.derivation_to_scalar(derivation, 0);
-			// for(let i = 0; i < 1; ++i){
-			// derivation = cnUtil.generate_key_derivation(tx_pub_key, privViewKey);
-			// cnUtil.derive_public_key(derivation, i,pubSpendKey);
-			// cnUtil.derivation_to_scalar(derivation, 0);255/1000
-			// hextobin(cnUtil.ge_scalarmult_base(s));//4563/1000
-			// console.log(nacl.ll.ge_scalarmult_base(s), s);
-			// }
-			// let end = Date.now();
-			// console.log('derivation',end-start);
-
-			// console.log('vout',transaction.vout.length);
+		let derivation = null;
+		try {
+			derivation = cnUtil.generate_key_derivation(tx_pub_key, wallet.keys.priv.view);//9.7ms
+		}catch(e){
+			console.log('UNABLE TO CREATE DERIVATION', e);
+			return null;
+		}
 
 		let outs : TransactionOut[] = [];
 		let ins : TransactionIn[] = [];

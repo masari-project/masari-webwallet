@@ -14,24 +14,27 @@
  */
 
 import {DestructableView} from "../lib/numbersLab/DestructableView";
-import {VueVar} from "../lib/numbersLab/VueAnnotate";
+import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {WalletRepository} from "../model/WalletRepository";
-import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
+import {BlockchainExplorerRpc2, WalletWatchdog} from "../model/blockchain/BlockchainExplorerRpc2";
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
+import {AppState} from "../model/AppState";
 
-let wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
-
+let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
+let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
 
 class SendView extends DestructableView{
-	@VueVar('6dRJk2wif2c1nGWYEkd1k49D88SEg49E95j9YE4jb8SyAiB6aTwRBqcN2jndBB19zaAr9ZNrWGjKgLa6dJcL7EXFKAWhSFw') destinationAddress : string;
-	@VueVar('0.5') amountToSend : string;
+	@VueVar(10) readSpeed : number;
+	@VueVar(false) checkMinerTx : boolean;
 
 	constructor(container : string){
 		super(container);
+		this.readSpeed = wallet.options.readSpeed;
+		this.checkMinerTx = wallet.options.checkMinerTx;
 	}
 
 	deleteWallet() {
@@ -42,13 +45,25 @@ class SendView extends DestructableView{
 			confirmButtonText: 'YES',
 		}).then((result:any) => {
 			if (result.value) {
+				AppState.disconnect();
 				DependencyInjectorInstance().register(Wallet.name, undefined,'default');
 				WalletRepository.deleteLocalCopy();
 				window.location.href = '#index';
-				window.location.reload();
 			}
 		});
 	}
+
+	@VueWatched()	readSpeedWatch(){this.updateWalletOptions();}
+	@VueWatched()	checkMinerTxWatch(){this.updateWalletOptions();}
+
+	private updateWalletOptions(){
+		let options = wallet.options;
+		options.readSpeed = this.readSpeed;
+		options.checkMinerTx = this.checkMinerTx;
+		wallet.options = options;
+		walletWatchdog.signalWalletUpdate();
+	}
+
 
 }
 

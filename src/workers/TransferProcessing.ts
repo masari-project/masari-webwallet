@@ -1,5 +1,5 @@
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
-import {Wallet} from "../model/Wallet";
+import {Wallet, WalletOptions} from "../model/Wallet";
 import {Mnemonic} from "../model/Mnemonic";
 
 //bridge for cnUtil with the new mnemonic class
@@ -17,14 +17,24 @@ onmessage = function(data : MessageEvent){
 			currentWallet = Wallet.loadFromRaw(event.wallet,true);
 			postMessage('readyWallet');
 		}else if (event.type === 'process'){
+			if(typeof event.wallet !== 'undefined'){
+				currentWallet = Wallet.loadFromRaw(event.wallet,true);
+			}
+
 			if(currentWallet === null){
 				postMessage('missing_wallet');
 				return;
 			}
 
+			let readMinersTx = typeof currentWallet.options.checkMinerTx !== 'undefined' && currentWallet.options.checkMinerTx;
+
 			let rawTransactions : RawDaemonTransaction[] = event.transactions;
 			let transactions : any[] = [];
 			for(let rawTransaction of rawTransactions){
+				if(!readMinersTx && TransactionsExplorer.isMinerTx(rawTransaction)) {
+					continue;
+				}
+
 				let transaction = TransactionsExplorer.parse(rawTransaction, currentWallet);
 				if(transaction !== null){
 					transactions.push(transaction.export());

@@ -18,13 +18,42 @@ import {KeysRepository, UserKeys} from "./KeysRepository";
 import {Observable} from "../lib/numbersLab/Observable";
 import {CryptoUtils} from "./CryptoUtils";
 
+export type RawWalletOptions = {
+	checkMinerTx?:boolean,
+	readSpeed:number,
+}
+
+export class WalletOptions{
+	checkMinerTx:boolean = false;
+	readSpeed:number = 10;
+
+	static fromRaw(raw : RawWalletOptions){
+		let options = new WalletOptions();
+
+		if(typeof raw.checkMinerTx !== 'undefined')options.checkMinerTx = raw.checkMinerTx;
+		if(typeof raw.readSpeed !== 'undefined')options.readSpeed = raw.readSpeed;
+
+		return options;
+	}
+
+	exportToJson() : RawWalletOptions{
+		let data : RawWalletOptions = {
+			readSpeed:this.readSpeed,
+			checkMinerTx:this.checkMinerTx
+		};
+		return data;
+	}
+}
+
+
 export type RawWallet = {
 	transactions : any[],
 	lastHeight : number,
 	encryptedKeys?:string|Array<number>,
 	nonce:string,
 	keys?:UserKeys,
-	creationHeight?:number
+	creationHeight?:number,
+	options?:RawWalletOptions
 }
 
 export class Wallet extends Observable{
@@ -40,6 +69,8 @@ export class Wallet extends Observable{
 
 	keys : UserKeys;
 
+	private _options : WalletOptions = new WalletOptions();
+
 	exportToRaw(includeKeys=false) : RawWallet{
 		let transactions : any[] = [];
 		for(let transaction of this.transactions){
@@ -49,7 +80,8 @@ export class Wallet extends Observable{
 		let data : RawWallet = {
 			transactions: transactions,
 			lastHeight: this._lastHeight,
-			nonce:''
+			nonce:'',
+			options : this._options
 		};
 
 		if(includeKeys){
@@ -100,6 +132,8 @@ export class Wallet extends Observable{
 		}
 		if(typeof raw.creationHeight !== 'undefined') wallet.creationHeight = raw.creationHeight;
 
+		if(typeof raw.options !== 'undefined') wallet._options = WalletOptions.fromRaw(raw.options);
+
 		wallet.recalculateKeyImages();
 		return wallet;
 	}
@@ -116,6 +150,15 @@ export class Wallet extends Observable{
 		let modified = value !== this._lastHeight;
 		this._lastHeight = value;
 		if(modified)this.notify();
+	}
+
+	get options(): WalletOptions {
+		return this._options;
+	}
+
+	set options(value: WalletOptions) {
+		this._options = value;
+		this.modified = true;
 	}
 
 	getAll(forceReload=false) : Transaction[]{

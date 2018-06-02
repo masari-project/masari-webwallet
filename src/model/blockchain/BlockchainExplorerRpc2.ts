@@ -31,7 +31,6 @@ export class WalletWatchdog{
 
 		this.initWorker();
 		this.initMempool();
-		// console.log(this.workerProcessing);
 	}
 
 	initWorker(){
@@ -41,33 +40,20 @@ export class WalletWatchdog{
 			let message : string|any = data.data;
 			// console.log(message);
 			if(message === 'ready'){
-				self.workerProcessing.postMessage({
-					type:'initWallet',
-					wallet:self.wallet.exportToRaw(true)
-				});
-				console.log('<========>INIT WALLET');
+				self.signalWalletUpdate();
 			}else if(message === 'readyWallet'){
 				self.workerProcessingReady = true;
-				console.log('<========>READY');
 			}else if(message.type){
 				if(message.type === 'processed'){
 					let transactions = message.transactions;
-					// console.log(transactions);
-
 					if(transactions.length > 0) {
 						self.wallet.addNew(Transaction.fromRaw(transactions[0]));
-						self.workerProcessing.postMessage({
-							type:'initWallet',
-							wallet:self.wallet.exportToRaw(true)
-						});
+						self.signalWalletUpdate();
 					}
 					if(self.workerCurrentProcessing) {
 						let transactionHeight = self.workerCurrentProcessing.height;
-						// console.log('PROCESSED '+transactionHeight);
-						// if (transactionHeight - self.wallet.lastHeight >= 2) {
 						if(typeof transactionHeight !== 'undefined')
 							self.wallet.lastHeight = transactionHeight;
-						// }
 					}
 
 					self.workerProcessingWorking = false;
@@ -76,6 +62,17 @@ export class WalletWatchdog{
 		};
 	}
 
+	signalWalletUpdate(){
+		let self = this;
+		this.workerProcessing.postMessage({
+			type:'initWallet',
+			wallet:this.wallet.exportToRaw(true)
+		});
+		clearInterval(this.intervalTransactionsProcess);
+		this.intervalTransactionsProcess = setInterval(function(){
+			self.checkTransactionsInterval();
+		}, this.wallet.options.readSpeed);
+	}
 
 	intervalMempool = 0;
 	initMempool(){
@@ -125,8 +122,6 @@ export class WalletWatchdog{
 	transactionsToProcess : RawDaemonTransaction[] = [];
 	intervalTransactionsProcess = 0;
 
-	fastRead = true;
-
 	workerProcessing : Worker;
 	workerProcessingReady = false;
 	workerProcessingWorking = false;
@@ -153,7 +148,6 @@ export class WalletWatchdog{
 
 	checkTransactionsInterval(){
 		if(this.workerProcessingWorking || !this.workerProcessingReady) {
-			// console.log('BLOCKED',this.workerProcessingWorking,this.workerProcessingReady);
 			return;
 		}
 
@@ -168,7 +162,6 @@ export class WalletWatchdog{
 
 		let transactionsToProcess = this.transactionsToProcess.shift();
 		if(transactionsToProcess !== undefined) {
-			// console.log('<========>SEND PROCESS');
 			this.workerCurrentProcessing = transactionsToProcess;
 			this.workerProcessing.postMessage({
 				type:'process',
@@ -176,40 +169,27 @@ export class WalletWatchdog{
 			});
 			++this.workerCountProcessed;
 			this.workerProcessingWorking = true;
-
-			// this.checkTransactions([transactionsToProcess]);
-			// if (this.transactionsToProcess.length === 0) {
-			// 	let interv = this.intervalTransactionsProcess;
-			// 	this.intervalTransactionsProcess = 0;
-			// 	clearInterval(interv);
-			// }
 		}else{
 			clearInterval(this.intervalTransactionsProcess);
 			this.intervalTransactionsProcess = 0;
-			// console.log('stop interval check transactions',this.intervalTransactionsProcess);
 		}
 	}
 
 	processTransactions(transactions : RawDaemonTransaction[]){
 		let transactionsToAdd = [];
 		for(let tr of transactions){
-			// console.log(tr.height,this.wallet.lastHeight);
 			if(typeof tr.height !== 'undefined')
 				if(tr.height > this.wallet.lastHeight){
 					transactionsToAdd.push(tr);
-					// console.log('injected');
 				}
 		}
 
 		this.transactionsToProcess.push.apply(this.transactionsToProcess, transactionsToAdd);
-		console.log('>',this.transactionsToProcess.length,this.intervalTransactionsProcess);
 		if(this.intervalTransactionsProcess === 0){
 			let self = this;
 			this.intervalTransactionsProcess = setInterval(function(){
-				// console.log('INTERVAL');
 				self.checkTransactionsInterval();
-			}, this.fastRead ? 10 : 50);
-			// console.log('start interval check', this.intervalTransactionsProcess);
+			}, this.wallet.options.readSpeed);
 		}
 	}
 
