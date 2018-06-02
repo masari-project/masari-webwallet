@@ -34,7 +34,7 @@ class SendView extends DestructableView{
 	@VueVar('') destinationAddress : string;
 	@VueVar(false) destinationAddressValid : boolean;
 	@VueVar('10.5') amountToSend : string;
-	@VueVar(false) lockedAmountToSend : boolean;
+	@VueVar(false) lockedForm : boolean;
 	@VueVar(true) amountToSendValid : boolean;
 
 	@VueVar(null) domainAliasAddress : string|null;
@@ -53,6 +53,22 @@ class SendView extends DestructableView{
 		if(sendAddress !== null){
 			this.destinationAddressUser = sendAddress;
 		}
+	}
+
+	reset(){
+		this.lockedForm = false;
+		this.destinationAddressUser = '';
+		this.destinationAddress = '';
+		this.amountToSend = '10.5';
+		this.destinationAddressValid = false;
+		this.openAliasValid = false;
+		this.qrScanning = false;
+		this.amountToSendValid = false;
+		this.domainAliasAddress = null;
+		this.txDestinationName = null;
+		this.txDescription = null;
+
+		this.stopScan();
 	}
 
 	initQr(){
@@ -76,7 +92,7 @@ class SendView extends DestructableView{
 						if(typeof txDetails.recipientName !== 'undefined')self.txDestinationName = txDetails.recipientName;
 						if(typeof txDetails.amount !== 'undefined'){
 							self.amountToSend = txDetails.amount;
-							self.lockedAmountToSend = true;
+							self.lockedForm = true;
 						}
 						// if(typeof txDetails.paymentId !== 'undefined')self.paymentId = txDetails.paymentId;
 						parsed = true;

@@ -10,7 +10,7 @@
 				<div class="field action" >
 					<label>Destination address</label>
 					<div class="subfield" >
-						<input type="text" v-model="destinationAddressUser" placeholder="Write the address where you want to send funds"/>
+						<input type="text" v-model="destinationAddressUser" placeholder="Write the address where you want to send funds" :readonly="lockedForm"/>
 						<span class="action" @click="startScan()"><i class="scanButton fa fa-camera" aria-hidden="true"></i></span>
 					</div>
 					<div v-if="!destinationAddressValid && destinationAddressUser != ''" class="message error">
@@ -29,13 +29,16 @@
 
 				<div class="field" >
 					<label>Amount to send</label>
-					<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR" :readonly="lockedAmountToSend === true"/>
+					<input class="amountInput" type="text" v-model="amountToSend" placeholder="10.5 MSR" :readonly="lockedForm"/>
 					<div v-if="!amountToSendValid && amountToSend != ''" class="message error">
 						The amount is invalid
 					</div>
 				</div>
 				<div class="actions tc">
 					<button type="button" class="btn primary" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
+				</div>
+				<div class="actions tc">
+					<button type="button" class="btn small" @click="reset()" v-if="lockedForm" >Cancel</button>
 				</div>
 			</div>
 		</div>
