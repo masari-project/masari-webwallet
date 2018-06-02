@@ -136,24 +136,12 @@ class ImportView extends DestructableView{
 		if(splitted.length != 25){
 			this.validMnemonicPhrase = false;
 		}else {
-			let detected = this.detectedLanguage();
+			let detected = Mnemonic.detectLang(this.mnemonicPhrase);
 			if(this.language === 'auto')
 				this.validMnemonicPhrase = detected !== null;
 			else
 				this.validMnemonicPhrase = detected === this.language;
 		}
-	}
-
-	detectedLanguage(){
-		for(let lang of MnemonicLang.getLangs()){
-			try {
-				let mnemonic_decoded = Mnemonic.mn_decode(this.mnemonicPhrase, lang.name);
-				if (mnemonic_decoded !== null) {
-					return lang.name;
-				}
-			}catch(e){}
-		}
-		return null;
 	}
 
 	forceInsecurePasswordCheck(){

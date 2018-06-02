@@ -7,7 +7,6 @@ The order of this list may not reflect the order in which those functionalities 
 - wasm to improve speed
 - receive page: add payment id support
 - receive page: add mempool check (only when payment id) & progression
-- better backup method for storing his keys (https://parall.ax/products/jspdf)
 - offline payment made easier
 - p2p connection between a computer and another device(phone, ...) for a sync method (to reduce the heat on small devices)
 - and in the "long term" (3/6 month) it will connect directly on a masarid ! (i will work with the others (thaer, crypto) to improve the rpc so allow it)

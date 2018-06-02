@@ -197,4 +197,17 @@ export class Mnemonic{
 		return out;
 	}
 
+	static detectLang(mnemonicPhrase : string){
+		for(let lang of MnemonicLang.getLangs()){
+			try {
+				let mnemonic_decoded = Mnemonic.mn_decode(mnemonicPhrase, lang.name);
+				if (mnemonic_decoded !== null) {
+					return lang.name;
+				}
+			}catch(e){}
+		}
+		return null;
+
+	}
+
 }
