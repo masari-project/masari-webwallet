@@ -85,11 +85,13 @@ export class WalletWatchdog{
 		self.checkMempool();
 	}
 
+	stopped : boolean = false;
+
 	stop(){
 		clearInterval(this.intervalTransactionsProcess);
 		this.transactionsToProcess = [];
 		clearInterval(this.intervalMempool);
-		//TODO
+		this.stopped = true;
 	}
 
 	checkMempool() : boolean{
@@ -198,6 +200,8 @@ export class WalletWatchdog{
 	lastMaximumHeight = 0;
 
 	loadHistory(){
+		if(this.stopped)return;
+
 		if(this.lastBlockLoading === -1)this.lastBlockLoading = this.wallet.lastHeight;
 		let self = this;
 
@@ -316,7 +320,8 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 				url: self.serverAddress+'getTransactionPool.php',
 				method: 'GET',
 			}).done(function (transactions: any) {
-				resolve(transactions);
+				if(transactions !== null)
+					resolve(transactions);
 			}).fail(function (data: any) {
 				console.log('REJECT');
 				try{

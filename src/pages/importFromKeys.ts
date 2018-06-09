@@ -55,7 +55,7 @@ class ImportView extends DestructableView{
 			return false;
 
 		if(!(
-			(!this.viewOnly && this.validPrivateSpendKey && this.validPrivateViewKey) ||
+			(!this.viewOnly && this.validPrivateSpendKey) ||
 			(this.viewOnly && this.validPublicAddress && this.validPrivateViewKey)
 		))
 			return false;
@@ -79,11 +79,14 @@ class ImportView extends DestructableView{
 					}
 				};
 			}else {
+				console.log(1);
 				let viewkey = self.privateViewKey;
 				if(viewkey === ''){
-					viewkey = cnUtil.generate_keys(cnUtil.cn_fast_hash(self.privateSpendKey));
+					viewkey = cnUtil.generate_keys(cnUtil.cn_fast_hash(self.privateSpendKey)).sec;
 				}
+				console.log(1, viewkey);
 				newWallet.keys = KeysRepository.fromPriv(self.privateSpendKey, viewkey);
+				console.log(1);
 			}
 
 			let height = self.importHeight;//never trust a perfect value from the user

@@ -25,9 +25,13 @@ import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
 import {Url} from "../utils/Url";
 import {CoinUri} from "../model/CoinUri";
 import {QRReader} from "../model/QRReader";
+import {AppState} from "../model/AppState";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
+
+AppState.enableLeftMenu();
 
 class SendView extends DestructableView{
 	@VueVar('') destinationAddressUser : string;
@@ -45,14 +49,20 @@ class SendView extends DestructableView{
 	@VueVar(false) qrScanning : boolean;
 
 	qrReader : QRReader|null = null;
+	redirectUrlAfterSend : string|null = null;
 
 	constructor(container : string){
 		super(container);
 		let sendAddress = Url.getHashSearchParameter('address');
-		console.log('==========>',sendAddress, Url.getHashSearchParameters());
-		if(sendAddress !== null){
-			this.destinationAddressUser = sendAddress;
-		}
+		let amount = Url.getHashSearchParameter('amount');
+		let destinationName = Url.getHashSearchParameter('destName');
+		let description = Url.getHashSearchParameter('txDesc');
+		let redirect = Url.getHashSearchParameter('redirect');
+		if(sendAddress !== null)this.destinationAddressUser = sendAddress.substr(0,256);
+		if(amount !== null)this.amountToSend = amount;
+		if(destinationName !== null)this.txDestinationName = destinationName.substr(0,256);
+		if(description!== null)this.txDescription = description.substr(0,256);
+		if(redirect !== null)this.redirectUrlAfterSend = decodeURIComponent(redirect);
 	}
 
 	reset(){
@@ -171,30 +181,36 @@ class SendView extends DestructableView{
 								return Promise.reject<void>('');
 							}
 						});
-					}).then(function(data : {raw : string, signed:any}){
-						blockchainExplorer.sendRawTx(data.raw).then(function(){
+					}).then(function(data : {raw:{hash:string,prvKey:string,raw:string}, signed:any}){
+						blockchainExplorer.sendRawTx(data.raw.raw).then(function(){
 							//force a mempool check so the user is up to date
 							let watchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
 							if(watchdog !== null)
 								watchdog.checkMempool();
 
+							let promise = Promise.resolve();
 							if(destinationAddress === '5qfrSvgYutM1aarmQ1px4aDiY9Da7CLKKDo3UkPuUnQ7bT7tr7i4spuLaiZwXG1dFQbkCinRUNeUNLoNh342sVaqTaWqvt8'){
-								swal({
+								promise = swal({
 									type:'success',
 									title: 'Thank you for donation !',
 									html:'Your help is appreciated. <br/>This donation will contribute to make this webwallet better'
 								});
 							}else if(destinationAddress === '5nYWvcvNThsLaMmrsfpRLBRou1RuGtLabUwYH7v6b88bem2J4aUwsoF33FbJuqMDgQjpDRTSpLCZu3dXpqXicE2uSWS4LUP'){
-								swal({
+								promise = swal({
 									type:'success',
 									title: 'Thank you for donation !',
 									text:'Your help is appreciated'
 								});
 							}else
-								swal({
+								promise = swal({
 									type:'success',
 									title: 'Transfer sent !',
 								});
+							promise.then(function(){
+								if(self.redirectUrlAfterSend !== null){
+									window.location.href = self.redirectUrlAfterSend.replace('{TX_HASH}',data.raw.hash);
+								}
+							});
 						}).catch(function(data:any){
 							swal({
 								type: 'error',
@@ -272,5 +288,13 @@ class SendView extends DestructableView{
 
 if(wallet !== null && blockchainExplorer !== null)
 	new SendView('#app');
-else
-	window.location.href = '#index';
+else {
+	AppState.askUserOpenWallet(false).then(function(){
+		wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
+		if(wallet === null)
+			throw 'e';
+		new SendView('#app');
+	}).catch(function(){
+		window.location.href = '#index';
+	});
+}

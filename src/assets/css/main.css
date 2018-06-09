@@ -16,6 +16,10 @@
 body,html{margin:0;padding:0;height:100%;overflow-x:hidden}
 div,p,input,label{box-sizing: border-box;}
 
+*[v-cloak] {
+	display: none;
+}
+
 body{
 	overflow-y: hidden;
 	font-family: Lato,"Arial";
@@ -784,7 +788,6 @@ body{
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
 	vertical-align: middle;
-	white-space: nowrap;
 	font-size: 1.07rem;
 	line-height: 1.4;
 	border-radius: .28571429rem;

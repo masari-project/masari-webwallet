@@ -15,6 +15,7 @@ The order of this list may not reflect the order in which those functionalities 
 - continue to scan while the page is not focused
 - support https://github.com/monero-project/monero/wiki/URI-Formatting
 - transactions export in CSV
+- api to obtain a custom url
 
 # Bugs & things to improve
 

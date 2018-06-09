@@ -36,7 +36,7 @@
 					<div class="field" >
 						<label>Choose a password to protect your credentials</label>
 						<input type="password" v-model="walletPassword" autocomplete="off">
-						<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
+						<div v-if="insecurePassword && !forceInsecurePassword && walletPassword != ''" class="message error">
 							The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
 							<div class="tc">
 								<button @click="forceInsecurePasswordCheck()" class="btn mini">Disable this security, i understand the risk</button>

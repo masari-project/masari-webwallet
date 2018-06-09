@@ -89,5 +89,44 @@ export class AppState{
 		}
 	}
 
+	static askUserOpenWallet(redirectToHome:boolean=true){
+		let self = this;
+		return new Promise<void>(function (resolve, reject) {
+			swal({
+				title: 'Wallet password',
+				input: 'password',
+				showCancelButton: true,
+				confirmButtonText: 'Open',
+			}).then((result:any) => {
+				setTimeout(function(){//for async
+					if (result.value) {
+						let savePassword = result.value;
+						// let password = prompt();
+						let memoryWallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
+						if(memoryWallet === null){
+							// let wallet = WalletRepository.getMain();
+							let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
+							if(wallet !== null) {
+								wallet.recalculateIfNotViewOnly();
+								AppState.openWallet(wallet, savePassword);
+								if(redirectToHome)
+									window.location.href = '#account';
+								resolve();
+							}else{
+								swal({
+									type: 'error',
+									title: 'Oops...',
+									text: 'Your password seems invalid',
+								});
+								reject();
+							}
+						}
+					}else
+						reject();
+				},1);
+			});
+		});
+	}
+
 
 }

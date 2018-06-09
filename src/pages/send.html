@@ -1,4 +1,4 @@
-<div id="app" class="body-root sendTab">
+<div id="app" class="body-root sendTab" v-cloak="">
 	<div class="body-header" >
 		<div class="header-title">
 			<i class="fa fa-level-up" aria-hidden="true"></i> Send MSR
@@ -17,7 +17,7 @@
 						The destination address is invalid
 					</div>
 					<div v-if="domainAliasAddress !== null" class="message">
-						The funds will be send to: {{destinationAddress}}
+						<b>The funds will be send to:</b> {{destinationAddress}}
 					</div>
 					<div v-if="txDestinationName !== null"  class="message">
 						<b>Receiver: </b>{{txDestinationName}}
