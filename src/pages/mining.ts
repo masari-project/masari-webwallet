@@ -34,7 +34,6 @@ class Pool{
 	private poolPass : string = 'x';
 	private poolId : string = '';
 	private poolUrl : string = '';
-	private poolPort : number = 0;
 
 	private logged : boolean = false;
 	public pendingJob : any = true;
@@ -44,11 +43,10 @@ class Pool{
 
 	private intervalKeepAlive = 0;
 
-	constructor(url : string, port : number, login : string, pass : string, algorithm : string, algorithmVariant : number){
+	constructor(url : string, login : string, pass : string, algorithm : string, algorithmVariant : number){
 		this.poolLogin = login;
 		this.poolPass = pass;
 		this.poolUrl = url;
-		this.poolPort = port;
 		this.algorithm = algorithm;
 		this.algorithmVariant = algorithmVariant;
 
@@ -60,7 +58,7 @@ class Pool{
 	maxReconnectCount = 5;
 
 	connect(){
-		this.socket = new WebSocket('ws://'+this.poolUrl+':'+this.poolPort);
+		this.socket = new WebSocket(this.poolUrl);
 		let self = this;
 
 		this.socket.onopen = function() {
@@ -298,8 +296,7 @@ class MiningView extends DestructableView{
 		this.running = true;
 
 		this.pool = new Pool(
-			config.testnet ? 'testnet.masaricoin.com' : 'pool.masaricoin.com',
-			8080,
+			config.testnet ? 'ws://testnet.masaricoin.com:8080' : 'wss://get.masaricoin.com/mining',
 			this.miningAddress + '+' + this.difficulty,
 			'atmega',
 			'cn',

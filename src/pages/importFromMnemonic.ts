@@ -80,7 +80,16 @@ class ImportView extends DestructableView{
 
 			let mnemonic = self.mnemonicPhrase;
 			// let current_lang = 'english';
-			let current_lang = self.language;
+			let current_lang = 'english';
+
+			if(self.language === 'auto') {
+				let detectedLang = Mnemonic.detectLang(self.mnemonicPhrase);
+				if(detectedLang !== null)
+					current_lang = detectedLang;
+			}
+			else
+				current_lang = self.language;
+
 			let mnemonic_decoded = Mnemonic.mn_decode(mnemonic, current_lang);
 			if(mnemonic_decoded !== null) {
 				let keys = cnUtil.create_address(mnemonic_decoded);
