@@ -1,6 +1,7 @@
 # Roadmap 
 The order of this list may not reflect the order in which those functionalities will be implemented  
   
+- stop sync + change current scan height/creation height
 - better support of offline/online and network disconnection resistance
 - adding the wallet balance in the side menu
 - drive storage for synchronisation (http://remotestoragejs.readthedocs.io/en/latest/index.html)

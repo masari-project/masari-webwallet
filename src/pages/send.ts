@@ -220,7 +220,18 @@ class SendView extends DestructableView{
 						});
 					}).catch(function(error:any){
 						if(error && error !== ''){
-							alert(error);
+							if(typeof error === 'string')
+								swal({
+									type: 'error',
+									title: 'Oops...',
+									text: 'An error occurred. Please report us this error: '+error,
+								});
+							else
+								swal({
+									type: 'error',
+									title: 'Oops...',
+									text: 'An error occurred. Please report us this error: '+JSON.stringify(error),
+								});
 						}
 					});
 				});
