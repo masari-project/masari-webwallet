@@ -10,9 +10,11 @@ declare function swal(params : {
 	preConfirm?:Function
 	onOpen?:Function,
 	inputOptions?:Map<string,string>|any,
-	reverseButtons?:boolean
+	reverseButtons?:boolean,
+	cancelButtonText?:string,
 }) : Promise<any>;
 
 declare namespace swal{
 	function showLoading() : void;
+	function hideLoading() : void;
 }

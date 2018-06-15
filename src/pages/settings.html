@@ -43,5 +43,23 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="panel">
+			<div class="body" >
+				<div class="content" >
+					<div class="field">
+						<label>Creation height of the wallet</label>
+						<input type="number" v-model="creationHeight" />
+					</div>
+					<div class="field">
+						<label>Current scanning height</label>
+						<input type="number" v-model="scanHeight" />
+					</div>
+					<div class="actions tc">
+						<button @click="updateWalletSettings()" class="btn" >Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

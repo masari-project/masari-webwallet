@@ -64,6 +64,7 @@ export class WalletWatchdog{
 
 	signalWalletUpdate(){
 		let self = this;
+		this.lastBlockLoading = -1;//reset scanning
 		this.workerProcessing.postMessage({
 			type:'initWallet',
 			wallet:this.wallet.exportToRaw(true)

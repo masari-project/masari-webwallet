@@ -435,7 +435,7 @@ export class TransactionsExplorer{
 		userPaymentId:string='',
 		wallet : Wallet,
 		blockchainHeight : number,
-		lots_mix_outs:any[],
+		obtainMixOutsCallback : (quantity:number) => Promise<any[]>,
 		confirmCallback : (amount:number, feesAmount:number) => Promise<void>) :
 		Promise<{raw:{hash:string,prvKey:string,raw:string},signed:any}>
 	{
@@ -562,43 +562,39 @@ export class TransactionsExplorer{
 						amount: 0
 					});
 				}
-				console.log(dsts);
+				console.log('destinations',dsts);
 
-				let amounts = [];
+				let amounts : string[] = [];
 				for (let l = 0; l < usingOuts.length; l++) {
 					amounts.push(usingOuts[l].rct ? "0" : usingOuts[l].amount.toString());
 				}
 
-				let mix_outs = [];
-				let mixOutsIndexes = [];
-				for(let i = 0; i < amounts.length*(mixin+1);++i){
-					let index = parseInt(''+(MathUtil.randomFloat()*lots_mix_outs.length));
-					while(mixOutsIndexes.indexOf(index) !== -1)
-						index = parseInt(''+(MathUtil.randomFloat()*lots_mix_outs.length));
+				obtainMixOutsCallback(amounts.length*(mixin+1)).then(function(lotsMixOuts : any[]){
+					console.log('------------------------------mix_outs',lotsMixOuts);
+					console.log('amounts',amounts);
+					console.log('lots_mix_outs',lotsMixOuts);
 
-					mixOutsIndexes.push(index);
-				}
-				mixOutsIndexes.sort();
+					let mix_outs = [];
+					let iMixOutsIndexes = 0;
+					for(let amount of amounts){
+						let localMixOuts = [];
+						for(let i = 0; i < mixin + 1 ; ++i){
+							localMixOuts.push(lotsMixOuts[iMixOutsIndexes]);
+							++iMixOutsIndexes;
+						}
+						mix_outs.push({
+							outputs:localMixOuts,
+							amount:0
+						});
 
-				let iMixOutsIndexes = 0;
-				for(let amount of amounts){
-					let localMixOuts = [];
-					for(let i = 0; i < mixin + 1 ; ++i){
-						localMixOuts.push(lots_mix_outs[iMixOutsIndexes]);
-						++iMixOutsIndexes;
 					}
-					mix_outs.push({
-						outputs:localMixOuts,
-						amount:0
+					console.log('mix_outs',mix_outs);
+
+					TransactionsExplorer.createRawTx(dsts,wallet,true, usingOuts,pid_encrypt,mix_outs,mixin,neededFee,paymentId).then(function(data : {raw:{hash:string,prvKey:string,raw:string},signed:any}){
+						resolve(data);
+					}).catch(function(e){
+						reject(e);
 					});
-
-				}
-				console.log('mix_outs',mix_outs);
-
-				TransactionsExplorer.createRawTx(dsts,wallet,true, usingOuts,pid_encrypt,mix_outs,mixin,neededFee,paymentId).then(function(data : {raw:{hash:string,prvKey:string,raw:string},signed:any}){
-					resolve(data);
-				}).catch(function(e){
-					reject(e);
 				});
 
 				//https://github.com/moneroexamples/openmonero/blob/ebf282faa8d385ef3cf97e6561bd1136c01cf210/README.md

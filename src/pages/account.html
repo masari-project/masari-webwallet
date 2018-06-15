@@ -48,7 +48,7 @@
 									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{transaction.getAmount() | piconero}}</td><!--RIGHT-->
 								</tr>
 								<tr v-if="transaction.paymentId !== ''">
-									<td class="paymentId" >{{transaction.paymentId}}</td><!--UNDER-->
+									<td colspan="3" class="paymentId" >{{transaction.paymentId}}</td><!--UNDER-->
 								</tr>
 							</template>
 							<tr v-if="transactions.length == 0" >

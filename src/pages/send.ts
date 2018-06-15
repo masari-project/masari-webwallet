@@ -14,7 +14,7 @@
  */
 
 import {DestructableView} from "../lib/numbersLab/DestructableView";
-import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
+import {VueRequireFilter, VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {WalletRepository} from "../model/WalletRepository";
 import {BlockchainExplorerRpc2, WalletWatchdog} from "../model/blockchain/BlockchainExplorerRpc2";
@@ -27,12 +27,14 @@ import {CoinUri} from "../model/CoinUri";
 import {QRReader} from "../model/QRReader";
 import {AppState} from "../model/AppState";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
+import {VueFilterPiconero} from "../filters/Filters";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 AppState.enableLeftMenu();
 
+@VueRequireFilter('piconero',VueFilterPiconero)
 class SendView extends DestructableView{
 	@VueVar('') destinationAddressUser : string;
 	@VueVar('') destinationAddress : string;
@@ -166,20 +168,45 @@ class SendView extends DestructableView{
 					// showCancelButton: true,
 					// confirmButtonText: 'Confirm',
 				});
+					TransactionsExplorer.createTx([{address:destinationAddress, amount:amountToSend}],'',wallet,blockchainHeight,
+						function(numberOuts : number) : Promise<any[]>{
+							return blockchainExplorer.getRandomOuts(numberOuts);
+						}
+					, function(amount:number, feesAmount : number) : Promise<void>{
+						if(amount+feesAmount > wallet.unlockedAmount(blockchainHeight)) {
+							swal({
+								type: 'error',
+								title: 'Oops...',
+								text: 'You don\'t have enough funds in your wallet to execute this transfer due to the network fees ('+Vue.options.filters.piconero(feesAmount)+')',
+								onOpen: () => {
+									swal.hideLoading();
+								}
+							});
+							throw '';
+						}
 
-				blockchainExplorer.getRandomOuts(12).then(function(mix_outs:any[]){
-					// let mix_outs : any[] = [];
-					console.log('------------------------------mix_outs',mix_outs);
-					TransactionsExplorer.createTx([{address:destinationAddress, amount:amountToSend}],'',wallet,blockchainHeight,mix_outs, function(amount:number, feesAmount : number) : Promise<void>{
-						return swal({
-							title: 'Confirm transfer ?',
-							html: 'Amount: '+Vue.options.filters.piconero(amount)+'<br/>Fees: '+Vue.options.filters.piconero(feesAmount),
-							showCancelButton: true,
-							confirmButtonText: 'Confirm',
-						}).then(function(result:any){
-							if(result.dismiss){
-								return Promise.reject<void>('');
-							}
+						return new Promise<void>(function(resolve, reject){
+							setTimeout(function(){//prevent bug with swal when code is too fast
+								swal({
+									title: 'Confirm transfer ?',
+									html: 'Amount: '+Vue.options.filters.piconero(amount)+'<br/>Fees: '+Vue.options.filters.piconero(feesAmount),
+									showCancelButton: true,
+									confirmButtonText: 'Confirm',
+								}).then(function(result:any){
+									if(result.dismiss){
+										reject('');
+									}else {
+										swal({
+											title: 'Finalizing transfer ...',
+											text:'Please wait...',
+											onOpen: () => {
+												swal.showLoading();
+											}
+										});
+										resolve();
+									}
+								}).catch(reject);
+							},1);
 						});
 					}).then(function(data : {raw:{hash:string,prvKey:string,raw:string}, signed:any}){
 						blockchainExplorer.sendRawTx(data.raw.raw).then(function(){
@@ -219,6 +246,7 @@ class SendView extends DestructableView{
 							});
 						});
 					}).catch(function(error:any){
+						console.log(error);
 						if(error && error !== ''){
 							if(typeof error === 'string')
 								swal({
@@ -234,7 +262,6 @@ class SendView extends DestructableView{
 								});
 						}
 					});
-				});
 			}else{
 				swal({
 					type: 'error',
