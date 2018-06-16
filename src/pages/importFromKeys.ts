@@ -134,9 +134,9 @@ class ImportView extends DestructableView{
 	publicAddressWatch(){
 		try{
 			cnUtil.decode_address(this.publicAddress);
-			this.validPrivateViewKey = true;
+			this.validPublicAddress = true;
 		}catch(e){
-			this.validPrivateViewKey = false;
+			this.validPublicAddress = false;
 		}
 	}
 
