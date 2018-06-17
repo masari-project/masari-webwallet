@@ -146,9 +146,6 @@ export class Transaction{
 		for(let nin of this.ins){
 			amount -= nin.amount;
 		}
-		if(this.ins.length > 0){
-			amount -= this.fees;
-		}
 		return amount;
 	}
 

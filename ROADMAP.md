@@ -1,6 +1,7 @@
 # Roadmap 
 The order of this list may not reflect the order in which those functionalities will be implemented  
   
+- adding more special characters (password) : " and "space"
 - error message when no camera access
 - stop sync
 - improve tx fee calculation

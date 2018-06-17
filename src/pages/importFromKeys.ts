@@ -96,6 +96,7 @@ class ImportView extends DestructableView{
 			height = height - 10;
 
 			if(height < 0)height = 0;
+			if(height > currentHeight)height = currentHeight;
 			newWallet.lastHeight = height;
 			newWallet.creationHeight = newWallet.lastHeight;
 
@@ -114,6 +115,7 @@ class ImportView extends DestructableView{
 
 	@VueWatched()
 	importHeightWatch(){
+		if((<any>this.importHeight) === '')this.importHeight = 0;
 		if(this.importHeight < 0){
 			this.importHeight = 0;
 		}

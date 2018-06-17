@@ -224,21 +224,18 @@ if(getenv('generate') !== 'true'){
 	$cacheContent = retrieveCache($startHeight, $endHeight, false);
 	if($cacheContent === null){
 		http_response_code(400);
-		exit;
 	}else{
 		$cacheContent = json_decode($cacheContent, true);
-	}
-	
-	
-	$txForUser = [];
-	foreach($cacheContent as $tx){
-		if($tx['height'] >= $realStartHeight){
-			$txForUser[] = $tx;
+		$txForUser = [];
+		foreach($cacheContent as $tx){
+			if($tx['height'] >= $realStartHeight){
+				$txForUser[] = $tx;
+			}
 		}
+		
+		header('Content-Type: application/json');
+		echo json_encode($txForUser);
 	}
-	
-	header('Content-Type: application/json');
-	echo json_encode($txForUser);
 }else{
 	$lastRunStored = @file_get_contents('./lastRun.txt');
 	if($lastRunStored===false)

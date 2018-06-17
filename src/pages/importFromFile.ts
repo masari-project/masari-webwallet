@@ -35,7 +35,6 @@ class ImportView extends DestructableView{
 	@VueVar('') password2 : string;
 	@VueVar(false) insecurePassword : boolean;
 	@VueVar(false) forceInsecurePassword : boolean;
-	@VueVar(0) importHeight : number;
 
 	rawFile : any = null;
 	invalidRawFile : boolean = false;
@@ -108,14 +107,6 @@ class ImportView extends DestructableView{
 			this.insecurePassword = true;
 		}else
 			this.insecurePassword = false;
-	}
-
-	@VueWatched()
-	importHeightWatch(){
-		if(this.importHeight < 0){
-			this.importHeight = 0;
-		}
-		this.importHeight = parseInt(''+this.importHeight);
 	}
 
 	forceInsecurePasswordCheck(){

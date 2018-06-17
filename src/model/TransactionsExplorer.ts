@@ -515,6 +515,11 @@ export class TransactionsExplorer{
 				console.log("Using output: " + out.amount + " - " + JSON.stringify(out));
 			}
 
+			const calculateFeeWithBytes = function(fee_per_kb : number, bytes : number, fee_multiplier : number){
+				let kB = (bytes + 1023) / 1024;
+				return kB * fee_per_kb * fee_multiplier;
+			};
+
 			console.log("Selected outs:",usingOuts);
 			if (usingOuts.length > 1) {
 				let newNeededFee = JSBigInt(Math.ceil(cnUtil.estimateRctSize(usingOuts.length, mixin, 2) / 1024)).multiply(feePerKB).multiply(fee_multiplayer);
