@@ -34,11 +34,20 @@
 						The amount is invalid
 					</div>
 				</div>
+
+				<div class="field" >
+					<label>Payment ID (optional)</label>
+					<input class="amountInput" type="text" v-model="paymentId" placeholder="10.5 MSR" :readonly="lockedForm"/>
+					<div v-if="!paymentIdValid && paymentId != ''" class="message error">
+						The payment ID is invalid. The length must be 16 or 64 characters
+					</div>
+				</div>
+
 				<div class="actions tc">
 					<button type="button" class="btn primary" @click="send()" :disabled="!destinationAddressValid || !amountToSendValid" >Send</button>
 				</div>
-				<div class="actions tc">
-					<button type="button" class="btn small" @click="reset()" v-if="lockedForm" >Cancel</button>
+				<div class="actions tc" v-if="lockedForm" >
+					<button type="button" class="btn small" @click="reset()" >Cancel</button>
 				</div>
 			</div>
 		</div>

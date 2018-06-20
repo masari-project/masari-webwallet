@@ -484,10 +484,16 @@ export class TransactionsExplorer{
 					userPaymentId = ('0000000000000000'+userPaymentId).slice(-16);
 				}
 				// now double check if ok
-				if (userPaymentId.length !== 16 || !(/^[0-9a-fA-F]{16}$/.test(userPaymentId))) {
+				if (
+					(userPaymentId.length !== 16 && userPaymentId.length !== 64) ||
+					(!(/^[0-9a-fA-F]{16}$/.test(userPaymentId)) && !(/^[0-9a-fA-F]{64}$/.test(userPaymentId)))
+				) {
 					reject('invalid_payment_id');
 					return;
 				}
+
+				pid_encrypt = userPaymentId.length === 16;
+				paymentId = userPaymentId;
 			}
 
 

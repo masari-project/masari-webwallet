@@ -42,6 +42,8 @@ class SendView extends DestructableView{
 	@VueVar('10.5') amountToSend : string;
 	@VueVar(false) lockedForm : boolean;
 	@VueVar(true) amountToSendValid : boolean;
+	@VueVar('') paymentId : string;
+	@VueVar(true) paymentIdValid : boolean;
 
 	@VueVar(null) domainAliasAddress : string|null;
 	@VueVar(null) txDestinationName : string|null;
@@ -168,7 +170,7 @@ class SendView extends DestructableView{
 					// showCancelButton: true,
 					// confirmButtonText: 'Confirm',
 				});
-					TransactionsExplorer.createTx([{address:destinationAddress, amount:amountToSend}],'',wallet,blockchainHeight,
+					TransactionsExplorer.createTx([{address:destinationAddress, amount:amountToSend}],self.paymentId,wallet,blockchainHeight,
 						function(numberOuts : number) : Promise<any[]>{
 							return blockchainExplorer.getRandomOuts(numberOuts);
 						}
@@ -318,6 +320,18 @@ class SendView extends DestructableView{
 			this.amountToSendValid = !isNaN(parseFloat(this.amountToSend));
 		}catch(e){
 			this.amountToSendValid = false;
+		}
+	}
+
+	@VueWatched()
+	paymentIdWatch(){
+		try{
+			this.paymentIdValid = this.paymentId.length === 0 ||
+				(this.paymentId.length === 16 && (/^[0-9a-fA-F]{16}$/.test(this.paymentId))) ||
+				(this.paymentId.length === 64 && (/^[0-9a-fA-F]{64}$/.test(this.paymentId)))
+			;
+		}catch(e){
+			this.paymentIdValid = false;
 		}
 	}
 
