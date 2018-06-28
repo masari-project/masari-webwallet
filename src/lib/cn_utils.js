@@ -56,7 +56,7 @@ var cnUtil = (function(initConfig) {
 	}
 	var UINT64_MAX = new JSBigInt(2).pow(64);
 	var CURRENT_TX_VERSION = 1;
-	var OLD_TX_VERSION = -1;
+	var OLD_TX_VERSION = 1;
 	var RCTTypeFull = 1;
 	var RCTTypeSimple = 2;
 	var TX_EXTRA_NONCE_MAX_COUNT = 255;
@@ -147,8 +147,8 @@ var cnUtil = (function(initConfig) {
 		var first = this.hash_to_scalar(key);
 		var second = this.hash_to_scalar(first);
 		return {
-			"mask": this.sc_sub(ecdh.mask, first),
-			"amount": this.sc_sub(ecdh.amount, second)
+			mask: this.sc_sub(ecdh.mask, first),
+			amount: this.sc_sub(ecdh.amount, second),
 		};
 	};
 
@@ -156,8 +156,8 @@ var cnUtil = (function(initConfig) {
 		var first = this.hash_to_scalar(key);
 		var second = this.hash_to_scalar(first);
 		return {
-			"mask": this.sc_add(ecdh.mask, first),
-			"amount": this.sc_add(ecdh.amount, second)
+			mask: this.sc_add(ecdh.mask, first),
+			amount: this.sc_add(ecdh.amount, second),
 		};
 	};
 
@@ -264,17 +264,17 @@ var cnUtil = (function(initConfig) {
 	this.bintohex = bintohex;
 	this.hextobin = hextobin;
 
-	// Generate a 256-bit crypto random
+	// Generate a 256-bit / 64-char / 32-byte crypto random
 	this.rand_32 = function() {
 		return mn_random(256);
 	};
 
-	// Generate a 128-bit crypto random
+	// Generate a 128-bit / 32-char / 16-byte crypto random
 	this.rand_16 = function() {
 		return mn_random(128);
 	};
 
-	// Generate a 64-bit crypto random
+	// Generate a 64-bit / 16-char / 8-byte crypto random
 	this.rand_8 = function() {
 		return mn_random(64);
 	};
@@ -1683,51 +1683,54 @@ var cnUtil = (function(initConfig) {
 		}
 		tx.prvkey = txkey.sec;
 
-		var in_contexts  = [];
-
-		var is_rct_coinbases = []; // monkey patching to solve problem of
-								   // not being able to spend coinbase ringct txs.
-
+		var in_contexts = [];
 		var inputs_money = JSBigInt.ZERO;
 		var i, j;
 
 		console.log('Sources: ');
-
-		for (i = 0; i < sources.length; i++)
-		{
+		//run the for loop twice to sort ins by key image
+		//first generate key image and other construction data to sort it all in one go
+		for (i = 0; i < sources.length; i++) {
 			console.log(i + ': ' + this.formatMoneyFull(sources[i].amount));
 			if (sources[i].real_out >= sources[i].outputs.length) {
 				throw "real index >= outputs.length";
 			}
-			inputs_money = inputs_money.add(sources[i].amount);
+			// inputs_money = inputs_money.add(sources[i].amount);
 
 			// sets res.mask among other things. mask is identity for non-rct transactions
 			// and for coinbase ringct (type = 0) txs.
 			var res = this.generate_key_image_helper_rct(keys, sources[i].real_out_tx_key, sources[i].real_out_in_tx, sources[i].mask); //mask will be undefined for non-rct
-
-			in_contexts.push(res.in_ephemeral);
+			// in_contexts.push(res.in_ephemeral);
 
 			// now we mark if this is ringct coinbase txs. such transactions
 			// will have identity mask. Non-ringct txs will have  sources[i].mask set to null.
 			// this only works if beckend will produce masks in get_unspent_outs for
 			// coinbaser ringct txs.
-			is_rct_coinbases.push((sources[i].mask ? sources[i].mask === I : 0));
+			//is_rct_coinbases.push((sources[i].mask ? sources[i].mask === I : 0));
 
 			console.log('res.in_ephemeral.pub', res, res.in_ephemeral.pub, sources, i);
 			if (res.in_ephemeral.pub !== sources[i].outputs[sources[i].real_out].key) {
-				var m_key_image = this.generate_key_image_helper({
-					view_secret_key:wallet.keys.priv.view,
-					spend_secret_key:wallet.keys.priv.spend,
-					public_spend_key:wallet.keys.pub.spend,
-				},tx_pub_key, output_idx_in_tx, derivation);
-
-
 				throw "in_ephemeral.pub != source.real_out.key";
 			}
+			sources[i].key_image = res.image;
+			sources[i].in_ephemeral = res.in_ephemeral;
+		}
+		//sort ins
+		sources.sort(function(a, b) {
+			return (
+				JSBigInt.parse(a.key_image, 16).compare(
+					JSBigInt.parse(b.key_image, 16),
+				) * -1
+			);
+		});
+		//copy the sorted sources data to tx
+		for (i = 0; i < sources.length; i++) {
+			inputs_money = inputs_money.add(sources[i].amount);
+			in_contexts.push(sources[i].in_ephemeral);
 			var input_to_key = {};
 			input_to_key.type = "input_to_key";
 			input_to_key.amount = sources[i].amount;
-			input_to_key.k_image = res.image;
+			input_to_key.k_image = sources[i].key_image;
 			input_to_key.key_offsets = [];
 			for (j = 0; j < sources[i].outputs.length; ++j) {
 				console.log('add to key offsets',sources[i].outputs[j].index, j, sources[i].outputs);
@@ -1804,27 +1807,18 @@ var cnUtil = (function(initConfig) {
 				keyimages.push(tx.vin[i].k_image);
 				inSk.push({
 					x: in_contexts[i].sec,
-					a: in_contexts[i].mask
+					a: in_contexts[i].mask,
 				});
 				inAmounts.push(tx.vin[i].amount);
-
-				//if (in_contexts[i].mask !== I) {//if input is rct (has a valid mask), 0 out amount
-				//tx.vin[i].amount = "0";
-				//}
-
-				if (in_contexts[i].mask !== I || is_rct_coinbases[i] === true)
-				{
-					// if input is rct (has a valid mask), 0 out amount
-					// coinbase ringct txs also have mask === I, so their amount
-					// must be set to zero when spending them.
+				if (in_contexts[i].mask !== I) {
+					//if input is rct (has a valid mask), 0 out amount
 					tx.vin[i].amount = "0";
 				}
-
 				mixRing[i] = [];
 				for (j = 0; j < sources[i].outputs.length; j++) {
 					mixRing[i].push({
 						dest: sources[i].outputs[j].key,
-						mask: sources[i].outputs[j].commit
+						mask: sources[i].outputs[j].commit,
 					});
 				}
 				indices.push(sources[i].real_out);

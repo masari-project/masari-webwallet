@@ -593,11 +593,11 @@ export class TransactionsExplorer{
 							localMixOuts.push(lotsMixOuts[iMixOutsIndexes]);
 							++iMixOutsIndexes;
 						}
+						localMixOuts.sort().reverse();
 						mix_outs.push({
-							outputs:localMixOuts,
+							outputs:localMixOuts.slice(),
 							amount:0
 						});
-
 					}
 					console.log('mix_outs',mix_outs);
 
