@@ -70,10 +70,11 @@ function loadLangTranslation(lang : string) : Promise<void>{
 
 		$('title').html(data.website.title);
 		$('meta[property="og:title"]').attr('content',data.website.title);
+		$('meta[property="twitter:title"]').attr('content',data.website.title);
 
 		$('meta[name="description"]').attr('content',data.website.description);
 		$('meta[property="og:description"]').attr('content',data.website.description);
-
+		$('meta[property="twitter:description"]').attr('content',data.website.description);
 
 
 		let htmlDocument = document.querySelector('html');

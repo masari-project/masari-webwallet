@@ -1,0 +1,462 @@
+{
+  "website":{
+	"title":"Официјални Масари Веб Новчаник",
+	"description":"Официјални онлајн новчаник за Масари валуту који је анониман, сигуран, и у потпуности се ослања на Ваш претраживач у циљу оптималне безбедности."
+  },
+  "messages": {
+	"menu": {
+	  "home": "Почетна",
+	  "account": "Налог",
+	  "send": "Пошаљи",
+	  "receive": "Прими",
+	  "export": "Извоз",
+	  "donate": "Донирај",
+	  "settings": "Подешавања",
+	  "disconnect": "Прекини везу",
+	  "network": "Статистика Мреже",
+	  "mining": "Рударење"
+	},
+	"global": {
+	  "loading": "Учитавам",
+	  "disableSecurity":"Искључи безбедност, разумем и прихватам ризик",
+	  "passwordInvalidRequirements":"Лозинка мора да се састоји из најмање 8 карактера, 1 велико слово, 1 мало слово, један број и један специјални карактер",
+	  "passwordConfirmationNotMatching":"Шифре се не подударају",
+	  "download":"Преузми",
+	  "newVersionModal":{
+		"title":"Нова верзија је доступна",
+		"content":"Да ли желите да освежите страницу и учитате нову верзију ?",
+		"confirmText":"Да",
+		"cancelText":"Касније"
+	  },
+	  "openWalletModal":{
+		"title":"'Лозинка новчаника'",
+		"confirmText":"Отвори",
+		"cancelText":"Откажи"
+	  },
+	  "invalidPasswordModal":{
+		"title":"Упс...",
+		"content":"Неисправна лозинка",
+		"confirmText":"У реду"
+	  },
+	  "invalidMnemonicModal":{
+		"title":"Упс...",
+		"content":"Мнемоничка фраза није исправна",
+		"confirmText":"У реду"
+	  },
+	  "passwordNotComplexEnoughModal":{
+		"title":"Лозинка није довољно комплексна",
+		"confirmText":"У реду"
+	  },
+	  "permissionRequiredForCameraModal":{
+		"title":"Упс...",
+		"content":"Потребна дозвола за приступ камери у циљу скенирања QR кода",
+		"confirmText":"У реду"
+	  }
+	},
+	"bottom": {
+	  "termsOfUse": "Правила коришћења",
+	  "support": "Подршка",
+	  "donate": "Донације",
+	  "network": "Статистика Мреже",
+	  "miningPool": "Пул за рударење",
+	  "github": "Гитхуб"
+	},
+	"homepage": {
+	  "mainTitle": "Безбедни Масари Новчаник",
+	  "tagLine": "Најједноставнији начин да користите Масари, било када и било где",
+	  "actions": {
+		"loadWallet": "Учитај новчаник",
+		"importWallet": "Увези новчаник",
+		"create": "Креирај",
+		"createWallet": "Креирај новчаник"
+	  },
+	  "notes": {
+		"secure": {
+		  "title": "Сигурност",
+		  "description": "Без сервера, потпуна енкрипција !"
+		},
+		"fast": {
+		  "title": "Брзина",
+		  "description": "Шаљите било где, било када !"
+		},
+		"technology": {
+		  "title": "Уникатна технологија",
+		  "description": "Повезан директно са Масари Блокчејном !"
+		},
+		"openSource": {
+		  "title": "Код је у потпуности доступан (open-source)",
+		  "description": "Доступно на ГитХуб"
+		}
+	  }
+	},
+	"accountPage": {
+	  "title": "Налог",
+	  "subtitle": "Преглед налога и трансакција",
+	  "synchronizingBlock": {
+		"text": "Синхронизација у току"
+	  },
+	  "balanceBlock": {
+		"title": "Ваша средства",
+		"unlocked": "Откључано"
+	  },
+	  "historyBlock": {
+		"title": "Историја ваших трансакција",
+		"pendingTxStatus": "На чекању",
+		"emptyWallet": "Тренутно немате средстава у новчанику",
+		"waitSync": "Сачекајте да се новчаник освежи",
+		"beReallyPatient": "Овај поступак може да потраје...",
+		"getMSRAddress": "Адреса за пријем новчића"
+	  }
+	},
+	"changeWalletPasswordPage":{
+	  "title":"Промените лозинку",
+	  "oldPassword":{
+		"label":"Стара лозинка",
+		"invalid":"Погрешна лозинка"
+	  },
+	  "newPassword":{
+		"label":"Изаберите нову лозинку",
+		"invalid":"Лозинка мора да се састоји из најмање 8 карактера, 1 велико слово, 1 мало слово, један број и један специјални карактер"
+	  },
+	  "newPasswordConfirm":{
+		"label":"Потврдите нову лозинку"
+	  },
+	  "confirm":"Промени лозинку",
+	  "modalSuccess":{
+		"title":"Лозинка промењена !",
+		"confirmText":"У реду"
+	  }
+	},
+	"createWalletPage":{
+	  "generatingStep":{
+		"title":"Генерација новчаника у току...",
+		"subtitle":"Процес је скоро комплетиран",
+		"waitingMessage":"Генеришем новчаник..."
+	  },
+	  "finalizationStep":{
+		"title":"Просто као пасуљ. Ваш налог је спреман!",
+		"subtitle":"Спремите се да користите Масари било где и било кад.",
+		"passwordSelectionBlock":{
+		  "label":"Заштитите ваше податке"
+		},
+		"passwordConfirmBlock":{
+		  "label":"Потврдите лозинку"
+		},
+		"validPassword":"Користите ову лозинку",
+		"backupBlock":{
+		  "title":"И преузмите шифровану копију ваших података за будућу употребу ",
+		  "titlePdf":"Опција 1: Преуѕмите PDF фајл",
+		  "titleManualWrite":"Опција 2: Запишите кључеве",
+		  "privateKeys":"Приватни кључ",
+		  "mnemonicPhrase":"Мнемоничка фраза",
+		  "separatorManualMethodsSolution":" или ",
+		  "confirmManuallyWritten":"Записао сам",
+		  "warningMessage":"**Чувајте ове податке!** У случају губитка, подаци не могу бити враћени.<br/>**Не делите податке ни са ким!** Ваша средства могу бити украдена уколико користите ове податке на другим сајтовима сумњивог садржаја.<br/>**Направите резерву (backup)!** Обезбедите податке као да вреде милион долара.<br/>",
+		  "finishButton":"Разумем. Настави"
+		}
+	  },
+	  "disclaimerBlock":{
+		"title":"Ризици коришћења Масари новчаника",
+		"content":"Масари новчаник је интерфејс на мрежи. Осмишљен је да помогне при употреби Масари-ја без обавезе корисника да покреће софтвер на личном рачунару. <br/>Предлажемо да се односите према Масари новчанику као према свом личном који користите свакодневно"
+	  }
+	},
+	"donatePage":{
+	  "title":"Донирај",
+	  "subtitle":"Помозите при финансирању развоја и плаћања рачуна.",
+	  "webwalletBlock":{
+		"title":"Веб новчаник",
+		"content":"Овај сервис је дело контрибутора под именом Gnock.<br/>Уколико желите да помогнете при даљем развоју ове апликације, молимо вас да размислите о донацији.<br/><br/>"
+	  },
+	  "masariFundBlock":{
+		"title":"Масари новчаник за донације",
+		"content":"Уколико сте заинтересовани да помогнете, можете то учинити слањем средстава на следећз адресу"
+	  }
+	},
+	"supportPage":{
+	  "title":"Подршка",
+	  "subtitle":"Уколико вам је потребна подршка, ту смо да помогнемо!",
+	  "getInTouchBlock":{
+		"title":"Остварите контакт!",
+		"content":"Ако имате идеје или предлоге који би могли да помогну при даљем развоју овог сервиса, контактирајте нас!",
+		"discord":"Масари Дискорд Сервер"
+	  }
+	},
+	"networkPage":{
+	  "title":"Статистика мреже",
+	  "subtitle":"Увид у Масари мрежу",
+	  "statsBlock":{
+		"hashrate":"Хешрејт мреже",
+		"height":"Блокчејн висина",
+		"difficulty":"Тешкоћа мреже",
+		"lastTimeBlock":"Последњи пронађени блок",
+		"lastReward":"Последња блок награда"
+	  }
+	},
+	"sendPage":{
+	  "title":"Шаљи МСР",
+	  "sendBlock":{
+		"address":{
+		  "label":"Пошаљи на адресу",
+		  "invalid":"Адреса неисправна",
+		  "fundsTo":"Средства ће бити послата на",
+		  "receiver":"Прималац",
+		  "description":"Опис"
+		},
+		"amount":{
+		  "label":"Количина за слање",
+		  "invalid":"Количина неисправна"
+		},
+		"paymentId":{
+		  "label":"ID уплате(произвољан корак)",
+		  "invalid":"ID уплате неисправан. Дужина мора бити између 16 и 64 карактера"
+		},
+		"sendButton":"Пошаљи",
+		"cancelButton":"Откажи"
+	  },
+	  "qrCodeScanning":{
+		"explication":"Скенирање QR кода"
+	  },
+	  "notEnoughMoneyModal":{
+		"title":"Упс...",
+		"content":"Немате довољно средстава за овај трансфер",
+		"confirmText":"У реду"
+	  },
+	  "thankYouDonationModal":{
+		"title":"Хвала вам на донацији!",
+		"content":"Ваша помоћ је добродошла.<br/>Ваша донација ће помоћи при даљем развитку Масари-ја",
+		"confirmText":"Затвори"
+	  },
+	  "transferSentModal":{
+		"title":"Трансфер успешан!",
+		"confirmText":"Затвори"
+	  },
+	  "transferExceptionModal":{
+		"title":"Упс...",
+		"content":"Дошло је до грешке. Молимо пријавите грешку: {details}",
+		"confirmText":"Затвори"
+	  },
+	  "invalidAmountModal":{
+		"title":"Упс...",
+		"content":"Количина погрешна",
+		"confirmText":"Затвори"
+	  },
+	  "creatingTransferModal":{
+		"title":"Припремам трансфер...",
+		"content":"Молимо сачекајте..."
+	  },
+	  "finalizingTransferModal":{
+		"title":"Финализирам трансфер...",
+		"content":"Молимо сачекајте..."
+	  },
+	  "confirmTransactionModal":{
+		"title":"Потврди трансфер?",
+		"content":"'Количина: {amount}<br/>Провизија: {fees}<br/>Укупно: {total}",
+		"confirmText":"Потврди",
+		"cancelText":"Откажи"
+	  }
+	},
+	"receivePage":{
+	  "title":"Прими МСР",
+	  "receiveBlock":{
+		"address":{
+		  "title":"Адреса за примање новчића",
+		  "label":"Приложите ову адресу уколико желите да примите новчиће"
+		},
+		"qrCode":{
+		  "title":"Или помоћу QR кода",
+		  "labelAmount":"Количина (произвољна опција)",
+		  "labelRecipient":"Име примаоца(произвољна опција)",
+		  "labelDescription":"Опис трансакције(произвољна опција)",
+		  "updateButton":"Ажурирај"
+		}
+	  },
+	  "qrBlock":{
+		"title":"Ваш QR код"
+	  }
+	},
+	"miningPage":{
+	  "title":"Рударите директно из претраживача",
+	  "subtitle":"Подржите мрежу и повећајте стабилност исте, бићете награђени МСР новчићима",
+	  "parameterBlock":{
+		"title":"Параметри",
+		"labelDestinationAddress":"Новчаник за рударење",
+		"labelThreads":"Број језгара(више = већи хешрејт)",
+		"start":"Старт",
+		"stop":"Стоп"
+	  },
+	  "statisticsBlocks":{
+		"title":"Статистика",
+		"validShares":"Валидних шерова",
+		"hashrate":"Хешрејт",
+		"maxHashrate":"Maксимални Хешрејт",
+		"dedicatedHardware":"Са одговарајућим софтвером за рударење можете очекивати 2 до 3 пута већи хешрејт.<br/>Поред тога, софтвер за рударење вам омогућава да користите и графичку картицу.",
+		"miningHandledBy":"Рударење је омогућено и контролисано од стране get.masaricoin.com пула"
+	  }
+	},
+	"settingsPage":{
+	  "title":"Подешавања",
+	  "subtitle":"Промените подешавања овде",
+	  "settingsBlock":{
+		"speed":{
+		  "label":"Брзина ажурирања новчаника(утиче на потрошњу енергије)",
+		  "fastest":"Најбрже",
+		  "fast":"Брзо",
+		  "medium":"Средње",
+		  "slow":"Споро"
+		},
+		"readMinerTx":{
+		  "label":"Трансакције рудара(само за соло рударење)"
+		}
+	  },
+	  "changePasswordButton":"Промени лозинку новчаника",
+	  "deleteWalletButton":"Обриши мој новчаник(локална копија)",
+	  "walletSettings":{
+		"creationHeight":{
+		  "label":"Блок висина при креацији новчаника"
+		},
+		"currentScanningHeight": {
+		  "label": "Тренутна висина скенирања"
+		},
+		"updateButton":"Ажурирај"
+	  },
+	  "deleteWalletModal":{
+		"title":"Обриши мој новчаник(локална копија)",
+		"content":"Да ли сте СИГУРНИ да желите брисање новчаника ?",
+		"confirmText":"Да, сигуран сам",
+		"cancelButtonText":"Откажи"
+	  }
+	},
+	"importBasePage":{
+	  "parametersBlock":{
+		"title":"Параметри",
+		"password":{
+		  "label":"Лозинка за заштиту новчаника"
+		},
+		"passwordConfirm":{
+		  "label":"Потврдите лозинку",
+		  "invalid":"Лозинка се не подудара са првим уносом"
+		},
+		"importHeight":{
+		  "label":"Блок висина за увоз"
+		}
+	  }
+	},
+	"importFromQrPage":{
+	  "title":"Увоз новчаника преко QR кода",
+	  "subtitle":"Увези новчаник из офлајн датотеке",
+	  "qrCodeBlock":{
+		"title":"QR код",
+		"startScanButton":"Покрени скенирање",
+		"importButton":"Увези"
+	  },
+	  "qrScanningBlock":{
+		"title":"Приложите QR код"
+	  }
+	},
+	"exportPage":{
+	  "title":"Сачувајте ваше податке",
+	  "publicAddressBlock":{
+		"title":"Ваша адреса"
+	  },
+	  "pdfBlock":{
+		"title":"Pdf чување",
+		"downloadButton":"Преузми"
+	  },
+	  "warningBlock":{
+		"title":"Упозорење",
+		"content":"Уколико се одлучите да сачувате податке вашег новчаника, МОЛИМО ВАС немојте их чувати на видном и лако доступном месту.<br/>Овај фајл је алтернативно решење које садржи комплетан сет шифрованих параметара потребних за будућу ресторацију и синхронизацију."
+	  },
+	  "exportBlock":{
+		"title":"Извези СИРОВЕ податке",
+		"privateKeysButton":"Моји приватни кључеви",
+		"mnemonicKeysButton":"Моја мнемоничка фраза",
+		"fileButton":"Сачувај као фајл"
+	  },
+	  "walletKeysModal":{
+		"title":"Приватни кључеви",
+		"confirmText":"У реду",
+		"content":"Молимо бас да чувате ове податке на безбедном месту. <b>Поседовање ових кључева значи поседовање свих средстава везаних за поменуте кључеве.</b> !<br/>Потрошачки кључ: {privSpendKey}<br/>Приватни кључ: {privViewKey}"
+	  },
+	  "mnemonicKeyModal":{
+		"title":"Приватни кључеви",
+		"confirmText":"У реду",
+		"content":"Молимо вас да пажљиво чувате мнемоничку фразу. <b>Поседовање исте вам омогућава приступ средствима везаним за овај новчаник</b> ! Ваша фраза је:<br/>{mnemonic}"
+	  },
+	  "mnemonicLangSelectionModal":{
+		"title":"Изаберите језик за мнемоничку фразу ?",
+		"confirmText":"Извези"
+	  }
+	},
+	"importPage":{
+	  "title":"Направи новчаник",
+	  "subtitle":"Од претходно добијених кључева, фајла, или мнемоничке фразе",
+	  "chooseMethod":"Изабери метод",
+	  "fromKeys":"Помоћу кључева",
+	  "fromFile":"Помоћу фајла",
+	  "fromMnemonic":"Помоћу мнемоничке фразе",
+	  "fromQr":"Помоћу QR кода"
+	},
+	"termsOfUsePage":{
+	  "title":"Правила коришћења",
+	  "subtitle":"Молимо пажљиво прочитајте"
+	},
+	"importFromFilePage":{
+	  "title":"Увоз новчаника помоћу фајла",
+	  "subtitle":"Искористите преузети бекап фајл за креацију новчаника",
+	  "walletBlock":{
+		"title":"Фајл новчаника",
+		"label":"Изаберите фајл",
+		"importButton":"Увези"
+	  }
+	},
+	"importFromMnemonicPage":{
+	  "title":"Увоз новчаника помоћу мнемоничке фразе",
+	  "subtitle":"Искористите постојећу фразу за увоз новчаника",
+	  "mnemonicBlock":{
+		"title":"Мнемоминчка фраза",
+		"mnemonic":{
+		  "label":"Мнемоничка фраза: 25 речи",
+		  "invalid":"Неисправна мнемоничка фраза",
+		  "language":"Језик"
+		},
+		"importButton":"Увези"
+	  }
+	},
+	"importFromKeysPage":{
+	  "title":"Увоз новчаника помоћу кључева",
+	  "subtitle":"Искористите кључеве за увоз новчаника",
+	  "parametersBLock":{
+		"viewOnlyWallet":{
+		  "label":"Да ли желите новчаник само за преглед (view-only) ?"
+		}
+	  },
+	  "keysBlock":{
+		"titleNotViewOnly":"Кључеви новчаника",
+		"titleViewOnly":"View-only новчаник",
+		"privateSpend":{
+		  "label":"Приватни потрошачки кључ"
+		},
+		"privateView":{
+		  "label":"Приватни кључ за преглед",
+		  "optional":"(произвољна опција)"
+		},
+		"publicKey":{
+		  "label":"Јавни кључ"
+		},
+		"importButton":"Увези"
+	  }
+	}
+  },
+  "number":{
+
+  },
+  "date":{
+	"short": {
+	  "year": "numeric", "month": "short", "day": "numeric"
+	},
+	"long": {
+	  "year": "numeric", "month": "short", "day": "numeric",
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": false
+	}
+  }
+}
