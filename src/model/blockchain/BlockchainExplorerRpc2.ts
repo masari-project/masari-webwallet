@@ -110,7 +110,7 @@ export class WalletWatchdog{
 						self.wallet.txsMem.push(tx);
 					}
 				}
-		});
+		}).catch(function(){});
 		return true;
 	}
 
@@ -125,7 +125,7 @@ export class WalletWatchdog{
 	transactionsToProcess : RawDaemonTransaction[] = [];
 	intervalTransactionsProcess = 0;
 
-	workerProcessing : Worker;
+	workerProcessing !: Worker;
 	workerProcessingReady = false;
 	workerProcessingWorking = false;
 	workerCurrentProcessing : null|RawDaemonTransaction = null;
@@ -245,6 +245,10 @@ export class WalletWatchdog{
 					self.loadHistory();
 				}, 30*1000);
 			}
+		}).catch(function(){
+			setTimeout(function () {
+				self.loadHistory();
+			}, 30*1000);//retry 30s later if an error occurred
 		});
 	}
 
@@ -365,11 +369,6 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 				});
 				promises.push(promise);
 			}
-
-			console.log(randomBlocksIndexesToGet);
-
-			let heightWithMature = height - config.txMinConfirms;
-			let heightWithMatureCoinbase = height - config.txCoinbaseMinConfirms;
 
 			return Promise.all(promises).then(function(){
 				let txCandidates : any = {};

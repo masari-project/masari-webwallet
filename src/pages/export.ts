@@ -22,14 +22,14 @@ import {WalletRepository} from "../model/WalletRepository";
 import {Mnemonic} from "../model/Mnemonic";
 import {CoinUri} from "../model/CoinUri";
 
-let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
+let wallet: Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
 
 
-class ExportView extends DestructableView{
+class ExportView extends DestructableView {
 	@VueVar('') publicAddress: string;
 
-	constructor(container : string){
+	constructor(container: string) {
 		super(container);
 		let self = this;
 
@@ -40,144 +40,108 @@ class ExportView extends DestructableView{
 		return super.destruct();
 	}
 
-	getPrivateKeys(){
-		swal({
+	askUserPassword(): Promise<{ wallet: Wallet, password: string } | null> {
+		return swal({
 			title: 'Wallet password',
 			input: 'password',
 			showCancelButton: true,
 			confirmButtonText: 'Export',
-		}).then((result:any) => {
+		}).then((result: any) => {
 			if (result.value) {
 				let savePassword = result.value;
 				// let password = prompt();
-					// let wallet = WalletRepository.getMain();
-					let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
-					if(wallet !== null) {
-						swal({
-							title: 'Private keys',
-							html: 'Please store carefully those keys. <b>Possessing them means possessing the funds associated</b> !<br/>'+
-'Spend key: '+wallet.keys.priv.spend+'<br/>'+
-'Private key: '+wallet.keys.priv.view,
-						});
-					}else{
-						swal({
-							type: 'error',
-							title: 'Oops...',
-							text: 'Your password seems invalid',
-						});
-					}
+				// let wallet = WalletRepository.getMain();
+				let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
+				if (wallet !== null) {
+					return {wallet: wallet, password: savePassword};
+				} else {
+					swal({
+						type: 'error',
+						title: i18n.t('global.invalidPasswordModal.title'),
+						text: i18n.t('global.invalidPasswordModal.content'),
+						confirmButtonText: i18n.t('global.invalidPasswordModal.confirmText'),
+					});
+				}
+
 			}
+			return null;
 		});
 	}
 
-	getMnemonicPhrase(){
-		swal({
-			title: 'Wallet password',
-			input: 'password',
-			showCancelButton: true,
-			confirmButtonText: 'Export',
-		}).then((passwordResult:any) => {
-			if (passwordResult.value) {
+	getPrivateKeys() {
+		this.askUserPassword().then(function (params: { wallet: Wallet, password: string } | null) {
+			if (params !== null && params.wallet !== null) {
 				swal({
-					title: 'In which lang do you want your mnemonic phrase ?',
-					input: 'select',
-					showCancelButton: true,
-					confirmButtonText: 'Export',
-					inputOptions:{
-						'english':'English',
-						'chinese':'Chinese (simplified)',
-						'dutch':'Dutch',
-						'electrum':'Electrum',
-						'esperanto':'Esperanto',
-						'french':'French',
-						'italian':'Italian',
-						'japanese':'Japanese',
-						'lojban':'Lojban',
-						'portuguese':'Portuguese',
-						'russian':'Russian',
-						'spanish':'Spanish',
-					}
-				}).then((mnemonicLangResult:any) => {
-					let savePassword = passwordResult.value;
-					// let password = prompt();
-					// let wallet = WalletRepository.getMain();
-					let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
-					if (wallet !== null) {
-						let mnemonic = Mnemonic.mn_encode(wallet.keys.priv.spend, mnemonicLangResult.value);
-
-						swal({
-							title: 'Private keys',
-							html: 'Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase in the '+mnemonicLangResult.value+' dictionary is:<br/>' +
-							mnemonic
-						});
-					} else {
-						swal({
-							type: 'error',
-							title: 'Oops...',
-							text: 'Your password seems invalid',
-						});
-					}
+					title: i18n.t('exportPage.walletKeysModal.title'),
+					confirmButtonText: i18n.t('exportPage.walletKeysModal.confirmText'),
+					html: i18n.t('exportPage.walletKeysModal.content', {
+						privViewKey: params.wallet.keys.priv.view,
+						privSpendKey: params.wallet.keys.priv.spend
+					}),
 				});
 			}
 		});
 	}
 
-	fileExport(){
-		swal({
-			title: 'Wallet password',
-			input: 'password',
-			showCancelButton: true,
-			confirmButtonText: 'Export',
-		}).then((result:any) => {
-			if (result.value) {
-				let savePassword = result.value;
-				// let password = prompt();
-				// let wallet = WalletRepository.getMain();
-				let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
-				if(wallet !== null) {
-					let exported = WalletRepository.getEncrypted(wallet, savePassword);
-					let blob = new Blob([JSON.stringify(exported)], {type: "application/json"});
-					saveAs(blob, "wallet.json");
-				}else{
+	getMnemonicPhrase() {
+		this.askUserPassword().then(function (params: { wallet: Wallet, password: string } | null) {
+			if (params !== null && params.wallet !== null) {
+				swal({
+					title: i18n.t('exportPage.mnemonicLangSelectionModal.title'),
+					input: 'select',
+					showCancelButton: true,
+					confirmButtonText: i18n.t('exportPage.mnemonicLangSelectionModal.title'),
+					inputOptions: {
+						'english': 'English',
+						'chinese': 'Chinese (simplified)',
+						'dutch': 'Dutch',
+						'electrum': 'Electrum',
+						'esperanto': 'Esperanto',
+						'french': 'French',
+						'italian': 'Italian',
+						'japanese': 'Japanese',
+						'lojban': 'Lojban',
+						'portuguese': 'Portuguese',
+						'russian': 'Russian',
+						'spanish': 'Spanish',
+					}
+				}).then((mnemonicLangResult: any) => {
+					let mnemonic = Mnemonic.mn_encode(params.wallet.keys.priv.spend, mnemonicLangResult.value);
+
 					swal({
-						type: 'error',
-						title: 'Oops...',
-						text: 'Your password seems invalid',
+						title: i18n.t('exportPage.mnemonicKeyModal.title'),
+						confirmButtonText: i18n.t('exportPage.mnemonicKeyModal.confirmText'),
+						html: i18n.t('exportPage.mnemonicKeyModal.content', {
+							mnemonic: mnemonic,
+						}),
 					});
-				}
+
+				});
 			}
 		});
 	}
 
-	exportEncryptedPdf(){
-		let self = this;
-		swal({
-			title: 'Wallet password',
-			input: 'password',
-			showCancelButton: true,
-			confirmButtonText: 'Export',
-		}).then((result:any) => {
-			if (result.value) {
-				let savePassword = result.value;
-				// let password = prompt();
-				// let wallet = WalletRepository.getMain();
-				let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
-				if(wallet !== null) {
-					WalletRepository.downloadEncryptedPdf(wallet);
-				}else{
-					swal({
-						type: 'error',
-						title: 'Oops...',
-						text: 'Your password seems invalid',
-					});
-				}
+	fileExport() {
+		this.askUserPassword().then(function (params: { wallet: Wallet, password: string } | null) {
+			if (params !== null && params.wallet !== null) {
+				let exported = WalletRepository.getEncrypted(params.wallet, params.password);
+				let blob = new Blob([JSON.stringify(exported)], {type: "application/json"});
+				saveAs(blob, "wallet.json");
+			}
+		});
+	}
+
+	exportEncryptedPdf() {
+		this.askUserPassword().then(function (params: { wallet: Wallet, password: string } | null) {
+			if (params !== null && params.wallet !== null) {
+				WalletRepository.downloadEncryptedPdf(params.wallet);
 			}
 		});
 	}
 
 }
 
-if(wallet !== null && blockchainExplorer !== null)
+if (wallet !== null && blockchainExplorer !== null)
 	new ExportView('#app');
 else
 	window.location.href = '#index';

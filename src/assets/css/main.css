@@ -139,12 +139,13 @@ body.menuHidden #menu {
 #pageLoading{
 	position: fixed;
 	left:60%;
-	top:40px;
+	top:0;
 	bottom:0;
 	width: 100%;
 	background: rgba(255,255,255,0.6);
 	z-index: 10;
 	text-align: center;
+	color:black;
 }
 #pageLoading i{
 	position: relative;

@@ -1,10 +1,10 @@
 <div id="app" class="body-root">
 	<div class="body-header" >
 		<div class="header-title">
-			<i class="fa fa-bank" aria-hidden="true"></i> Account
+			<i class="fa fa-bank" aria-hidden="true"></i> {{ $t("accountPage.title") }}
 		</div>
 		<div class="header-subtitle" >
-			Your account overview and your transactions history
+			{{ $t("accountPage.subtitle") }}
 		</div>
 	</div>
 	<div class="body-content" >
@@ -13,18 +13,18 @@
 			<div class="progress" >
 				<div class="bar" :style="'width:'+((currentScanBlock+1)/blockchainHeight*100 | 0)+'%'" >{{(((currentScanBlock+1)/blockchainHeight*1000 | 0) / 10)}}%</div>
 				<label>
-					Synchronizing <span class="currentScanBlock" >{{currentScanBlock+1}}</span>/<span class="blockchainHeight" >{{blockchainHeight}}</span>
+					{{ $t("accountPage.synchronizingBlock.text") }} <span class="currentScanBlock" >{{currentScanBlock+1}}</span>/<span class="blockchainHeight" >{{blockchainHeight}}</span>
 				</label>
 			</div>
 		</div>
 
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Your balance</div>
+				<div class="header-title" >{{ $t("accountPage.balanceBlock.title") }}</div>
 				<div class="content" >
 					<span class="walletAmount" >{{walletAmount | piconero}}</span> MSR
 					<tempate class="amount unlocked" v-if="unlockedWalletAmount !== walletAmount" >
-						<br/><span class="walletAmount" >Unlocked: {{unlockedWalletAmount | piconero}}</span> MSR
+						<br/><span class="walletAmount" >{{ $t("accountPage.balanceBlock.unlocked") }}: {{unlockedWalletAmount | piconero}}</span> MSR
 					</tempate>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 
 		<div class="panel nopadding">
 			<div class="body" >
-				<div class="header-title" >Transactions history</div>
+				<div class="header-title" >{{ $t("accountPage.historyBlock.title") }}</div>
 				<div class="content" >
 
 					<div class="transactions" >
@@ -44,7 +44,7 @@
 										<i v-else="" class="fa fa-level-up" aria-hidden="true"></i>
 									</td><!--LEfT-->
 									<td class="timestamp" v-if="transaction.blockHeight > 0">{{transaction.timestamp | date}} ({{transaction.blockHeight}})</td>
-									<td class="timestamp" v-else="">Pending...</td>
+									<td class="timestamp" v-else="">{{ $t("accountPage.historyBlock.pendingTxStatus") }}...</td>
 									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{transaction.getAmount() | piconero}}</td><!--RIGHT-->
 								</tr>
 								<tr v-if="transaction.paymentId !== ''">
@@ -53,15 +53,15 @@
 							</template>
 							<tr v-if="transactions.length == 0" >
 								<td colspan="3" class="noTransactions">
-									You currenly have no funds on this wallet.<br/>
+									{{ $t("accountPage.historyBlock.emptyWallet") }}<br/>
 									<span v-if="currentScanBlock+1 !== blockchainHeight" >
-										Wait until the wallet is updated
+										{{ $t("accountPage.historyBlock.waitSync") }}
 										<template v-if="blockchainHeight - currentScanBlock > 100000" >
-											<br/>The initial setup can take some time...
+											<br/>{{ $t("accountPage.historyBlock.beReallyPatient") }}
 										</template>
 									</span><br>
 									<div class="actions tc" >
-										<a href="#receive" class="btn">Get your address to receive MSR</a>
+										<a href="#receive" class="btn">{{ $t("accountPage.historyBlock.getMSRAddress") }}</a>
 									</div>
 								</td>
 							</tr>

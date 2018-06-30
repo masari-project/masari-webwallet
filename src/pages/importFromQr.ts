@@ -31,11 +31,12 @@ AppState.enableLeftMenu();
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 class ImportView extends DestructableView{
-	@VueVar('') password : string;
-	@VueVar('') password2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
-	@VueVar(0) importHeight : number;
+	@VueVar('') password !: string;
+	@VueVar('') password2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
+	@VueVar(0) importHeight !: number;
+	@VueVar(false) qrScanning !: boolean;
 
 	private mnemonicSeed : string|null = null;
 	private privateSpendKey : string|null = null;
@@ -74,16 +75,18 @@ class ImportView extends DestructableView{
 					}else{
 						swal({
 							type: 'error',
-							title: 'Oops...',
-							text: 'The mnemonic phrase is invalid',
+							title: i18n.t('global.invalidMnemonicModal.title'),
+							text: i18n.t('global.invalidMnemonicModal.content'),
+							confirmButtonText: i18n.t('global.invalidMnemonicModal.confirmText'),
 						});
 						return;
 					}
 				}else{
 					swal({
 						type: 'error',
-						title: 'Oops...',
-						text: 'The mnemonic phrase is invalid',
+						title: i18n.t('global.invalidMnemonicModal.title'),
+						text: i18n.t('global.invalidMnemonicModal.content'),
+						confirmButtonText: i18n.t('global.invalidMnemonicModal.confirmText'),
 					});
 					return;
 				}
@@ -125,7 +128,6 @@ class ImportView extends DestructableView{
 		});
 	}
 
-	@VueVar(false) qrScanning : boolean;
 
 	qrReader : QRReader|null = null;
 

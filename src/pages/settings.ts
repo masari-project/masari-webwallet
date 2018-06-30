@@ -28,13 +28,13 @@ let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().g
 let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
 
 class SendView extends DestructableView{
-	@VueVar(10) readSpeed : number;
-	@VueVar(false) checkMinerTx : boolean;
+	@VueVar(10) readSpeed !: number;
+	@VueVar(false) checkMinerTx !: boolean;
 
-	@VueVar(0) creationHeight : number;
-	@VueVar(0) scanHeight : number;
+	@VueVar(0) creationHeight !: number;
+	@VueVar(0) scanHeight !: number;
 
-	@VueVar(-1) maxHeight : number;
+	@VueVar(-1) maxHeight !: number;
 
 	constructor(container : string){
 		super(container);
@@ -52,10 +52,11 @@ class SendView extends DestructableView{
 
 	deleteWallet() {
 		swal({
-			title: 'Delete Wallet',
-			html: 'Are you sure you REALLY want to delete your wallet ?',
+			title: i18n.t('settingsPage.deleteWalletModal.title'),
+			html: i18n.t('settingsPage.deleteWalletModal.content'),
 			showCancelButton: true,
-			confirmButtonText: 'YES',
+			confirmButtonText: i18n.t('global.openWalletModal.confirmText'),
+			cancelButtonText: i18n.t('global.openWalletModal.cancelText'),
 		}).then((result:any) => {
 			if (result.value) {
 				AppState.disconnect();

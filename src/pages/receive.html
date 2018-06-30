@@ -2,34 +2,34 @@
 <div id="app" class="body-root receiveTab">
 	<div class="body-header" >
 		<div class="header-title">
-			<i class="fa fa-level-down" aria-hidden="true"></i> Receive MSR
+			<i class="fa fa-level-down" aria-hidden="true"></i> {{ $t("receivePage.title") }}
 		</div>
 	</div>
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Your address to receive funds</div>
+				<div class="header-title" >{{ $t("receivePage.receiveBlock.address.title") }}</div>
 				<div class="content" >
 					<div class="field action" >
-						<label>Give this address to receive funds</label>
+						<label>{{ $t("receivePage.receiveBlock.address.label") }}</label>
 						<div class="subfield readonly" >
 							<input type="text" v-model="rawAddress" id="rawAddress" readonly="readonly"/>
 							<span class="action" @click="setInClipboard()" ><i class="fa fa-copy" ></i></span>
 						</div>
 					</div>
 				</div>
-				<div class="header-title" >Or personalize the QR code</div>
+				<div class="header-title" >{{ $t("receivePage.receiveBlock.qrCode.title") }}</div>
 				<div class="content" >
 					<div class="field">
-						<label>Amount (optional)</label>
+						<label>{{ $t("receivePage.receiveBlock.qrCode.labelAmount") }}</label>
 						<input type="text" v-model="amount" />
 					</div>
 					<div class="field">
-						<label>Recipient name (optional)</label>
+						<label>{{ $t("receivePage.receiveBlock.qrCode.labelRecipient") }}</label>
 						<input type="text" v-model="recipientName" />
 					</div>
 					<div class="field">
-						<label>Transaction description (optional)</label>
+						<label>{{ $t("receivePage.receiveBlock.qrCode.labelDescription") }}</label>
 						<input type="text" v-model="txDescription" />
 					</div>
 					<!--<div class="field">
@@ -37,7 +37,7 @@
 						<input type="text" v-model="paymentId" maxlength="8"/>
 					</div>-->
 					<div class="actions" >
-						<button class="btn primary" @click="generateQrCode()" >Update</button>
+						<button class="btn primary" @click="generateQrCode()" >{{ $t("receivePage.receiveBlock.qrCode.updateButton") }}</button>
 					</div>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 		<img src="./assets/img/logoQrCode.png" id="masariQrCodeLogo" style="display: none;"/>
 		<div class="panel inline">
 			<div class="body" >
-				<div class="header-title" >Address in a QR code</div>
+				<div class="header-title" >{{ $t("receivePage.qrBlock.title") }}</div>
 				<div class="content" >
 					<div class="qrCode">
 						<div id="qrCodeContainer" ></div>

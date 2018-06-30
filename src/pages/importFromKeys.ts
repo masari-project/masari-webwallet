@@ -28,20 +28,20 @@ AppState.enableLeftMenu();
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 class ImportView extends DestructableView{
-	@VueVar(false) viewOnly : boolean;
+	@VueVar(false) viewOnly !: boolean;
 
-	@VueVar('') privateSpendKey : string;
-	@VueVar(false) validPrivateSpendKey : boolean;
-	@VueVar('') privateViewKey : string;
-	@VueVar(false) validPrivateViewKey : boolean;
-	@VueVar('') publicAddress : string;
-	@VueVar(false) validPublicAddress : boolean;
+	@VueVar('') privateSpendKey !: string;
+	@VueVar(false) validPrivateSpendKey !: boolean;
+	@VueVar('') privateViewKey !: string;
+	@VueVar(false) validPrivateViewKey !: boolean;
+	@VueVar('') publicAddress !: string;
+	@VueVar(false) validPublicAddress !: boolean;
 
-	@VueVar('') password : string;
-	@VueVar('') password2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
-	@VueVar(0) importHeight : number;
+	@VueVar('') password !: string;
+	@VueVar('') password2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
+	@VueVar(0) importHeight !: number;
 
 	constructor(container : string){
 		super(container);

@@ -45,6 +45,9 @@ export function VueClass() {
 						updated: undefined,
 					};
 
+					if(typeof (<any>window).i18n !== 'undefined')
+						 initParams.i18n = (<any>window).i18n;
+
 					if (typeof this['metadata'] !== 'undefined') {
 						let metadata : VueMetaData = this['metadata'];
 

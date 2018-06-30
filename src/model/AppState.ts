@@ -93,10 +93,11 @@ export class AppState{
 		let self = this;
 		return new Promise<void>(function (resolve, reject) {
 			swal({
-				title: 'Wallet password',
+				title: i18n.t('global.openWalletModal.title'),
 				input: 'password',
 				showCancelButton: true,
-				confirmButtonText: 'Open',
+				confirmButtonText: i18n.t('global.openWalletModal.confirmText'),
+				cancelButtonText: i18n.t('global.openWalletModal.cancelText'),
 			}).then((result:any) => {
 				setTimeout(function(){//for async
 					if (result.value) {
@@ -115,8 +116,9 @@ export class AppState{
 							}else{
 								swal({
 									type: 'error',
-									title: 'Oops...',
-									text: 'Your password seems invalid',
+									title: i18n.t('global.invalidPasswordModal.title'),
+									text: i18n.t('global.invalidPasswordModal.content'),
+									confirmButtonText:i18n.t('global.invalidPasswordModal.confirmText'),
 								});
 								reject();
 							}

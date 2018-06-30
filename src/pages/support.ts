@@ -22,8 +22,6 @@ import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvide
 import {Mnemonic} from "../model/Mnemonic";
 import {AppState} from "../model/AppState";
 
-let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
-
 class SupportView extends DestructableView{
 	constructor(container : string){
 		super(container);

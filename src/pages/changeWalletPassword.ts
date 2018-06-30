@@ -29,13 +29,13 @@ let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().g
 let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
 
 class ChangeWalletPasswordView extends DestructableView{
-	@VueVar('') oldPassword : string;
-	@VueVar(false) invalidOldPassword : boolean;
+	@VueVar('') oldPassword !: string;
+	@VueVar(false) invalidOldPassword !: boolean;
 
-	@VueVar('') walletPassword : string;
-	@VueVar('') walletPassword2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
+	@VueVar('') walletPassword !: string;
+	@VueVar('') walletPassword2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
 
 	constructor(container : string){
 		super(container);
@@ -71,7 +71,8 @@ class ChangeWalletPasswordView extends DestructableView{
 
 			swal({
 				type:'success',
-				title:'Password changed'
+				title:i18n.t('changeWalletPasswordPage.modalSuccess.title'),
+				confirmButtonText:i18n.t('changeWalletPasswordPage.modalSuccess.confirmText'),
 			});
 			this.oldPassword = '';
 			this.walletPassword = '';

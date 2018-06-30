@@ -1,21 +1,21 @@
 <div id="app" class="body-root">
 	<div class="body-header" >
 		<div class="header-title">
-			<i class="fa fa-pie-chart" aria-hidden="true"></i> Network stats
+			<i class="fa fa-pie-chart" aria-hidden="true"></i> {{ $t("networkPage.title") }}
 		</div>
 		<div class="header-subtitle" >
-			Insights on the Masari network
+			{{ $t("networkPage.subtitle") }}
 		</div>
 	</div>
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
 				<div class="content" >
-					<div>Network hashrate: {{networkHashrate}}MH/s</div>
-					<div>Blockchain height: {{blockchainHeight}}</div>
-					<div>Network difficulty: {{networkDifficulty}}</div>
-					<div>Last block found: {{lastBlockFound}}</div>
-					<div>Last block reward: {{lastReward}} MSR</div>
+					<div>{{ $t("networkPage.statsBlock.hashrate") }}: {{networkHashrate}}MH/s</div>
+					<div>{{ $t("networkPage.statsBlock.height") }}: {{blockchainHeight}}</div>
+					<div>{{ $t("networkPage.statsBlock.difficulty") }}: {{networkDifficulty}}</div>
+					<div>{{ $t("networkPage.statsBlock.lastTimeBlock") }}: {{lastBlockFound}}</div>
+					<div>{{ $t("networkPage.statsBlock.lastReward") }}: {{lastReward}} MSR</div>
 				</div>
 			</div>
 		</div>

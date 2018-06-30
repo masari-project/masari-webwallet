@@ -67,7 +67,7 @@ export class Wallet extends Observable{
 	private modified = true;
 	creationHeight : number = 0;
 
-	keys : UserKeys;
+	keys !: UserKeys;
 
 	private _options : WalletOptions = new WalletOptions();
 

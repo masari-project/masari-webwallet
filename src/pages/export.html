@@ -4,13 +4,13 @@
 <div id="app" class="body-root receiveTab">
 	<div class="body-header" >
 		<div class="header-title">
-			<i class="fa fa-download" aria-hidden="true"></i> Backup your credentials
+			<i class="fa fa-download" aria-hidden="true"></i> {{ $t("exportPage.title") }}
 		</div>
 	</div>
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Your public address</div>
+				<div class="header-title" >{{ $t("exportPage.publicAddressBlock.title") }}</div>
 				<div class="content" >
 					<span style="word-wrap: break-word;" >{{publicAddress}}</span>
 				</div>
@@ -19,35 +19,32 @@
 
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Pdf Backup</div>
+				<div class="header-title" >{{ $t("exportPage.pdfBlock.title") }}</div>
 				<div class="content tc" >
-					<button @click="exportEncryptedPdf()" class="btn primary">Download</button>
+					<button @click="exportEncryptedPdf()" class="btn primary">{{ $t("exportPage.pdfBlock.downloadButton") }}</button>
 				</div>
 			</div>
 		</div>
 
 		<div class="panel inline">
 			<div class="body" >
-				<div class="header-title" >Warning</div>
-				<div class="content" >
-					If you choose to save your private keys or your mnemonic phrase, PLEASE DO NOT store them in clear and non encrypted for your own safety.<br/>
-					The file is an alternate solution where your keys are encrypted and contains a backup of all your transactions to spare you a future synchronisation.
-				</div>
+				<div class="header-title" >{{ $t("exportPage.warningBlock.title") }}</div>
+				<div class="content" v-html="$t('exportPage.warningBlock.title')"></div>
 			</div>
 		</div>
 
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Export your RAW credentials</div>
+				<div class="header-title" >{{ $t("exportPage.exportBlock.title") }}</div>
 				<div class="content tc" >
 					<div class="tab" >
-						<button class="btn" @click="getPrivateKeys()" >Get my private keys</button>
+						<button class="btn" @click="getPrivateKeys()" >{{ $t("exportPage.exportBlock.privateKeysButton") }}</button>
 					</div>
 					<div class="tab" >
-						<button class="btn" @click="getMnemonicPhrase()" >Get my mnemonic phrase</button>
+						<button class="btn" @click="getMnemonicPhrase()" >{{ $t("exportPage.exportBlock.mnemonicKeysButton") }}</button>
 					</div>
 					<div class="tab" >
-						<button class="btn" @click="fileExport()" >Export to a file</button>
+						<button class="btn" @click="fileExport()" >{{ $t("exportPage.exportBlock.fileButton") }}</button>
 					</div>
 				</div>
 			</div>

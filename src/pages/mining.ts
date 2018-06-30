@@ -29,7 +29,7 @@ const ID_KEEP_ALIVE = '3';
 AppState.enableLeftMenu();
 
 class Pool{
-	private socket : WebSocket;
+	private socket !: WebSocket;
 	private poolLogin : string = '';
 	private poolPass : string = 'x';
 	private poolId : string = '';
@@ -224,20 +224,20 @@ class Pool{
 		return this.logged;
 	}
 
-	onNewJob : Function|null;
-	onClose : Function|null;
+	onNewJob : Function|null = null;
+	onClose : Function|null = null;
 }
 
 class MiningView extends DestructableView{
-	@VueVar('') miningAddress : string;
-	@VueVar(1) threads : number;
-	@VueVar(1000) difficulty : number;
-	@VueVar(0) throttleMiner : number;
-	@VueVar(0) validShares : number;
-	@VueVar(0) hashRate : number = 0;
-	@VueVar(0) maxHashRate : number = 0;
-	@VueVar(false) running : boolean;
-	@VueVar([]) miningAddressesAvailable : Array<{address:string,label:string}>;
+	@VueVar('') miningAddress !: string;
+	@VueVar(1) threads !: number;
+	@VueVar(1000) difficulty !: number;
+	@VueVar(0) throttleMiner !: number;
+	@VueVar(0) validShares !: number;
+	@VueVar(0) hashRate !: number;
+	@VueVar(0) maxHashRate !: number;
+	@VueVar(false) running !: boolean;
+	@VueVar([]) miningAddressesAvailable !: Array<{address:string,label:string}>;
 
 	workersThread : Worker[] = [];
 	pool : Pool|null = null;
@@ -331,7 +331,7 @@ class MiningView extends DestructableView{
 			this.workersThread = this.workersThread.slice(0, this.threads);
 		}else if(this.threads > this.workersThread.length){
 			for(let i = 0; i < this.threads-this.workersThread.length;++i) {
-				this.addWorker();
+				this.addWorker()
 			}
 		}
 	}

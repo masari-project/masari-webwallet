@@ -51,36 +51,7 @@ class IndexView extends DestructableView{
 	}
 
 	loadWallet(){
-		let self = this;
-		swal({
-			title: 'Wallet password',
-			input: 'password',
-			showCancelButton: true,
-			confirmButtonText: 'Open',
-		}).then((result:any) => {
-			setTimeout(function(){//for async
-			if (result.value) {
-				let savePassword = result.value;
-				// let password = prompt();
-				let memoryWallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-				if(memoryWallet === null){
-					// let wallet = WalletRepository.getMain();
-					let wallet = WalletRepository.getLocalWalletWithPassword(savePassword);
-					if(wallet !== null) {
-						wallet.recalculateIfNotViewOnly();
-						AppState.openWallet(wallet, savePassword);
-						window.location.href = '#account';
-					}else{
-						swal({
-							type: 'error',
-							title: 'Oops...',
-							text: 'Your password seems invalid',
-						});
-					}
-				}
-			}
-			},1);
-		});
+		AppState.askUserOpenWallet();
 	}
 
 }

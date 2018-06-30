@@ -1,4 +1,4 @@
-type VueConstructObject = {el:string,data:any, watch?:any, computed?:any, updated?:any, mounted?:any, methods?:any};
+type VueConstructObject = {el:string,data:any, watch?:any, computed?:any, updated?:any, mounted?:any, methods?:any, i18n?:any};
 type VueComponentObject = {
 	template:string,
 	props?:Array<string>,

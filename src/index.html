@@ -36,36 +36,38 @@
 
 <div id="menu" >
 	<a href="#!index" onclick="return false;"><img src="./assets/img/logo.png"/></a>
-	<a href="#!index" class="onlyNotConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> Home</a>
-	<a href="#!account" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> Account</a>
-	<a href="#!send" class="onlyWhenConnected notViewOnlyWallet"><span class="icon" ><i class="fa fa-level-up" aria-hidden="true"></i></span> Send</a>
-	<a href="#!receive" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-level-down" aria-hidden="true"></i></span> Receive</a>
-	<a href="#!export" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-download" aria-hidden="true"></i></span> Export</a>
-	<a href="#!settings" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-cog" aria-hidden="true"></i></span> Settings</a>
-	<a href="#!donate" ><span class="icon" ><i class="fa fa-heart" aria-hidden="true"></i></span> Donate</a>
-	<a href="#!disconnect"  class="onlyWhenConnected"><span class="icon" ><i class="fa fa-cog" aria-hidden="true"></i></span> Disconnect</a>
-	<a href="#!network" ><span class="icon" ><i class="fa fa-pie-chart" aria-hidden="true"></i></span> Network stats</a>
-	<a href="#!mining" ><span class="icon" ><i class="fa fa-institution" aria-hidden="true"></i></span> Mining</a>
+	<a href="#!index" class="onlyNotConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> {{ $t("menu.home") }}</a>
+	<a href="#!account" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> {{ $t("menu.account") }}</a>
+	<a href="#!send" class="onlyWhenConnected notViewOnlyWallet"><span class="icon" ><i class="fa fa-level-up" aria-hidden="true"></i></span> {{ $t("menu.send") }}</a>
+	<a href="#!receive" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-level-down" aria-hidden="true"></i></span> {{ $t("menu.receive") }}</a>
+	<a href="#!export" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-download" aria-hidden="true"></i></span> {{ $t("menu.export") }}</a>
+	<a href="#!settings" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-cog" aria-hidden="true"></i></span> {{ $t("menu.settings") }}</a>
+	<a href="#!donate" ><span class="icon" ><i class="fa fa-heart" aria-hidden="true"></i></span> {{ $t("menu.donate") }}</a>
+	<a href="#!disconnect"  class="onlyWhenConnected"><span class="icon" ><i class="fa fa-cog" aria-hidden="true"></i></span> {{ $t("menu.disconnect") }}</a>
+	<a href="#!network" ><span class="icon" ><i class="fa fa-pie-chart" aria-hidden="true"></i></span> {{ $t("menu.network") }}</a>
+	<a href="#!mining" ><span class="icon" ><i class="fa fa-institution" aria-hidden="true"></i></span> {{ $t("menu.mining") }}</a>
+
+	<div id="pageLoading" >
+		<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+		<span class="sr-only">{{ $t("global.loading") }}...</span>
+	</div>
 </div>
 
-<div id="pageLoading" >
-	<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-	<span class="sr-only">Loading...</span>
-</div>
 <div id="page" ></div>
 
-<div class="copyright" >
-	© 2018 wallet-beta.masaricoin.com
+<div class="copyright" id="copyright">
+	© 2018 www.masariwallet.com
 	<div class="right" >
-		<!--<select>
-			<option value="english">English</option>
-		</select>-->
-		<a href="#!termsOfUse" >Terms of Use</a>
-		<a href="#!support" >Support</a>
-		<a href="#!donate" >Donate</a>
-		<a href="#!network" >Network stats</a>
-		<a href="https://get.masaricoin.com" target="_blank" >Mining pool</a>
-		<a href="https://github.com/gnock/masari-webwallet" target="_blank">GitHub</a>
+		<select v-model="language">
+			<option value="en">English</option>
+			<option value="fr">Français</option>
+		</select>
+		<a href="#!termsOfUse" >{{ $t("bottom.termsOfUse") }}</a>
+		<a href="#!support" >{{ $t("bottom.support") }}</a>
+		<a href="#!donate" >{{ $t("bottom.donate") }}</a>
+		<a href="#!network" >{{ $t("bottom.network") }}</a>
+		<a href="https://get.masaricoin.com" target="_blank" >{{ $t("bottom.miningPool") }}</a>
+		<a href="https://github.com/gnock/masari-webwallet" target="_blank">{{ $t("bottom.github") }}</a>
 		<!--<a href="" >Twitter</a>-->
 	</div>
 </div>
@@ -74,6 +76,7 @@
 <script src="config.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js" ></script>-->
 <script src="lib/vue.min.js" ></script>
+<script src="lib/vue-i18n.js" ></script>
 <script src="lib/jquery-3.2.1.min.js"></script>
 <script src="lib/sweetalert2.js"></script>
 <script src="lib/sha3.js"></script>

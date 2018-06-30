@@ -19,7 +19,7 @@ export class Password{
 		let anUpperCase = /[A-Z]/;
 		let aLowerCase = /[a-z]/;
 		let aNumber = /[0-9]/;
-		let aSpecial = /[!|@|#|$|%|^|&|*|(|)|-|_]/;
+		let aSpecial = /[!|@|'|"|#|$|%|^|&|*|(|)|-|_]/;
 
 		let numUpper = 0;
 		let numLower = 0;
@@ -40,8 +40,9 @@ export class Password{
 			if(raiseError){
 				swal({
 					type: 'error',
-					title: 'The password is not complex enough',
-					text: 'The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character',
+					title: i18n.t('global.passwordNotComplexEnoughModal.title'),
+					text: i18n.t('global.passwordInvalidRequirements'),
+					confirmButtonText:i18n.t('global.passwordNotComplexEnoughModal.confirmText'),
 				});
 			}
 

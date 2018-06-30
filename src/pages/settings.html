@@ -1,10 +1,10 @@
 <div id="app" class="body-root">
 	<div class="body-header" >
 		<div class="header-title">
-			<i class="fa fa-cog" aria-hidden="true"></i> Settings
+			<i class="fa fa-cog" aria-hidden="true"></i> {{ $t("settingsPage.title") }}
 		</div>
 		<div class="header-subtitle" >
-			Change your parameters here
+			{{ $t("settingsPage.subtitle") }}
 		</div>
 	</div>
 	<div class="body-content" >
@@ -12,17 +12,17 @@
 			<div class="body" >
 				<div class="content" >
 					<div class="field">
-						<label>Speed to update the wallet (will consume more energy)</label>
+						<label>{{ $t("settingsPage.settingsBlock.speed.label") }}</label>
 						<select v-model="readSpeed" >
-							<option value="0" >Fastest</option>
-							<option value="10" >Fast</option>
-							<option value="50" >Medium</option>
-							<option value="100" >Slow</option>
+							<option value="2" >{{ $t("settingsPage.settingsBlock.speed.fastest") }}</option>
+							<option value="10" >{{ $t("settingsPage.settingsBlock.speed.fast") }}</option>
+							<option value="50" >{{ $t("settingsPage.settingsBlock.speed.medium") }}</option>
+							<option value="100" >{{ $t("settingsPage.settingsBlock.speed.slow") }}</option>
 						</select>
 					</div>
 					<div class="field checkbox toggle">
 						<input type="checkbox" name="public" v-model="checkMinerTx">
-						<label>Read miner transactions (only for people solo mining)</label>
+						<label>{{ $t("settingsPage.settingsBlock.readMinerTx.label") }}</label>
 					</div>
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 		<div class="panel inline">
 			<div class="body" >
 				<div class="content tc" >
-					<a href="#!changeWalletPassword" class="btn" >Change my wallet password</a>
+					<a href="#!changeWalletPassword" class="btn" >{{ $t("settingsPage.changePasswordButton") }}</a>
 				</div>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 		<div class="panel inline">
 			<div class="body" >
 				<div class="content tc" >
-					<button class="btn" @click="deleteWallet()" >Delete my wallet (local copy)</button>
+					<button class="btn" @click="deleteWallet()" >{{ $t("settingsPage.deleteWalletButton") }}</button>
 				</div>
 			</div>
 		</div>
@@ -48,15 +48,15 @@
 			<div class="body" >
 				<div class="content" >
 					<div class="field">
-						<label>Creation height of the wallet</label>
+						<label>{{ $t("settingsPage.walletSettings.creationHeight.label") }}</label>
 						<input type="number" v-model="creationHeight" />
 					</div>
 					<div class="field">
-						<label>Current scanning height</label>
+						<label>{{ $t("settingsPage.walletSettings.currentScanningHeight.label") }}</label>
 						<input type="number" v-model="scanHeight" />
 					</div>
 					<div class="actions tc">
-						<button @click="updateWalletSettings()" class="btn" >Update</button>
+						<button @click="updateWalletSettings()" class="btn" >{{ $t("settingsPage.walletSettings.updateButton") }}</button>
 					</div>
 				</div>
 			</div>

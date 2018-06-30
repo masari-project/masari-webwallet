@@ -30,16 +30,16 @@ AppState.enableLeftMenu();
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 class ImportView extends DestructableView{
-	@VueVar('') password : string;
-	@VueVar('') password2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
-	@VueVar(0) importHeight : number;
+	@VueVar('') password !: string;
+	@VueVar('') password2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
+	@VueVar(0) importHeight !: number;
 
-	@VueVar('') mnemonicPhrase : string;
-	@VueVar('') validMnemonicPhrase : boolean;
-	@VueVar('') language : string;
-	@VueVar([]) languages : {key:string,name:string}[];
+	@VueVar('') mnemonicPhrase !: string;
+	@VueVar('') validMnemonicPhrase !: boolean;
+	@VueVar('') language !: string;
+	@VueVar([]) languages !: {key:string,name:string}[];
 
 	constructor(container : string){
 		super(container);
@@ -108,8 +108,9 @@ class ImportView extends DestructableView{
 			}else{
 				swal({
 					type: 'error',
-					title: 'Oops...',
-					text: 'The mnemonic phrase is invalid',
+					title: i18n.t('global.invalidMnemonicModal.title'),
+					text: i18n.t('global.invalidMnemonicModal.content'),
+					confirmButtonText: i18n.t('global.invalidMnemonicModal.confirmText'),
 				});
 			}
 

@@ -31,10 +31,10 @@ AppState.enableLeftMenu();
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 class ImportView extends DestructableView{
-	@VueVar('') password : string;
-	@VueVar('') password2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
+	@VueVar('') password !: string;
+	@VueVar('') password2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
 
 	rawFile : any = null;
 	invalidRawFile : boolean = false;
@@ -92,8 +92,9 @@ class ImportView extends DestructableView{
 				}else{
 					swal({
 						type: 'error',
-						title: 'Oops...',
-						text: 'Your password seems invalid',
+						title: i18n.t('global.invalidPasswordModal.title'),
+						text: i18n.t('global.invalidPasswordModal.content'),
+						confirmButtonText: i18n.t('global.invalidPasswordModal.confirmText'),
 					});
 				}
 			},1);

@@ -25,22 +25,21 @@ import {WalletRepository} from "../model/WalletRepository";
 
 let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
-class NetworkView extends DestructableView{
-	@VueVar(0) step : number;
+class CreateViewWallet extends DestructableView{
+	@VueVar(0) step !: number;
 
-	@VueVar('') walletPassword : string;
-	@VueVar('') walletPassword2 : string;
-	@VueVar(false) insecurePassword : boolean;
-	@VueVar(false) forceInsecurePassword : boolean;
+	@VueVar('') walletPassword !: string;
+	@VueVar('') walletPassword2 !: string;
+	@VueVar(false) insecurePassword !: boolean;
+	@VueVar(false) forceInsecurePassword !: boolean;
 
-	@VueVar(false) walletBackupMade : boolean;
+	@VueVar(false) walletBackupMade !: boolean;
 
-	@VueVar(null) newWallet : Wallet|null;
-	@VueVar('') mnemonicPhrase : string;
+	@VueVar(null) newWallet !: Wallet|null;
+	@VueVar('') mnemonicPhrase !: string;
 
 	constructor(container : string){
 		super(container);
-		let self = this;
 		this.generateWallet();
 		AppState.enableLeftMenu();
 	}
@@ -119,4 +118,4 @@ class NetworkView extends DestructableView{
 
 }
 
-new NetworkView('#app');
+new CreateViewWallet('#app');

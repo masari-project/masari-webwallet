@@ -1,2 +1,2 @@
-declare var TextEncoder : any;
-declare var TextDecoder : any;
+// declare var TextEncoder : any;
+// declare var TextDecoder : any;

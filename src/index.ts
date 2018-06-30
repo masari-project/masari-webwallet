@@ -15,47 +15,129 @@
 
 import {Router} from "./lib/numbersLab/Router";
 import {Mnemonic} from "./model/Mnemonic";
+import {DestructableView} from "./lib/numbersLab/DestructableView";
+import {VueClass, VueVar, VueWatched} from "./lib/numbersLab/VueAnnotate";
 
 //bridge for cnUtil with the new mnemonic class
 (<any>window).mn_random = Mnemonic.mn_random;
 (<any>window).mn_encode = Mnemonic.mn_encode;
 (<any>window).mn_decode = Mnemonic.mn_decode;
 
-let isMenuHidden = $('body').hasClass('menuHidden');
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+	locale: 'en',
+	fallbackLocale: 'en',
+});
+(<any>window).i18n = i18n;
 
-function toggleMenu(){
-	isMenuHidden = !isMenuHidden;
-	console.log(isMenuHidden);
-	if(isMenuHidden)
-		$('body').addClass('menuHidden');
-	else
-		$('body').removeClass('menuHidden');
+let browserUserLang = ''+(navigator.language || (<any>navigator).userLanguage);
+browserUserLang = browserUserLang.toLowerCase().split('-')[0];
+
+let userLang = browserUserLang;
+let storedUserLang = window.localStorage.getItem('user-lang');
+if(storedUserLang !== null){
+	userLang = storedUserLang;
 }
 
+let storedTranslations : any = {};
+
+function loadLangTranslation(lang : string) : Promise<void>{
+	console.log('setting lang to '+lang);
+	let promise : Promise<{messages?: any, date?: string, number?: string }>;
+	if(typeof storedTranslations[lang] !== 'undefined')
+		promise = Promise.resolve(storedTranslations[lang]);
+	else
+		promise = new Promise<{messages?: any, date?: string, number?: string }>(function (resolve, reject) {
+			$.ajax({
+				url: './translations/' + lang + '.json'
+			}).then(function (data: { messages?: any, date?: string, number?: string }) {
+				storedTranslations[lang] = data;
+				resolve(data);
+			}).fail(function () {
+				reject();
+			});
+		});
+
+	promise.then(function(data: { messages?: any, date?: string, number?: string }){
+		if (typeof data.date !== 'undefined')
+			i18n.setDateTimeFormat(lang, data.date);
+		if (typeof data.number !== 'undefined')
+			i18n.setNumberFormat(lang, data.number);
+		if (typeof data.messages !== 'undefined')
+			i18n.setLocaleMessage(lang, data.messages);
+
+		console.log(data.messages);
+
+		i18n.locale = lang;
+
+		let htmlDocument = document.querySelector('html');
+		if (htmlDocument !== null)
+			htmlDocument.setAttribute('lang', lang);
+	});
+
+	return (<any>promise);
+}
+
+loadLangTranslation(userLang).catch(function () {
+	loadLangTranslation('en');
+});
+
+@VueClass()
+class MenuView extends Vue{
+	isMenuHidden : boolean = false;
+
+	constructor(containerName:any,vueData:any=null){
+		super(vueData);
+		this.isMenuHidden = $('body').hasClass('menuHidden');
+	}
+
+	toggle(){
+		this.isMenuHidden = !this.isMenuHidden;
+		if(this.isMenuHidden)
+			$('body').addClass('menuHidden');
+		else
+			$('body').removeClass('menuHidden');
+	}
+}
+let menuView = new MenuView('#menu');
+
 $('#menu a').on('click',function(event:Event){
-	toggleMenu();
+	menuView.toggle();
 });
 $('#menu').on('click',function(event:Event){
 	event.stopPropagation();
 });
 
 $('#topBar .toggleMenu').on('click',function(event:Event){
-	toggleMenu();
+	menuView.toggle();
 	event.stopPropagation();
 	return false;
 });
 
 $(window).click(function() {
-	isMenuHidden = true;
+	menuView.isMenuHidden = true;
 	$('body').addClass('menuHidden');
 });
 
+@VueClass()
+class CopyrightView extends Vue{
+
+	@VueVar(userLang) language !: string;
+
+	constructor(containerName:any,vueData:any=null){
+		super(vueData);
+	}
+
+	@VueWatched()
+	languageWatch(){
+		window.localStorage.setItem('user-lang', this.language);
+		loadLangTranslation(this.language);
+	}
+}
+let copyrightView = new CopyrightView('#copyright');
+
 let router = new Router('./','../../');
 window.onhashchange = function () {
-	if("ga" in window) {
-		(<any>window).GA('set', 'page', window.location.href);
-		(<any>window).GA('send', 'pageview');
-	}
 	router.changePageFromHash();
 };
 
@@ -64,11 +146,11 @@ if ('serviceWorker' in navigator) {
 		console.log(registration);
 		swal({
 			type:'info',
-			title:'A new version is available',
-			html:'Do you want to reload to load the new version ?',
-			confirmButtonText:'Yes',
+			title:i18n.t('global.newVersionModal.title'),
+			html:i18n.t('global.newVersionModal.content'),
+			confirmButtonText:i18n.t('global.newVersionModal.confirmText'),
 			showCancelButton: true,
-			cancelButtonText:'Latter',
+			cancelButtonText:i18n.t('global.newVersionModal.cancelText'),
 		}).then(function(value : any){
 			if(!value.dismiss){
 				registration.waiting.postMessage('force-activate');

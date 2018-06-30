@@ -136,8 +136,9 @@ class QRReader{
 			if(''+error === 'DOMException: Permission denied'){
 				swal({
 					type: 'error',
-					title: 'Oops...',
-					text: 'The permission to access your camera is required to scan the QR code',
+					title:i18n.t('global.permissionRequiredForCameraModal.title'),
+					html:i18n.t('global.permissionRequiredForCameraModal.content'),
+					confirmButtonText:i18n.t('global.permissionRequiredForCameraModal.confirmText'),
 				});
 			}
 			console.log('unable access camera');
@@ -147,7 +148,7 @@ class QRReader{
 	stop() {
 		this.active = false;
 		if (this.webcam !== null) {
-			if(this.webcam.srcObject!==null)
+			if(this.webcam.srcObject!==null && this.webcam.srcObject instanceof MediaStream)
 				this.webcam.srcObject.getVideoTracks()[0].stop();
 			this.webcam.srcObject = null;
 		}

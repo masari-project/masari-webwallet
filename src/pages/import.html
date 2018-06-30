@@ -1,21 +1,21 @@
 <div id="app" class="body-root">
 	<div class="body-header" >
 		<div class="header-title">
-			Create a wallet
+			{{ $t("exportPage.importPage.title") }}
 		</div>
 		<div class="header-subtitle" >
-			From previously created keys, file or mnemonic phrase
+			{{ $t("exportPage.importPage.subtitle") }}
 		</div>
 	</div>
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Choose your import method</div>
+				<div class="header-title" >{{ $t("exportPage.importPage.chooseMethod") }}</div>
 				<div class="content tc" >
-					<a href="#!importFromKeys" class="btn" >From keys</a>
-					<a href="#!importFromFile" class="btn" >From a file</a>
-					<a href="#!importFromMnemonic" class="btn" >From a mnemonic phrase</a>
-					<a href="#!importFromQr" class="btn" >From a QR code</a>
+					<a href="#!importFromKeys" class="btn" >{{ $t("exportPage.importPage.fromKey") }}</a>
+					<a href="#!importFromFile" class="btn" >{{ $t("exportPage.importPage.fromFile") }}</a>
+					<a href="#!importFromMnemonic" class="btn" >{{ $t("exportPage.importPage.fromMnemonic") }}</a>
+					<a href="#!importFromQr" class="btn" >{{ $t("exportPage.importPage.fromQr") }}</a>
 				</div>
 			</div>
 		</div>

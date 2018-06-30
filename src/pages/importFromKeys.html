@@ -1,43 +1,43 @@
 <div id="app" class="body-root">
 	<div class="body-header" >
 		<div class="header-title">
-			Importing wallet from keys
+			{{ $t("importFromKeysPage.title") }}
 		</div>
 		<div class="header-subtitle" >
-			Use your keys to create a wallet
+			{{ $t("importFromKeysPage.subtitle") }}
 		</div>
 	</div>
 	<div class="body-content" >
 		<div class="panel">
 			<div class="body" >
-				<div class="header-title" >Parameters</div>
+				<div class="header-title" >{{ $t("importBasePage.parametersBlock.title") }}</div>
 				<div class="content" >
 					<div class="field toggle checkbox">
 						<input type="checkbox" name="public" v-model="viewOnly">
-						<label>Do you want a view only wallet</label>
+						<label>{{ $t("importFromKeysPage.parametersBlock.viewOnlyWallet.label") }}</label>
 					</div>
 
 					<div class="field">
-						<label>Password to protect your wallet</label>
+						<label>{{ $t("importBasePage.parametersBlock.password.label") }}</label>
 						<input type="password" name="public" v-model="password">
 						<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
-							The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character
+							{{ $t("global.passwordInvalidRequirements") }}
 							<div class="tc">
-								<button @click="forceInsecurePasswordCheck()" class="btn mini">Disable this security, i understand the risk</button>
+								<button @click="forceInsecurePasswordCheck()" class="btn mini">{{ $t("global.disableSecurity") }}</button>
 							</div>
 						</div>
 					</div>
 
 					<div class="field">
-						<label>Confirm the password</label>
+						<label>{{ $t("importBasePage.parametersBlock.passwordConfirm.label") }}</label>
 						<input type="password" name="public" v-model="password2">
 						<div v-if="password != '' && password2 != '' && password != password2" class="message error">
-							The password does not match the first you wrote
+							{{ $t("importBasePage.parametersBlock.passwordConfirm.invalid") }}
 						</div>
 					</div>
 
 					<div class="field">
-						<label>Height to import from</label>
+						<label>{{ $t("importBasePage.parametersBlock.importHeight.label") }}</label>
 						<input type="text" name="public" v-model="importHeight">
 					</div>
 				</div>
@@ -46,19 +46,19 @@
 
 		<div class="panel" v-if="!viewOnly">
 			<div class="body" >
-				<div class="header-title" >Wallet keys</div>
+				<div class="header-title" >{{ $t("importFromKeysPage.keysBlock.titleNotViewOnly") }}</div>
 				<div class="content" >
 					<div class="field">
-						<label>Private spend key</label>
+						<label>{{ $t("importFromKeysPage.keysBlock.privateSpend.label") }}</label>
 						<input type="text" name="public" v-model="privateSpendKey">
 					</div>
 					<div class="field">
-						<label>Private view key (optional)</label>
+						<label>{{ $t("importFromKeysPage.keysBlock.privateView.label") }} {{ $t("importFromKeysPage.keysBlock.privateView.optional") }}</label>
 						<input type="text" name="public" v-model="privateViewKey">
 					</div>
 
 					<div class="actions tc" >
-						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >Import</button>
+						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >{{ $t("importFromKeysPage.keysBlock.importButton") }}</button>
 					</div>
 				</div>
 			</div>
@@ -66,19 +66,19 @@
 
 		<div class="panel" v-if="viewOnly">
 			<div class="body" >
-				<div class="header-title" >View only wallet</div>
+				<div class="header-title" >{{ $t("importFromKeysPage.keysBlock.titleViewOnly") }}</div>
 				<div class="content" >
 					<div class="field">
-						<label>Public key</label>
+						<label>{{ $t("importFromKeysPage.keysBlock.publicKey.label") }}</label>
 						<input type="text" name="public" v-model="publicAddress">
 					</div>
 					<div class="field">
-						<label>Private view key</label>
+						<label>{{ $t("importFromKeysPage.keysBlock.privateView.label") }}</label>
 						<input type="text" name="public" v-model="privateViewKey">
 					</div>
 
 					<div class="actions tc" >
-						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >Import</button>
+						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >{{ $t("importFromKeysPage.keysBlock.importButton") }}</button>
 					</div>
 				</div>
 			</div>

@@ -44,12 +44,12 @@ function setTextInClipboard(inputId : string){
 }
 
 class AccountView extends DestructableView{
-	@VueVar('') rawAddress : string;
-	@VueVar('') address : string;
-	@VueVar('') paymentId : string;
-	@VueVar('') amount : string;
-	@VueVar('') recipientName : string;
-	@VueVar('') txDescription : string;
+	@VueVar('') rawAddress !: string;
+	@VueVar('') address !: string;
+	@VueVar('') paymentId !: string;
+	@VueVar('') amount !: string;
+	@VueVar('') recipientName !: string;
+	@VueVar('') txDescription !: string;
 
 	constructor(container : string){
 		super(container);
