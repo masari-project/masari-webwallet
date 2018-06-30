@@ -28,8 +28,8 @@ export class WalletRepository{
 			password = ('00000000000000000000000000000000'+password).slice(-32);
 		}
 
-		let privKey = new TextEncoder("utf8").encode(password);
-		let nonce = new TextEncoder("utf8").encode(rawWallet.nonce);
+		let privKey = new (<any>TextEncoder)("utf8").encode(password);
+		let nonce = new (<any>TextEncoder)("utf8").encode(rawWallet.nonce);
 		// rawWallet.encryptedKeys = this.b64DecodeUnicode(rawWallet.encryptedKeys);
 		let encrypted = new Uint8Array(<any>rawWallet.encryptedKeys);
 		let decrypted = nacl.secretbox.open(encrypted, nonce, privKey);
@@ -60,11 +60,11 @@ export class WalletRepository{
 			password = ('00000000000000000000000000000000'+password).slice(-32);
 		}
 
-		let privKey = new TextEncoder("utf8").encode(password);
+		let privKey = new (<any>TextEncoder)("utf8").encode(password);
 		let rawNonce = nacl.util.encodeBase64(nacl.randomBytes(16));
-		let nonce = new TextEncoder("utf8").encode(rawNonce);
+		let nonce = new (<any>TextEncoder)("utf8").encode(rawNonce);
 		let rawWallet = wallet.exportToRaw();
-		let uint8EncryptedKeys = new TextEncoder("utf8").encode(rawWallet.encryptedKeys);
+		let uint8EncryptedKeys = new (<any>TextEncoder)("utf8").encode(rawWallet.encryptedKeys);
 
 		let encrypted : Uint8Array = nacl.secretbox(uint8EncryptedKeys, nonce, privKey);
 		rawWallet.encryptedKeys = <any>encrypted.buffer;
