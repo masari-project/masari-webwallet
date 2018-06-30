@@ -1,4 +1,8 @@
 {
+  "website":{
+	"title":"Portefeuille officiel en ligne pour Masari ",
+	"description":"Portefeuille en ligne officiel pour la monnaie Masari, anonyme, sécurisé et entièrement géré dans votre navigateur for une sécurité optimale"
+  },
   "messages": {
 	"menu": {
 	  "home": "Accueil",

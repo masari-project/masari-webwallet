@@ -1,4 +1,8 @@
 {
+  "website":{
+	"title":"Official Masari Web Wallet",
+	"description":"Official online wallet for Masari currency, anonymous, secured and fully handled in your browser for an optimal security"
+  },
   "messages": {
 	"menu": {
 	  "home": "Home",

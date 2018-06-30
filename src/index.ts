@@ -58,7 +58,7 @@ function loadLangTranslation(lang : string) : Promise<void>{
 			});
 		});
 
-	promise.then(function(data: { messages?: any, date?: string, number?: string }){
+	promise.then(function(data: { website?:any,messages?: any, date?: string, number?: string }){
 		if (typeof data.date !== 'undefined')
 			i18n.setDateTimeFormat(lang, data.date);
 		if (typeof data.number !== 'undefined')
@@ -66,9 +66,15 @@ function loadLangTranslation(lang : string) : Promise<void>{
 		if (typeof data.messages !== 'undefined')
 			i18n.setLocaleMessage(lang, data.messages);
 
-		console.log(data.messages);
-
 		i18n.locale = lang;
+
+		$('title').html(data.website.title);
+		$('meta[property="og:title"]').attr('content',data.website.title);
+
+		$('meta[name="description"]').attr('content',data.website.description);
+		$('meta[property="og:description"]').attr('content',data.website.description);
+
+
 
 		let htmlDocument = document.querySelector('html');
 		if (htmlDocument !== null)
