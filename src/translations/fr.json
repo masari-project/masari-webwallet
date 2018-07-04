@@ -390,7 +390,7 @@
 	  "title":"Créer un portefeuille",
 	  "subtitle":"Depuis des cléfs, une fichier ou une phrase mnémotechnique",
 	  "chooseMethod":"Choisissez votre méthode d'import",
-	  "fromKeys":"Deupis des cléfs privées",
+	  "fromKeys":"Depuis des cléfs privées",
 	  "fromFile":"Depuis un fichier",
 	  "fromMnemonic":"Depuis une phrase mnémotechnique",
 	  "fromQr":"Depuis un QR code"
