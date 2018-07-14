@@ -1,8 +1,7 @@
 .idea/
 *.iml
 node_modules
-src/api/cache
-src/api/cache-testnet
+src/api/cache*
 src/api/lastRun.txt
 src/**/*.js
 src/**/*.js.map

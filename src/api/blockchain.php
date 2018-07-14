@@ -5,13 +5,14 @@ include 'config.php';
 
 function getTxWithHashes($txHashes){
 	global $rpcPort;
+	global $daemonAddress;
 	$curl = curl_init();
 	
 	$body = json_encode(array(
 		'txs_hashes'=>$txHashes,
 		'decode_as_json'=>true
 	));
-	curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/gettransactions', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
+	curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/gettransactions', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
 	
 	$resp = curl_exec($curl);
 	curl_close($curl);
@@ -22,9 +23,10 @@ function getTxWithHashes($txHashes){
 
 function getBlockchainHeight(){
 	global $rpcPort;
+	global $daemonAddress;
 	$curl = curl_init();
 	
-	curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/getheight', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => ''));
+	curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/getheight', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => ''));
 	
 	$resp = curl_exec($curl);
 	curl_close($curl);
@@ -38,6 +40,7 @@ $outCount = 0;//to start at 0
 function createOptimizedBock($startHeight, $endHeight){
 	global $outCount;
 	global $rpcPort;
+	global $daemonAddress;
 	$txHashesPerBlock = array();
 	$txHashes = array();
 	$txHashesMap = array();
@@ -53,7 +56,7 @@ function createOptimizedBock($startHeight, $endHeight){
 	for($height = $startHeight; $height < $endHeight; ++$height){
 		$body = json_encode(array("jsonrpc" => "2.0", "id" => "0", "method" => "getblock", "params" => array("height" => $height)));
 		
-		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
+		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
 		
 		$resp = curl_exec($curl);
 		$array = json_decode($resp, true);
@@ -95,7 +98,7 @@ function createOptimizedBock($startHeight, $endHeight){
 			'decode_as_json'=>true
 		));
 		
-		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/gettransactions', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
+		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/gettransactions', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
 		
 		$resp = curl_exec($curl);
 		$decodedJson = json_decode($resp, true);
@@ -149,7 +152,7 @@ function createOptimizedBock2($startHeight, $endHeight){
 		
 		$curl = curl_init();
 		
-		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
+		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
 		
 		$resp = curl_exec($curl);
 		curl_close($curl);

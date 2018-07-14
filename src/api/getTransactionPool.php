@@ -18,7 +18,7 @@ include 'config.php';
 
 $curl = curl_init();
 
-curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://localhost:'.$rpcPort.'/get_transaction_pool', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => ''));
+curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/get_transaction_pool', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => ''));
 
 $resp = curl_exec($curl);
 curl_close($curl);

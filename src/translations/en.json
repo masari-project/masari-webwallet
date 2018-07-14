@@ -424,7 +424,7 @@
 	"importFromKeysPage":{
 	  "title":"Importing wallet from keys",
 	  "subtitle":"Use your keys to create a wallet",
-	  "parametersBLock":{
+	  "parametersBlock":{
 		"viewOnlyWallet":{
 		  "label":"Do you want a view only wallet"
 		}
