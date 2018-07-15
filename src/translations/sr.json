@@ -106,6 +106,13 @@
 		"waitSync": "Сачекајте да се новчаник освежи",
 		"beReallyPatient": "Овај поступак може да потраје...",
 		"getMSRAddress": "Адреса за пријем новчића"
+	  },
+	  "txDetails":{
+		"title":"Transaction details",
+		"txHash":"Tx hash",
+		"feesOnTx":"Fees on the tx",
+		"blockHeight":"Block height",
+		"paymentId":"Payment ID"
 	  }
 	},
 	"changeWalletPasswordPage":{

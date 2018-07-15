@@ -20,6 +20,7 @@ import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {Constants} from "../model/Constants";
 import {VueFilterDate, VueFilterPiconero} from "../filters/Filters";
 import {AppState} from "../model/AppState";
+import {Transaction} from "../model/Transaction";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -27,7 +28,7 @@ let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOC
 @VueRequireFilter('date',VueFilterDate)
 @VueRequireFilter('piconero',VueFilterPiconero)
 class AccountView extends DestructableView{
-	@VueVar([]) transactions !: any[];
+	@VueVar([]) transactions !: Transaction[];
 	@VueVar(0) walletAmount !: number;
 	@VueVar(0) unlockedWalletAmount !: number;
 
@@ -68,6 +69,29 @@ class AccountView extends DestructableView{
 			// let walletExported = wallet.exportToRaw();
 			// window.localStorage.setItem('wallet', JSON.stringify(walletExported));
 		// }
+	}
+
+	moreInfoOnTx(transaction : Transaction){
+		let explorerUrl = config.testnet ? config.testnetExplorerUrl : config.mainnetExplorerUrl;
+		let feesHtml = '';
+		if(transaction.getAmount() < 0)
+			feesHtml = `<div>`+i18n.t('accountPage.txDetails.feesOnTx')+`: `+Vue.options.filters.piconero(transaction.fees)+`</a></div>`;
+
+		let paymentId = '';
+		if(transaction.paymentId !== ''){
+			paymentId = `<div>`+i18n.t('accountPage.txDetails.paymentId')+`: `+transaction.paymentId+`</a></div>`;
+		}
+
+		swal({
+			title:i18n.t('accountPage.txDetails.title'),
+			html:`
+<div class="tl" >
+	<div>`+i18n.t('accountPage.txDetails.txHash')+`: <a href="`+explorerUrl+`tx/`+transaction.hash+`" target="_blank">`+transaction.hash+`</a></div>
+	`+paymentId+`
+	`+feesHtml+`
+	<div>`+i18n.t('accountPage.txDetails.blockHeight')+`: `+transaction.blockHeight+`</a></div>
+</div>`
+		});
 	}
 
 	refreshWallet(){

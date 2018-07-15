@@ -68,6 +68,8 @@ export class Router {
 		let promiseDestruct: Promise<void>;
 		if (currentView !== null) {
 			promiseDestruct = currentView.destruct();
+			currentView = null;
+			DestructableView.setCurrentAppView(null);
 		} else {
 			promiseDestruct = Promise.resolve();
 		}
@@ -82,12 +84,6 @@ export class Router {
 			let jsContentPath = self.routerBaseJsRelativity+'pages/' + newPageName + '.js';
 
 			Promise.all([promiseContent]).then(function (data: string[]) {
-				if (!replaceState) {
-					history.pushState(null, '', '#'+self.urlPrefix + completeNewPageName);
-				} else {
-					history.replaceState(null, '', '#'+self.urlPrefix + completeNewPageName);
-				}
-
 				let content = data[0];
 				self.injectNewPage(content, jsContentPath);
 			}).catch(function (error) {

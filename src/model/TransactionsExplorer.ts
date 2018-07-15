@@ -294,12 +294,9 @@ export class TransactionsExplorer {
 
 		if (outs.length > 0 || ins.length) {
 			transaction = new Transaction();
-			if (typeof rawTransaction.height !== 'undefined') {
-				transaction.blockHeight = rawTransaction.height;
-			}
-			if (typeof rawTransaction.ts !== 'undefined') {
-				transaction.timestamp = rawTransaction.ts;
-			}
+			if (typeof rawTransaction.height !== 'undefined') 	transaction.blockHeight = rawTransaction.height;
+			if (typeof rawTransaction.ts !== 'undefined') 		transaction.timestamp = rawTransaction.ts;
+			if (typeof rawTransaction.hash !== 'undefined') 	transaction.hash = rawTransaction.hash;
 			transaction.txPubKey = tx_pub_key;
 
 			if (paymentId !== null)

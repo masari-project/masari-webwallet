@@ -54,7 +54,7 @@ function createOptimizedBock($startHeight, $endHeight){
 	$blockTimes = array();
 	
 	for($height = $startHeight; $height < $endHeight; ++$height){
-		$body = json_encode(array("jsonrpc" => "2.0", "id" => "0", "method" => "getblock", "params" => array("height" => $height)));
+		$body = json_encode(array("jsonrpc" => "2.0", "id" => "0", "method" => "get_block", "params" => array("height" => $height)));
 		
 		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
 		
@@ -67,6 +67,7 @@ function createOptimizedBock($startHeight, $endHeight){
 		$blockJson = json_decode($array['result']['json'], true);
 		$minerTx = $blockJson['miner_tx'];
 		$minerTx['height'] = $height;
+		$minerTx['hash'] = $array['result']['miner_tx_hash'];
 		$minerTx['vin'] = [];
 		$minerTxs[] = $minerTx;
 		
@@ -102,21 +103,29 @@ function createOptimizedBock($startHeight, $endHeight){
 		
 		$resp = curl_exec($curl);
 		$decodedJson = json_decode($resp, true);
-		if(!isset(json_decode($resp, true)['txs_as_json']))
+		if(!isset($decodedJson['txs_as_json'])){
+			$rawTransactionsJson = [];
 			$rawTransactions = [];
-		else
-			$rawTransactions = $decodedJson['txs_as_json'];
+		}else{
+			$rawTransactionsJson = $decodedJson['txs_as_json'];
+			$rawTransactions = $decodedJson['txs'];
+		}
 		
-		$iTransaction = 0;
-		foreach($rawTransactions as $rawTransaction){
+//		var_dump($decodedJson['txs']);
+//		var_dump($rawTransactions);
+		
+		for($iTransaction = 0; $iTransaction < count($rawTransactionsJson); ++$iTransaction){
+			$rawTransactionJson = $rawTransactionsJson[$iTransaction];
+			$rawTransaction = $rawTransactions[$iTransaction];
 			//			var_dump($txHashesMap[$txHashes[$iTransaction]].'<=>'.$height.'=>'.count($rawTransactions));
 //			if($txHashesMap[$txHashes[$iTransaction]] === $height){
 				//				++$outCount;
-				$finalTransaction = json_decode($rawTransaction, true);
+				$finalTransaction = json_decode($rawTransactionJson, true);
 				unset($finalTransaction['rctsig_prunable']);
 				$finalTransaction['global_index_start'] = $outCount;
-				$finalTransaction['ts'] = $blockTimes[$height];
+				$finalTransaction['ts'] = $rawTransaction['block_timestamp'];
 				$finalTransaction['height'] = $height;
+				$finalTransaction['hash'] = $rawTransaction['tx_hash'];
 				//				var_dump('-->'.$txHashesMap[$txHashes[$iTransaction]]);
 				$finalTransactions[] = $finalTransaction;
 				
@@ -125,7 +134,6 @@ function createOptimizedBock($startHeight, $endHeight){
 //								var_dump('vout of ' . $voutCount);
 				$outCount += $voutCount;
 //			}
-			++$iTransaction;
 		}
 		//		var_dump($outCount);
 	}

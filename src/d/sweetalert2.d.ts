@@ -17,4 +17,5 @@ declare function swal(params : {
 declare namespace swal{
 	function showLoading() : void;
 	function hideLoading() : void;
+	function close() : void;
 }

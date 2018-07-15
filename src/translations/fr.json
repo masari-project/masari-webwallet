@@ -12,7 +12,7 @@
 	  "export": "Exporter",
 	  "donate": "Contribuer",
 	  "settings": "Paramètres",
-	  "disconnect": "Deconnection",
+	  "disconnect": "Déconnection",
 	  "network": "Stats du réseau",
 	  "mining": "Minage"
 	},
@@ -106,6 +106,13 @@
 		"waitSync": "Veuillez attendre la fin de la synchronisation",
 		"beReallyPatient": "La première synchronisation peut prendre quelques minutes...",
 		"getMSRAddress": "Obtenir mon adresse pour recevoir des MSR"
+	  },
+	  "txDetails":{
+		"title":"Détails de la transaction",
+		"txHash":"Tx hash",
+		"feesOnTx":"Frais sur la tx",
+		"blockHeight":"Hauteur sur la blockchain",
+		"paymentId":"ID du paiement"
 	  }
 	},
 	"changeWalletPasswordPage":{
@@ -424,7 +431,7 @@
 	"importFromKeysPage":{
 	  "title":"Importer un portefeuille depuis des cléfs",
 	  "subtitle":"Utilisez vos cléfs pour créer un portefeuille",
-	  "parametersBLock":{
+	  "parametersBlock":{
 		"viewOnlyWallet":{
 		  "label":"Voulez vous faire un portefeuille uniquement pour visualiser les fonds"
 		}

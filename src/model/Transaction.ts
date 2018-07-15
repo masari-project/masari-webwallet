@@ -81,6 +81,7 @@ export class TransactionIn{
 export class Transaction{
 	blockHeight : number = 0;
 	txPubKey : string = '';
+	hash : string = '';
 
 	outs : TransactionOut[] = [];
 	ins : TransactionIn[] = [];
@@ -110,6 +111,7 @@ export class Transaction{
 		}
 		if(typeof raw.paymentId !== 'undefined') transac.paymentId = raw.paymentId;
 		if(typeof raw.fees !== 'undefined') transac.fees = raw.fees;
+		if(typeof raw.hash !== 'undefined') transac.hash = raw.hash;
 		return transac;
 	}
 
@@ -118,6 +120,7 @@ export class Transaction{
 			blockHeight: this.blockHeight,
 			txPubKey: this.txPubKey,
 			timestamp: this.timestamp,
+			hash: this.hash,
 		};
 		if(this.ins.length > 0){
 			let rins : any[]= [];

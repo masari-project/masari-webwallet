@@ -40,6 +40,7 @@ type RawDaemonTransaction = {
 	global_index_start?:number,
 	height?:number,
 	ts?:number
+	hash?:string
 };
 
 type RawDaemonBlock = any;

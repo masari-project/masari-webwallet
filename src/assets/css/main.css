@@ -251,17 +251,23 @@ body.menuDisabled .copyright{
 	padding-left:5px;
 }
 .transactions .transaction .timestamp{
-	width: 50%;
+	width: 45%;
 	font-size: 20px;
 }
 .transactions .transaction .amount{
 	font-size: 20px;
-	width: 45%;
+	width: 42%;
 	text-align: right;
-	padding-right:10px;
+	padding-right:5px;
 }
 .transactions .transaction .amount.more{color:#6bc534;}
 .transactions .transaction .amount.less{color:#5b5b5b;}
+.transactions .transaction .moreInfo {
+	font-size: 20px;
+	width: 8%;
+	text-align: right;
+	padding-right: 10px;
+}
 
 .receiveTab .qrCode{
 	text-align: center;

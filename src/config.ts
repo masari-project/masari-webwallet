@@ -2,7 +2,7 @@ let global : any = typeof window !== 'undefined' ? window : self;
 global.config = {
 	apiUrl: "http://127.0.0.1:1984/",
 	mainnetExplorerUrl: "https://msrchain.net/",
-	testnetExplorerUrl: "http://139.162.32.245:8082/",
+	testnetExplorerUrl: "http,tnet.msrchain.net/",
 	testnet: false,
 	coinUnitPlaces: 12,
 	txMinConfirms: 10,         // corresponds to CRYPTONOTE_DEFAULT_TX_SPENDABLE_AGE in Monero
@@ -15,6 +15,8 @@ global.config = {
 	integratedAddressPrefix: 29,
 	addressPrefixTestnet: 33,
 	integratedAddressPrefixTestnet: 34,
+	subAddressPrefix: 52,
+	subAddressPrefixTestnet: 73,
 	feePerKB: new JSBigInt('400000000'),//20^10 - for testnet its not used, as fee is dynamic.
 	dustThreshold: new JSBigInt('1000000000'),//10^10 used for choosing outputs/change - we decompose all the way down if the receiver wants now regardless of threshold
 	txChargeRatio: 0.5,
@@ -25,6 +27,4 @@ global.config = {
 	maxBlockNumber: 500000000,
 	avgBlockTime: 120,
 	debugMode: false,
-	subAddressPrefix: 52,
-	subAddressPrefixTestnet: 73,
 };

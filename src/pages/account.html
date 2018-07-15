@@ -43,16 +43,19 @@
 										<i v-if="transaction.ins.length == 0" class="fa fa-level-down" aria-hidden="true"></i>
 										<i v-else="" class="fa fa-level-up" aria-hidden="true"></i>
 									</td><!--LEfT-->
-									<td class="timestamp" v-if="transaction.blockHeight > 0">{{transaction.timestamp | date}} ({{transaction.blockHeight}})</td>
+									<td class="timestamp" v-if="transaction.blockHeight > 0">{{transaction.timestamp | date}}</td>
 									<td class="timestamp" v-else="">{{ $t("accountPage.historyBlock.pendingTxStatus") }}...</td>
-									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{transaction.getAmount() | piconero}}</td><!--RIGHT-->
+									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{transaction.getAmount() | piconero}}</td>
+									<td class="moreInfo">
+										<i class="fa fa-search" aria-hidden="true" @click="moreInfoOnTx(transaction)"></i>
+									</td>
 								</tr>
 								<tr v-if="transaction.paymentId !== ''">
-									<td colspan="3" class="paymentId" >{{transaction.paymentId}}</td><!--UNDER-->
+									<td colspan="4" class="paymentId" >{{transaction.paymentId}}</td><!--UNDER-->
 								</tr>
 							</template>
 							<tr v-if="transactions.length == 0" >
-								<td colspan="3" class="noTransactions">
+								<td colspan="4" class="noTransactions">
 									{{ $t("accountPage.historyBlock.emptyWallet") }}<br/>
 									<span v-if="currentScanBlock+1 !== blockchainHeight" >
 										{{ $t("accountPage.historyBlock.waitSync") }}

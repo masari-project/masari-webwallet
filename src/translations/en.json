@@ -106,6 +106,13 @@
 		"waitSync": "Wait until the wallet is updated",
 		"beReallyPatient": "The initial setup can take some time...",
 		"getMSRAddress": "Get your address to receive MSR"
+	  },
+	  "txDetails":{
+		"title":"Transaction details",
+		"txHash":"Tx hash",
+		"feesOnTx":"Fees on the tx",
+		"blockHeight":"Block height",
+		"paymentId":"Payment ID"
 	  }
 	},
 	"changeWalletPasswordPage":{
