@@ -18,6 +18,7 @@ Translations:
 - english: too many peoples
 - french: gnock
 - serbian cyrillic: girugameshh
+- german: F0sching
 
 # Contributing
 - You can help Masari by translation the wallet in your native language, it's really easy !  

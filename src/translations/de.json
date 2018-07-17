@@ -1,0 +1,468 @@
+{
+  "website":{
+	"title":"Offizielle Masari Web Wallet",
+	"description":"Offizielle Online Wallet für Masari currency, anonym, sicher und für optimale Sicherheit vollständig in deinem Browser verwaltet"
+  },
+  "messages": {
+	"menu": {
+	  "home": "Home",
+	  "account": "Account",
+	  "send": "Senden",
+	  "receive": "Empfangen",
+	  "export": "Export",
+	  "donate": "Spenden",
+	  "settings": "Einstellungen",
+	  "disconnect": "Verbindung trennen",
+	  "network": "Netzwerkstatus",
+	  "mining": "Minen"
+	},
+	"global": {
+	  "loading": "wird geladen",
+	  "disableSecurity":"Sicherheit verringern, ich verstehe das Risiko",
+	  "passwordInvalidRequirements":"Das Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl oder Sonderzeichen enthalten",
+	  "passwordConfirmationNotMatching":"Das Passwort entspricht nicht dem vorher eingegebenen",
+	  "download":"Download",
+	  "newVersionModal":{
+		"title":"Eine neue Version ist verfügbar",
+		"content":"Möchtest du neu laden um die neue Version zu erhalten?",
+		"confirmText":"Ja",
+		"cancelText":"Später"
+	  },
+	  "openWalletModal":{
+		"title":"Wallet Passwort",
+		"confirmText":"Öffnen",
+		"cancelText":"Abbrechen"
+	  },
+	  "invalidPasswordModal":{
+		"title":"Uups...",
+		"content":"Dein Passwort scheint falsch zu sein",
+		"confirmText":"OK"
+	  },
+	  "invalidMnemonicModal":{
+		"title":"Uups...",
+		"content":"Die Mnemonic Phrase ist falsch",
+		"confirmText":"OK"
+	  },
+	  "passwordNotComplexEnoughModal":{
+		"title":"Das Passwort ist nicht komplex genug",
+		"confirmText":"OK"
+	  },
+	  "permissionRequiredForCameraModal":{
+		"title":"Uups...",
+		"content":"Das Recht zum benutzen der Kamera wird benötigt um den QR Code zu scannen",
+		"confirmText":"OK"
+	  }
+	},
+	"bottom": {
+	  "termsOfUse": "Nutzungsbedingungen",
+	  "support": "Support",
+	  "donate": "Spenden",
+	  "network": "Netzwerkstatus",
+	  "miningPool": "Mining Pool",
+	  "github": "GitHub"
+	},
+	"homepage": {
+	  "mainTitle": "Gesicherte Masari Wallet",
+	  "tagLine": "Der einfachste Weg Masari jederzeit und überall zu nutzen",
+	  "actions": {
+		"loadWallet": "Lade meine Wallet",
+		"importWallet": "Importiere eine Wallet",
+		"create": "Erstellen",
+		"createWallet": "Erstelle eine Wallet"
+	  },
+	  "notes": {
+		"secure": {
+		  "title": "Sicher",
+		  "description": "Keine Server, voll verschlüsselt!"
+		},
+		"fast": {
+		  "title": "Fast",
+		  "description": "Sende jederzeit, überall!"
+		},
+		"technology": {
+		  "title": "Einzigartige Technologie",
+		  "description": "Direkt mit der Masari Blockchain verbunden!"
+		},
+		"openSource": {
+		  "title": "Komplett open-source",
+		  "description": "Vergügbar auf Github"
+		}
+	  }
+	},
+	"accountPage": {
+	  "title": "Account",
+	  "subtitle": "Überblick über deinen Account und deine Transactionshistorie",
+	  "synchronizingBlock": {
+		"text": "Synchronisiere "
+	  },
+	  "balanceBlock": {
+		"title": "Dein Guthaben",
+		"unlocked": "Entsperrt"
+	  },
+	  "historyBlock": {
+		"title": "Transaktionshistorie",
+		"pendingTxStatus": "Ausstehend",
+		"emptyWallet": "Du hast zur Zeit kein Guthaben auf dieser Wallet",
+		"waitSync": "Warte bis die Wallet upgedated ist",
+		"beReallyPatient": "Die erste Einrichtung kann etwas dauern...",
+		"getMSRAddress": "Hol die deine Adresse um MSR zu empfangen"
+	  },
+	  "txDetails":{
+		"title":"Transaktionsdetails",
+		"txHash":"Tx hash",
+		"feesOnTx":"Gebühren der tx",
+		"blockHeight":"Blockhöhe",
+		"paymentId":"Payment ID"
+	  }
+	},
+	"changeWalletPasswordPage":{
+	  "title":"Ändere dein Passwort",
+	  "oldPassword":{
+		"label":"Altes Passwort",
+		"invalid":"Das Passwort ist ungültig"
+	  },
+	  "newPassword":{
+		"label":"Wähle ein neues Passwort um deine Daten zu schützen"
+	  },
+	  "newPasswordConfirm":{
+		"label":"Bestätige das neue Passwort"
+	  },
+	  "confirm":"Ändere das Passwort",
+	  "modalSuccess":{
+		"title":"Passwort geändert!",
+		"confirmText":"OK"
+	  }
+	},
+	"createWalletPage":{
+	  "generatingStep":{
+		"title":"Deine Wallet wird erstellt...",
+		"subtitle":"Fast fertig",
+		"waitingMessage":"Erstelle deine Wallet..."
+	  },
+	  "finalizationStep":{
+		"title":"Das war einfach. Dein Account ist bereit!",
+		"subtitle":"Benutze Masari wie noch nie zuvor",
+		"passwordSelectionBlock":{
+		  "label":"Schütze deine Daten"
+		},
+		"passwordConfirmBlock":{
+		  "label":"Bestätige das Passwort"
+		},
+		"validPassword":"Benutze diese Passwort",
+		"backupBlock":{
+		  "title":"Und lade eine verschlüsselte Kopie deiner Zugangsdaten für zukünftige Verwendung herunter",
+		  "titlePdf":"Option 1: Download einer PDF Kopie",
+		  "titleManualWrite":"Option 2: Schreibe meine Schlüssel auf",
+		  "privateKeys":"Private key",
+		  "mnemonicPhrase":"Mnemonic phrase",
+		  "separatorManualMethodsSolution":" oder ",
+		  "confirmManuallyWritten":"Ich habe es aufgeschieben",
+		  "warningMessage":"**Auf keinen Fall verlieren!** Sie können nicht wiederhergestellt werden wenn du sie verlierst.<br/>**Nicht weitergeben!** Deine Masari werden gestohlen werden wenn diese Datei auf einer bösartigen/Phishing Seite benutzt.<br/>**Mache ein Backup!** Sichere es so wie die Millionen Euro, die es eines Tages vielleicht wert sein wird.<br/>",
+		  "finishButton":"Ich habe verstanden. Weiter"
+		}
+	  },
+	  "disclaimerBlock":{
+		"title":"Risiko beim benutzen der MasariWallet",
+		"content":"MasariWallet ist ein web-basierendes Interface. Es hilft beim nutzen von Masari ohne einen vollen Node zu betreiben. <br/>Wir empfehlen MasariWallet wie eine richtige Wallet zu behandeln."
+	  }
+	},
+	"donatePage":{
+	  "title":"Spenden",
+	  "subtitle":"Hilf uns die Enwicklung zu finanzieren und die Rechnungen zu bezahlen",
+	  "webwalletBlock":{
+		"title":"Webwallet",
+		"content":"Diese Webwallet ist von Gnock in seiner Freizeit entwickelt.<br/>Bitte denk über eine Spende nach wenn dir die App gefällt und du bei der Bezahlung der Server und der Enwicklung helfen willst.: <br/><br/>"
+	  },
+	  "masariFundBlock":{
+		"title":"Masari Entwicklerfonds",
+		"content":"Spende an diese Adresse um Masari zu helfen"
+	  }
+	},
+	"supportPage":{
+	  "title":"Support",
+	  "subtitle":"Du brauchst Hilfe, wir sind hier um zu helfen!",
+	  "getInTouchBlock":{
+		"title":"Nehmen wir Kontakt auf!",
+		"content":"Wenn du Ideen oder Feedback hast um die Wallet zu verbessern, kontaktiere uns!",
+		"discord":"Masari Discord Channel"
+	  }
+	},
+	"networkPage":{
+	  "title":"Netzwerkstatus",
+	  "subtitle":"Einblick ins Marsir Netzwerk",
+	  "statsBlock":{
+		"hashrate":"Netzwerk Hashrate",
+		"height":"Blockchainhöhe",
+		"difficulty":"Netzwerkschwierigkeit",
+		"lastTimeBlock":"Letzter gefundener Block",
+		"lastReward":"Letzte Blockbelohnung"
+	  }
+	},
+	"sendPage":{
+	  "title":"Schicke MSR",
+	  "sendBlock":{
+		"address":{
+		  "label":"Zieladresse",
+		  "invalid":"Die Zieladresse ist ungültig",
+		  "fundsTo":"Das Guthaben wird an folgende Adresse gesendet werden",
+		  "receiver":"Empfänger",
+		  "description":"Beschreibung"
+		},
+		"amount":{
+		  "label":"Zu sendender Betrag",
+		  "invalid":"Der Betrag ist ungültig"
+		},
+		"paymentId":{
+		  "label":"Payment ID (optional)",
+		  "invalid":"Die payment ID ist ungültig. Sie muss aus 16 oder 64 Zeichen bestehen"
+		},
+		"sendButton":"Senden",
+		"cancelButton":"Abbrechen"
+	  },
+	  "qrCodeScanning":{
+		"explication":"Den QR code zeigen"
+	  },
+	  "notEnoughMoneyModal":{
+		"title":"Uups...",
+		"content":"Du hast nicht genügend Guthaben in deiner Wallet um den Transfer auszuführen",
+		"confirmText":"OK"
+	  },
+	  "thankYouDonationModal":{
+		"title":"Danke für deine Spende!",
+		"content":"Deine Hilfe wird sehr geschätzt. <br/>Diese Spende wird helfen Masari noch beser zu machen",
+		"confirmText":"Schließen"
+	  },
+	  "transferSentModal":{
+		"title":"Transfer erfolgreich versendet!",
+		"confirmText":"Schließen"
+	  },
+	  "transferExceptionModal":{
+		"title":"Uups...",
+		"content":"Ein Fehler ist aufgetreten. Bitte melde uns diesen Fehler: {details}",
+		"confirmText":"Schließen"
+	  },
+	  "invalidAmountModal":{
+		"title":"Uups...",
+		"content":"Üngültige Menge",
+		"confirmText":"Schließen"
+	  },
+	  "creatingTransferModal":{
+		"title":"Transfer wird erstellt ...",
+		"content":"Bitte warten..."
+	  },
+	  "finalizingTransferModal":{
+		"title":"Transfer wird fertiggestellt ...",
+		"content":"Bitte warten..."
+	  },
+	  "confirmTransactionModal":{
+		"title":"Transfer bestätigen ?",
+		"content":"Amount: {amount}<br/>Fees: {fees}<br/>Total: {total}",
+		"confirmText":"Bestätigen",
+		"cancelText":"Abbrechen"
+	  }
+	},
+	"receivePage":{
+	  "title":"Empfange MSR",
+	  "receiveBlock":{
+		"address":{
+		  "title":"Deine Adresse um Guthaben zu empfangen",
+		  "label":"Stelle diese Adresse bereit um Guthaben zu empfangen"
+		},
+		"qrCode":{
+		  "title":"Oder personalisiere den QR code",
+		  "labelAmount":"Menge (optional)",
+		  "labelRecipient":"Empfängername (optional)",
+		  "labelDescription":"Transaktionsbeschreibung (optional)",
+		  "updateButton":"Update"
+		}
+	  },
+	  "qrBlock":{
+		"title":"Dein personlisierter QR code"
+	  }
+	},
+	"miningPage":{
+	  "title":"Mine direkt in deinem Browser",
+	  "subtitle":"Unterstütze das Netzwerk für mehr Stabilität und werde mit MSR belohnt",
+	  "parameterBlock":{
+		"title":"Parameter",
+		"labelDestinationAddress":"Wallet für die gemined werden soll",
+		"labelThreads":"Anzahl von Threads (mehr = höhere Hashrate)",
+		"start":"Start",
+		"stop":"Stop"
+	  },
+	  "statisticsBlocks":{
+		"title":"Statistik",
+		"validShares":"Gültige shares",
+		"hashrate":"Hashrate",
+		"maxHashrate":"Max Hashrate",
+		"dedicatedHardware":"Mit spezieller Software könnetest du zwei- bis dreimal höhere Hashraten erreichen.<br/>Sie würde auch mithilfe der Grafikkarte minen(wenn du eine hast).",
+		"miningHandledBy":"Minen erfolgt über den Mining Pool get.masaricoin.com"
+	  }
+	},
+	"settingsPage":{
+	  "title":"Einstellungen",
+	  "subtitle":"Hier änderst du deine Parameter",
+	  "settingsBlock":{
+		"speed":{
+		  "label":"Geschwindigkeit des Walletupdates (braucht mehr Energie)",
+		  "fastest":"am schnellsten",
+		  "fast":"schnell",
+		  "medium":"mittel",
+		  "slow":"langsam"
+		},
+		"readMinerTx":{
+		  "label":"Miner Transaktionen lesen (nur für Leute die solo minen)"
+		}
+	  },
+	  "changePasswordButton":"Ändere mein Wallet Passwort",
+	  "deleteWalletButton":"Lösche meine Wallet (lokale Kopie)",
+	  "walletSettings":{
+		"creationHeight":{
+		  "label":"Erstellhöhe der Wallet"
+		},
+		"currentScanningHeight": {
+		  "label": "Aktuelle Scanhöhe"
+		},
+		"updateButton":"Update"
+	  },
+	  "deleteWalletModal":{
+		"title":"Lösche meine Wallet (lokale Kopie)",
+		"content":"Bist du SICHER das du deine Wallet löschen möchtest?",
+		"confirmText":"Ja, ich bin sicher",
+		"cancelButtonText":"Abbrechen"
+	  }
+	},
+	"importBasePage":{
+	  "parametersBlock":{
+		"title":"Parameter",
+		"password":{
+		  "label":"Passwort zum Schutz deiner Wallet"
+		},
+		"passwordConfirm":{
+		  "label":"Bestätige das Passwort",
+		  "invalid":"Das Passwort stimmt nicht mit dem ersten überein"
+		},
+		"importHeight":{
+		  "label":"Höhe von der importiert werden soll"
+		}
+	  }
+	},
+	"importFromQrPage":{
+	  "title":"Importiere Wallet von einem QR code",
+	  "subtitle":"Importiere Wallet von einem offline Backup",
+	  "qrCodeBlock":{
+		"title":"QR code",
+		"startScanButton":"Starte den Scan",
+		"importButton":"Importiere"
+	  },
+	  "qrScanningBlock":{
+		"title":"Präsentiere den QR code"
+	  }
+	},
+	"exportPage":{
+	  "title":"Sichere deine Daten",
+	  "publicAddressBlock":{
+		"title":"Deine öffentliche Adresse"
+	  },
+	  "pdfBlock":{
+		"title":"Pdf Backup",
+		"downloadButton":"Download"
+	  },
+	  "warningBlock":{
+		"title":"Warnung",
+		"content":"Wenn du deinen privaten Schlüssel oder deine mnemonische Phrase speichern möchtest, speichere sie zu deiner eigenen Sicherheit NICHT in klarer und unverschlüsselter Form..<br/>Die Datei ist eine alternative Lösung, bei der deine Schlüssel verschlüsselt sind und ein Backup all deiner Transaktionen enthält, um dir eine zukünftige Synchronisation zu ersparen.."
+	  },
+	  "exportBlock":{
+		"title":"Exportiere deine RAW Zugangsdaten",
+		"privateKeysButton":"Gib mir meine pirvaten Schlüssel",
+		"mnemonicKeysButton":"Gib mir meine Mnemonic Phrase",
+		"fileButton":"Exportiere in eine Datei"
+	  },
+	  "walletKeysModal":{
+		"title":"Private Schlüssel",
+		"confirmText":"OK",
+		"content":"Diese Schlüssel bitte sorgfältig speichern. <b>Der Besitz dieser bedeutetd den Besitz des zugeordneten Guthabens</b> !<br/>Spend key: {privSpendKey}<br/>Private view key: {privViewKey}"
+	  },
+	  "mnemonicKeyModal":{
+		"title":"Mnemonic Phrase",
+		"confirmText":"OK",
+		"content":"Diese Mnemonic Phrase bitte sorgfältig speichern. <b>Der Besitz dieser Phrase bedeutetd den Besitz des zugeordneten Guthabens</b> ! Die Phrase lautet:<br/>{mnemonic}"
+	  },
+	  "mnemonicLangSelectionModal":{
+		"title":"In welcher Sprache möchtest du deine  Mnemonic Phrase ?",
+		"confirmText":"Exportiere"
+	  }
+	},
+	"importPage":{
+	  "title":"Erstelle eine Wallet",
+	  "subtitle":"Von vorher erstellten Schlüsslen, einer Datei oder einer Mnemonic Phrase",
+	  "chooseMethod":"Wähle deine Import Methode",
+	  "fromKeys":"Von Schlüsseln",
+	  "fromFile":"Von einer Datei",
+	  "fromMnemonic":"Von einer Mnemonic Phrase",
+	  "fromQr":"Von einem QR code"
+	},
+	"termsOfUsePage":{
+	  "title":"Nutzungsbedingungen",
+	  "subtitle":"Bitte lies diese genau"
+	},
+	"importFromFilePage":{
+	  "title":"Importieren einer Wallet aus einer Backup Datei",
+	  "subtitle":"Benutze die Backup Datei um eine Wallet zu erstellen",
+	  "walletBlock":{
+		"title":"Wallet Datei",
+		"label":"Datei auswählen",
+		"importButton":"Importiere"
+	  }
+	},
+	"importFromMnemonicPage":{
+	  "title":"Importieren einer Wallet von einer Mnemonic Phrase",
+	  "subtitle":"Benutze die Phrase um eine Wallet zu erstellen",
+	  "mnemonicBlock":{
+		"title":"Mnemonic Phrase",
+		"mnemonic":{
+		  "label":"Mnemonic Phrase : 25 Wörter",
+		  "invalid":"Die Mnemonic Phrase ist ungültig",
+		  "language":"Sprache"
+		},
+		"importButton":"Importiere"
+	  }
+	},
+	"importFromKeysPage":{
+	  "title":"Importiere  Wallet mithilfe von Schlüsseln",
+	  "subtitle":"Benutze die Schlüssel um eine Wallet zu erstellen",
+	  "parametersBlock":{
+		"viewOnlyWallet":{
+		  "label":"Möchtest du eine View-Only Wallet?"
+		}
+	  },
+	  "keysBlock":{
+		"titleNotViewOnly":"Wallet Schlüssel",
+		"titleViewOnly":"View-Only Wallet",
+		"privateSpend":{
+		  "label":"Privater Spend Key"
+		},
+		"privateView":{
+		  "label":"Privater View Key",
+		  "optional":"(optional)"
+		},
+		"publicKey":{
+		  "label":"Öffentlicher Schlüssel"
+		},
+		"importButton":"Importiere"
+	  }
+	}
+  },
+  "number":{
+
+  },
+  "date":{
+	"short": {
+	  "year": "numeric", "month": "short", "day": "numeric"
+	},
+	"long": {
+	  "year": "numeric", "month": "short", "day": "numeric",
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": true
+	}
+  }
+}
