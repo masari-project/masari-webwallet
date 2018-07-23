@@ -67,7 +67,7 @@
 	  "actions": {
 		"loadWallet": "Lade meine Wallet",
 		"importWallet": "Importiere eine Wallet",
-		"create": "Erstellen",
+		"create": "Erstelle eine Wallet",
 		"createWallet": "Erstelle eine Wallet"
 	  },
 	  "notes": {
@@ -76,8 +76,8 @@
 		  "description": "Keine Server, voll verschlüsselt!"
 		},
 		"fast": {
-		  "title": "Fast",
-		  "description": "Sende jederzeit, überall!"
+		  "title": "Schnell",
+		  "description": "Sende jederzeit, von überall!"
 		},
 		"technology": {
 		  "title": "Einzigartige Technologie",
@@ -143,14 +143,14 @@
 		"title":"Das war einfach. Dein Account ist bereit!",
 		"subtitle":"Benutze Masari wie noch nie zuvor",
 		"passwordSelectionBlock":{
-		  "label":"Schütze deine Daten"
+		  "label":"Schütze deine Daten mit einem Passwort"
 		},
 		"passwordConfirmBlock":{
 		  "label":"Bestätige das Passwort"
 		},
 		"validPassword":"Benutze diese Passwort",
 		"backupBlock":{
-		  "title":"Und lade eine verschlüsselte Kopie deiner Zugangsdaten für zukünftige Verwendung herunter",
+		  "title":"Bitte lade eine verschlüsselte Kopie deiner Zugangsdaten für zukünftige Verwendung herunter",
 		  "titlePdf":"Option 1: Download einer PDF Kopie",
 		  "titleManualWrite":"Option 2: Schreibe meine Schlüssel auf",
 		  "privateKeys":"Private key",
@@ -163,7 +163,7 @@
 	  },
 	  "disclaimerBlock":{
 		"title":"Risiko beim benutzen der MasariWallet",
-		"content":"MasariWallet ist ein web-basierendes Interface. Es hilft beim nutzen von Masari ohne einen vollen Node zu betreiben. <br/>Wir empfehlen MasariWallet wie eine richtige Wallet zu behandeln."
+		"content":"MasariWallet ist ein web-basierendes Interface. Es hilft beim Nutzen von Masari ohne einen vollen Node zu betreiben. <br/>Wir empfehlen MasariWallet sicherheitstechnisch wie eine richtige Wallet zu behandeln."
 	  }
 	},
 	"donatePage":{
@@ -295,7 +295,7 @@
 		"validShares":"Gültige shares",
 		"hashrate":"Hashrate",
 		"maxHashrate":"Max Hashrate",
-		"dedicatedHardware":"Mit spezieller Software könnetest du zwei- bis dreimal höhere Hashraten erreichen.<br/>Sie würde auch mithilfe der Grafikkarte minen(wenn du eine hast).",
+		"dedicatedHardware":"Mit spezieller Software könnetest du zwei- bis dreimal höhere Hashraten erreichen.<br/>Spezielle Software würde auch mithilfe einer Grafikkarte minen(wenn du einge Gaming GPU hast).",
 		"miningHandledBy":"Minen erfolgt über den Mining Pool get.masaricoin.com"
 	  }
 	},
