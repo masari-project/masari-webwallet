@@ -22,7 +22,6 @@ div,p,input,label{box-sizing: border-box;}
 
 body{
 	overflow-y: hidden;
-	font-family: Lato,"Arial";
 	font-weight: normal;
 	background: #f7f7f7;
 }
