@@ -18,12 +18,16 @@ import {Mnemonic} from "./model/Mnemonic";
 import {DestructableView} from "./lib/numbersLab/DestructableView";
 import {VueClass, VueVar, VueWatched} from "./lib/numbersLab/VueAnnotate";
 
+//========================================================
 //bridge for cnUtil with the new mnemonic class
+//========================================================
 (<any>window).mn_random = Mnemonic.mn_random;
 (<any>window).mn_encode = Mnemonic.mn_encode;
 (<any>window).mn_decode = Mnemonic.mn_decode;
 
-// Create VueI18n instance with options
+//========================================================
+//====================Translation code====================
+//========================================================
 const i18n = new VueI18n({
 	locale: 'en',
 	fallbackLocale: 'en',
@@ -50,7 +54,8 @@ function loadLangTranslation(lang : string) : Promise<void>{
 		promise = new Promise<{messages?: any, date?: string, number?: string }>(function (resolve, reject) {
 			$.ajax({
 				url: './translations/' + lang + '.json'
-			}).then(function (data: { messages?: any, date?: string, number?: string }) {
+			}).then(function (data: any) {
+				if(typeof data === 'string')data = JSON.parse(data);
 				storedTranslations[lang] = data;
 				resolve(data);
 			}).fail(function () {
@@ -88,6 +93,10 @@ function loadLangTranslation(lang : string) : Promise<void>{
 loadLangTranslation(userLang).catch(function () {
 	loadLangTranslation('en');
 });
+
+//========================================================
+//====================Generic design======================
+//========================================================
 
 @VueClass()
 class MenuView extends Vue{
@@ -143,12 +152,56 @@ class CopyrightView extends Vue{
 }
 let copyrightView = new CopyrightView('#copyright');
 
-let router = new Router('./','../../');
-window.onhashchange = function () {
-	router.changePageFromHash();
-};
+//========================================================
+//==================Loading the right page================
+//========================================================
 
-if ('serviceWorker' in navigator) {
+let isCordovaApp = document.URL.indexOf('http://') === -1
+	&& document.URL.indexOf('https://') === -1;
+
+let promiseLoadingReady : Promise<void>;
+
+window.native = false;
+if(isCordovaApp){
+	window.native = true;
+	$('body').addClass('native');
+
+	let promiseLoadingReadyResolve : null|Function = null;
+	let promiseLoadingReadyReject : null|Function = null;
+	promiseLoadingReady = new Promise<void>(function(resolve, reject){
+		promiseLoadingReadyResolve = resolve;
+		promiseLoadingReadyReject = reject;
+	});
+	let cordovaJs = document.createElement('script');
+	cordovaJs.type = 'text/javascript';
+	cordovaJs.src = 'cordova.js';
+	document.body.appendChild(cordovaJs);
+
+	let timeoutCordovaLoad = setTimeout(function(){
+		if(promiseLoadingReadyResolve)
+			promiseLoadingReadyResolve();
+	}, 10*1000);
+	document.addEventListener('deviceready', function(){
+		if(promiseLoadingReadyResolve)
+			promiseLoadingReadyResolve();
+		clearInterval(timeoutCordovaLoad);
+	}, false);
+
+}else
+	promiseLoadingReady = Promise.resolve();
+
+promiseLoadingReady.then(function(){
+	let router = new Router('./','../../');
+	window.onhashchange = function () {
+		router.changePageFromHash();
+	};
+});
+
+//========================================================
+//==================Service worker for web================
+//========================================================
+//only install the service on web platforms and not native
+if (!isCordovaApp && 'serviceWorker' in navigator) {
 	const showRefreshUI = function(registration : any){
 		console.log(registration);
 		swal({

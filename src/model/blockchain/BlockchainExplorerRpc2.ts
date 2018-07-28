@@ -258,8 +258,7 @@ export class WalletWatchdog{
 export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 
 	// testnet : boolean = true;
-	serverAddress = window.location.href.substr(0,window.location.href.lastIndexOf('/')+1)+'api/';
-
+	serverAddress = config.apiUrl;
 
 	heightCache = 0;
 	heightLastTimeRetrieve = 0;

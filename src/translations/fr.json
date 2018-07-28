@@ -410,7 +410,7 @@
 	  "title":"Importer un portefeuille depuis un fichier",
 	  "subtitle":"Utilisez votre sauvegarder pour récréer le portefeuille",
 	  "walletBlock":{
-		"title":"Fichier du portefeuillez",
+		"title":"Fichier du portefeuille",
 		"label":"Sélectionner",
 		"importButton":"Importer"
 	  }

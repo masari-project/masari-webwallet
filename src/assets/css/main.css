@@ -34,9 +34,12 @@ body.menuHidden{
 	}
 }
 @media screen and (max-width: 600px) {
-	onlyMobile{
+	.onlyMobile{
 		display: none;
 	}
+}
+body.transparent{
+	background: transparent !important;
 }
 
 .hidden{
@@ -57,6 +60,11 @@ body.menuHidden{
 }
 .viewOnlyWallet .notViewOnlyWallet{
 	display:none !important;
+}
+
+.native{}
+body.native .hideOnNative{
+	display: none !important;
 }
 
 #topBar{
@@ -174,7 +182,7 @@ body.menuHidden #page,body.menuDisabled #page{
 	}
 }
 
-.copyright{
+#copyright{
 	text-align: left;
 	padding:30px 0;
 	color: #474E5D;
@@ -182,30 +190,34 @@ body.menuHidden #page,body.menuDisabled #page{
 	padding-left:10px;
 	margin-left:280px;
 }
-body.menuDisabled .copyright{
+body.menuDisabled #copyright{
 	margin-left:0;
+}
+body.transparent #copyright{
+	display: none;
 }
 /* computer */
 @media screen and (max-width: 600px) {
-	body.menuHidden .copyright{
+	body.menuHidden #copyright{
 		margin-left: 0;
 	}
 }
 
-.copyright a{color: #474E5D;text-decoration: none;}
-.copyright .right{
+
+#copyright a{color: #474E5D;text-decoration: none;}
+#copyright .right{
 	float:right;
 }
-.copyright .right a, .copyright .right select{
+#copyright .right a, #copyright .right select{
 	display:inline-block;
 	margin-right: 10px;
 }
 @media screen and (max-width: 800px) {
-	.copyright,.copyright .right{
+	#copyright,#copyright .right{
 		float:none;
 		text-align: center;
 	}
-	.copyright .right{
+	#copyright .right{
 		padding-top:10px;
 	}
 }
@@ -374,6 +386,10 @@ body.menuDisabled .copyright{
 	-o-transition: all 0.4s;
 	transition: all 0.4s;
 }
+.qrCodeScanningContainer.native{
+	background: transparent !important;
+	display: none;
+}
 .qrCodeScanningContainer.hidden{
 	top:100vh;
 	display: block !important;
@@ -391,6 +407,10 @@ body.menuDisabled .copyright{
 	width: 40px;height:40px;
 	line-height: 35px;
 	text-align: center;
+}
+.qrCodeScanningContainer.native .close{
+	color:white;
+	border-color: white;
 }
 .qrCodeScanningContainer .close:hover {
 	background: black;

@@ -92,51 +92,87 @@ class SendView extends DestructableView {
 	}
 
 	startScan() {
-		this.initQr();
-		if (this.qrReader) {
-			let self = this;
-			this.qrScanning = true;
-			this.qrReader.scan(function (result: string) {
-				let parsed = false;
-				try {
-					let txDetails = CoinUri.decodeTx(result);
-					if (txDetails !== null) {
-						self.destinationAddressUser = txDetails.address;
-						if (typeof txDetails.description !== 'undefined') self.txDescription = txDetails.description;
-						if (typeof txDetails.recipientName !== 'undefined') self.txDestinationName = txDetails.recipientName;
-						if (typeof txDetails.amount !== 'undefined') {
-							self.amountToSend = txDetails.amount;
-							self.lockedForm = true;
-						}
-						// if(typeof txDetails.paymentId !== 'undefined')self.paymentId = txDetails.paymentId;
-						parsed = true;
-					}
-				} catch (e) {
-				}
+		let self = this;
+		if(typeof (<any>window).QRScanner !== 'undefined') {
+			(<any>window).QRScanner.scan(function(err : any, result : any){
+				if (err) {
+					if(err.name === 'SCAN_CANCELED'){
 
-				try {
-					let txDetails = CoinUri.decodeWallet(result);
-					if (txDetails !== null) {
-						self.destinationAddressUser = txDetails.address;
-						parsed = true;
+					}else{
+						alert(JSON.stringify(err));
 					}
-				} catch (e) {
+				} else {
+					self.handleScanResult(result);
 				}
-
-				if (!parsed && result.length === CoinUri.coinAddressLength)
-					self.destinationAddressUser = result;
-				self.qrScanning = false;
-				self.stopScan();
 			});
+
+			(<any>window).QRScanner.show();
+			$('body').addClass('transparent');
+			$('#appContent').hide();
+			$('#nativeCameraPreview').show();
+		}else {
+			this.initQr();
+			if (this.qrReader) {
+				this.qrScanning = true;
+				this.qrReader.scan(function (result: string) {
+					self.qrScanning = false;
+					self.handleScanResult(result);
+				});
+			}
 		}
 	}
 
-	stopScan() {
-		if (this.qrReader !== null) {
-			this.qrReader.stop();
-			this.qrReader = null;
-			this.qrScanning = false;
+	handleScanResult(result : string){
+		console.log('Scan result:', result);
+		let self = this;
+		let parsed = false;
+		try {
+			let txDetails = CoinUri.decodeTx(result);
+			if (txDetails !== null) {
+				self.destinationAddressUser = txDetails.address;
+				if (typeof txDetails.description !== 'undefined') self.txDescription = txDetails.description;
+				if (typeof txDetails.recipientName !== 'undefined') self.txDestinationName = txDetails.recipientName;
+				if (typeof txDetails.amount !== 'undefined') {
+					self.amountToSend = txDetails.amount;
+					self.lockedForm = true;
+				}
+				// if(typeof txDetails.paymentId !== 'undefined')self.paymentId = txDetails.paymentId;
+				parsed = true;
+			}
+		} catch (e) {
 		}
+
+		try {
+			let txDetails = CoinUri.decodeWallet(result);
+			if (txDetails !== null) {
+				self.destinationAddressUser = txDetails.address;
+				parsed = true;
+			}
+		} catch (e) {
+		}
+
+		if (!parsed)
+			self.destinationAddressUser = result;
+		self.stopScan();
+	}
+
+	stopScan() {
+		if(typeof (<any>window).QRScanner !== 'undefined') {
+			(<any>window).QRScanner.cancelScan(function(status:any){
+				console.log(status);
+			});
+			(<any>window).QRScanner.hide();
+			$('body').removeClass('transparent');
+			$('#appContent').show();
+			$('#nativeCameraPreview').hide();
+		}else {
+			if (this.qrReader !== null) {
+				this.qrReader.stop();
+				this.qrReader = null;
+				this.qrScanning = false;
+			}
+		}
+
 	}
 
 

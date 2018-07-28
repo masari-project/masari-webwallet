@@ -426,7 +426,8 @@ export class TransactionsExplorer {
 		wallet: Wallet,
 		blockchainHeight: number,
 		obtainMixOutsCallback: (quantity: number) => Promise<any[]>,
-		confirmCallback: (amount: number, feesAmount: number) => Promise<void>):
+		confirmCallback: (amount: number, feesAmount: number) => Promise<void>,
+		mixin : number = config.defaultMixin):
 		Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }> {
 		return new Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }>(function (resolve, reject) {
 			// few multiplayers based on uint64_t wallet2::get_fee_multiplier
@@ -435,7 +436,6 @@ export class TransactionsExplorer {
 			let feePerKB = new JSBigInt((<any>window).config.feePerKB);
 			let priority = default_priority;
 			let fee_multiplayer = fee_multiplayers[priority - 1];
-			let mixin = 12;
 			let neededFee = feePerKB.multiply(13).multiply(fee_multiplayer);
 			let pid_encrypt = false; //don't encrypt payment ID unless we find an integrated one
 

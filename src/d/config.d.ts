@@ -1,5 +1,5 @@
 declare var config : {
-	apiUrl: string,
+	apiUrl:string,
 	mainnetExplorerUrl: string,
 	testnetExplorerUrl: string,
 	testnet: boolean,
@@ -18,12 +18,10 @@ declare var config : {
 	subAddressPrefixTestnet: number,
 	feePerKB: any,
 	dustThreshold: any,
-	txChargeRatio: any,
-	defaultMixin: any, // minimum mixin for hardfork v5
+	defaultMixin: number, // default mixin
 	txChargeAddress: string,
 	idleTimeout: number,
 	idleWarningDuration: number,
 	maxBlockNumber: number,
 	avgBlockTime: number,
-	debugMode: boolean,
 };
