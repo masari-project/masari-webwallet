@@ -1,7 +1,7 @@
 {
   "website":{
 	"title":"Official Masari Web Wallet",
-	"description":"Official online wallet for Masari currency, anonymous, secured and fully handled in your browser for an optimal security"
+	"description":"Official online wallet for Masari currency - anonymous, secured, and fully handled in your browser for optimal security"
   },
   "messages": {
 	"menu": {
@@ -13,23 +13,23 @@
 	  "donate": "Donate",
 	  "settings": "Settings",
 	  "disconnect": "Disconnect",
-	  "network": "Network stats",
+	  "network": "Network Stats",
 	  "mining": "Mining"
 	},
 	"global": {
 	  "loading": "Loading",
-	  "disableSecurity":"Disable this security, i understand the risk",
-	  "passwordInvalidRequirements":"The password need at least 8 characters, 1 upper case letter, 1 lower case letter, one number and one special character",
-	  "passwordConfirmationNotMatching":"The password does not match the first you wrote",
+	  "disableSecurity":"Disable this security, I understand the risk",
+	  "passwordInvalidRequirements":"The password needs at least 8 characters - 1 upper case letter, 1 lower case letter, one number, and one special character",
+	  "passwordConfirmationNotMatching":"The password does not match the first password you wrote",
 	  "download":"Download",
 	  "newVersionModal":{
 		"title":"A new version is available",
-		"content":"Do you want to reload to load the new version ?",
+		"content":"Do you want to reload to load the new version?",
 		"confirmText":"Yes",
-		"cancelText":"Latter"
+		"cancelText":"Back"
 	  },
 	  "openWalletModal":{
-		"title":"Wallet password",
+		"title":"Wallet Password",
 		"confirmText":"Open",
 		"cancelText":"Cancel"
 	  },
@@ -57,13 +57,13 @@
 	  "termsOfUse": "Terms of Use",
 	  "support": "Support",
 	  "donate": "Donate",
-	  "network": "Network stats",
-	  "miningPool": "Mining pool",
+	  "network": "Network Stats",
+	  "miningPool": "Mining Pool",
 	  "github": "GitHub"
 	},
 	"homepage": {
 	  "mainTitle": "Secured Masari Wallet",
-	  "tagLine": "The simplest way to use Masari, anywhere and any time",
+	  "tagLine": "The simplest way to use Masari - anywhere and any time",
 	  "actions": {
 		"loadWallet": "Load my wallet",
 		"importWallet": "Import a wallet",
@@ -73,44 +73,44 @@
 	  "notes": {
 		"secure": {
 		  "title": "Secure",
-		  "description": "No servers, fully encrypted !"
+		  "description": "No servers, fully encrypted!"
 		},
 		"fast": {
 		  "title": "Fast",
 		  "description": "Send Everywhere, Anytime!"
 		},
 		"technology": {
-		  "title": "Unique technology",
-		  "description": "Connected directly on the Masari Blockchain !"
+		  "title": "Unique Technology",
+		  "description": "Connected directly to the Masari blockchain!"
 		},
 		"openSource": {
-		  "title": "Fully open-source",
-		  "description": "Available on github"
+		  "title": "Fully Open-source",
+		  "description": "Available on Github!"
 		}
 	  }
 	},
 	"accountPage": {
 	  "title": "Account",
-	  "subtitle": "Your account overview and your transactions history",
+	  "subtitle": "Your account overview and transaction history",
 	  "synchronizingBlock": {
-		"text": "Synchronizing "
+		"text": "Synchronizing..."
 	  },
 	  "balanceBlock": {
 		"title": "Your balance",
 		"unlocked": "Unlocked"
 	  },
 	  "historyBlock": {
-		"title": "Transactions history",
+		"title": "Transaction history",
 		"pendingTxStatus": "Pending",
-		"emptyWallet": "You currently have no funds on this wallet",
-		"waitSync": "Wait until the wallet is updated",
+		"emptyWallet": "You currently have no funds in this wallet.",
+		"waitSync": "Please wait until the wallet is updated",
 		"beReallyPatient": "The initial setup can take some time...",
-		"getMSRAddress": "Get your address to receive MSR"
+		"getMSRAddress": "Receive MSR"
 	  },
 	  "txDetails":{
 		"title":"Transaction details",
 		"txHash":"Tx hash",
-		"feesOnTx":"Fees on the tx",
+		"feesOnTx":"Tx fees",
 		"blockHeight":"Block height",
 		"paymentId":"Payment ID"
 	  }
@@ -122,14 +122,14 @@
 		"invalid":"The password is invalid"
 	  },
 	  "newPassword":{
-		"label":"Choose a new password to protect your credential"
+		"label":"Choose a new password to protect your wallet"
 	  },
 	  "newPasswordConfirm":{
 		"label":"Confirm the new password"
 	  },
 	  "confirm":"Change the password",
 	  "modalSuccess":{
-		"title":"Password changed !",
+		"title":"Password changed!",
 		"confirmText":"OK"
 	  }
 	},
@@ -140,25 +140,25 @@
 		"waitingMessage":"Generating your wallet..."
 	  },
 	  "finalizationStep":{
-		"title":"That was simple. Your account is ready !",
+		"title":"That was simple. Your account is ready!",
 		"subtitle":"Be ready to use Masari like you never have",
 		"passwordSelectionBlock":{
-		  "label":"Protect your credentials"
+		  "label":"Protect your wallet"
 		},
 		"passwordConfirmBlock":{
 		  "label":"Confirm the password"
 		},
 		"validPassword":"Use this password",
 		"backupBlock":{
-		  "title":"And download an encrypted copy of your credentials for future use",
+		  "title":"Save your private credentials for recovery.",
 		  "titlePdf":"Option 1: Download a PDF copy",
 		  "titleManualWrite":"Option 2: Write down my keys",
 		  "privateKeys":"Private key",
 		  "mnemonicPhrase":"Mnemonic phrase",
 		  "separatorManualMethodsSolution":" or ",
-		  "confirmManuallyWritten":"I wrote them",
-		  "warningMessage":"**Do not lose it!** It cannot be recovered if you lose it.<br/>**Do not share it!** Your funds will be stolen if you use this file on a malicious/phishing site.<br/>**Make a backup!** Secure it like the millions of dollars it may one day be worth.<br/>",
-		  "finishButton":"I understand. Continue"
+		  "confirmManuallyWritten":"I wrote my seed phrase down",
+		  "warningMessage":"**Do not lose it!** It cannot be recovered if you lose it.<br/>**Do not share it!** Your funds will be stolen if you use this file or seed on a malicious/phishing site.<br/>**Make a backup!** Secure it like the millions of dollars it may one day be worth.<br/>",
+		  "finishButton":"I understand. Continue."
 		}
 	  },
 	  "disclaimerBlock":{
@@ -171,19 +171,19 @@
 	  "subtitle":"Help to fund the development and pay the bills",
 	  "webwalletBlock":{
 		"title":"Webwallet",
-		"content":"This Web wallet is developed by Gnock on his free time.<br/>If you want to help the development, help to pay the servers and like this app, please consider a donation: <br/><br/>"
+		"content":"This Web wallet is developed by Gnock on his free time.<br/>If you want to help the development, help to pay for the servers, and like this app, please consider a donation: <br/><br/>"
 	  },
 	  "masariFundBlock":{
 		"title":"Masari Dev fund",
-		"content":"To help Masari, you can donate at those address"
+		"content":"To help Masari, you can donate at these addresses"
 	  }
 	},
 	"supportPage":{
 	  "title":"Support",
-	  "subtitle":"You need help, we are here to help !",
+	  "subtitle":"We are here to help!",
 	  "getInTouchBlock":{
 		"title":"Let's Get In Touch!",
-		"content":"You have ideas, feedback that could help us improve the wallet ? Contact us !",
+		"content":"Do you have ideas or feedback that could help us improve the wallet? Contact us!",
 		"discord":"Masari Discord Channel"
 	  }
 	},
@@ -204,7 +204,7 @@
 		"address":{
 		  "label":"Destination address",
 		  "invalid":"The destination address is invalid",
-		  "fundsTo":"The funds will be send to",
+		  "fundsTo":"The funds will be sent to",
 		  "receiver":"Receiver",
 		  "description":"Description"
 		},
@@ -228,23 +228,23 @@
 		"confirmText":"OK"
 	  },
 	  "thankYouDonationModal":{
-		"title":"Thank you for your donation !",
-		"content":"Your help is appreciated. <br/>This donation will contribute to make Masari better",
-		"confirmText":"Close"
+		"title":"Thank you for your donation!",
+		"content":"Your help is appreciated. <br/>This donation will help make Masari better",
+		"confirmText":"OK"
 	  },
 	  "transferSentModal":{
-		"title":"Transfer sent with success !",
-		"confirmText":"Close"
+		"title":"Transfer sent successfully!",
+		"confirmText":"OK"
 	  },
 	  "transferExceptionModal":{
 		"title":"Oops...",
-		"content":"An error occurred. Please report us this error: {details}",
-		"confirmText":"Close"
+		"content":"An error occurred. Please report this error: {details}",
+		"confirmText":"OK"
 	  },
 	  "invalidAmountModal":{
 		"title":"Oops...",
 		"content":"Invalid amount",
-		"confirmText":"Close"
+		"confirmText":"OK"
 	  },
 	  "creatingTransferModal":{
 		"title":"Creating transfer ...",
@@ -255,7 +255,7 @@
 		"content":"Please wait..."
 	  },
 	  "confirmTransactionModal":{
-		"title":"Confirm transfer ?",
+		"title":"Confirm transfer?",
 		"content":"Amount: {amount}<br/>Fees: {fees}<br/>Total: {total}",
 		"confirmText":"Confirm",
 		"cancelText":"Cancel"
@@ -265,11 +265,11 @@
 	  "title":"Receive MSR",
 	  "receiveBlock":{
 		"address":{
-		  "title":"Your address to receive funds",
+		  "title":"Your address to receive funds:",
 		  "label":"Give this address to receive funds"
 		},
 		"qrCode":{
-		  "title":"Or personalize the QR code",
+		  "title":"Or personalize the QR code:",
 		  "labelAmount":"Amount (optional)",
 		  "labelRecipient":"Recipient name (optional)",
 		  "labelDescription":"Transaction description (optional)",
@@ -281,8 +281,8 @@
 	  }
 	},
 	"miningPage":{
-	  "title":"Mine directly in your Browser",
-	  "subtitle":"Support the network but mining to improve the stability and be rewarded with MSR",
+	  "title":"Mine directly in your browser",
+	  "subtitle":"Support the network by mining and be rewarded with MSR",
 	  "parameterBlock":{
 		"title":"Parameters",
 		"labelDestinationAddress":"Wallet to mine",
@@ -293,9 +293,9 @@
 	  "statisticsBlocks":{
 		"title":"Statistics",
 		"validShares":"Valid shares",
-		"hashrate":"HashRate",
-		"maxHashrate":"Max HashRate",
-		"dedicatedHardware":"With a dedicated software for mining, you could potential have a 2 or 3 more times hashrate.<br/>It would also also mining with graphic card (if you have one).",
+		"hashrate":"Hashrate",
+		"maxHashrate":"Max Hashrate",
+		"dedicatedHardware":"With dedicating mining software and hardware, you could earn more and help decentralize the network.",
 		"miningHandledBy":"This mining is handled by the mining pool get.masaricoin.com"
 	  }
 	},
@@ -304,14 +304,14 @@
 	  "subtitle":"Change your parameters here",
 	  "settingsBlock":{
 		"speed":{
-		  "label":"Speed to update the wallet (will consume more energy)",
+		  "label":"Speed to update the wallet (will consume more resources)",
 		  "fastest":"Fastest",
 		  "fast":"Fast",
 		  "medium":"Medium",
 		  "slow":"Slow"
 		},
 		"readMinerTx":{
-		  "label":"Read miner transactions (only for people solo mining)"
+		  "label":"Read miner transactions (only for solo mining)"
 		}
 	  },
 	  "changePasswordButton":"Change my wallet password",
@@ -340,10 +340,10 @@
 		},
 		"passwordConfirm":{
 		  "label":"Confirm the password",
-		  "invalid":"The password does not match the first you wrote"
+		  "invalid":"The password does not match the first password you wrote"
 		},
 		"importHeight":{
-		  "label":"Height to import from"
+		  "label":"Height to import from:"
 		}
 	  }
 	},
@@ -365,12 +365,12 @@
 		"title":"Your public address"
 	  },
 	  "pdfBlock":{
-		"title":"Pdf Backup",
+		"title":"PDF Backup",
 		"downloadButton":"Download"
 	  },
 	  "warningBlock":{
 		"title":"Warning",
-		"content":"If you choose to save your private keys or your mnemonic phrase, PLEASE DO NOT store them in clear and non encrypted for your own safety.<br/>The file is an alternate solution where your keys are encrypted and contains a backup of all your transactions to spare you a future synchronisation."
+		"content":"If you choose to save your private keys or your mnemonic phrase, PLEASE DO NOT store them in clear-text for your own safety.<br/>The file is an alternate solution where your keys are encrypted and contains a backup of all your transactions to spare you a future synchronisation."
 	  },
 	  "exportBlock":{
 		"title":"Export your RAW credentials",
@@ -381,7 +381,7 @@
 	  "walletKeysModal":{
 		"title":"Private keys",
 		"confirmText":"OK",
-		"content":"Please store carefully those keys. <b>Possessing them means possessing the funds associated</b> !<br/>Spend key: {privSpendKey}<br/>Private view key: {privViewKey}"
+		"content":"Please carefully store these keys. <b>Possessing them means possessing the funds associated</b> !<br/>Spend key: {privSpendKey}<br/>Private view key: {privViewKey}"
 	  },
 	  "mnemonicKeyModal":{
 		"title":"Mnemonic phrase",
@@ -389,14 +389,14 @@
 		"content":"Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase is:<br/>{mnemonic}"
 	  },
 	  "mnemonicLangSelectionModal":{
-		"title":"In which lang do you want your mnemonic phrase ?",
+		"title":"In which language do you want your mnemonic phrase?",
 		"confirmText":"Export"
 	  }
 	},
 	"importPage":{
 	  "title":"Create a wallet",
-	  "subtitle":"From previously created keys, file or mnemonic phrase",
-	  "chooseMethod":"Choose your import method",
+	  "subtitle":"From previously created keys, file, or mnemonic phrase",
+	  "chooseMethod":"Choose your import method:",
 	  "fromKeys":"From keys",
 	  "fromFile":"From a file",
 	  "fromMnemonic":"From a mnemonic phrase",
@@ -404,7 +404,7 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Terms of use",
-	  "subtitle":"Please read them carefully"
+	  "subtitle":"Please read them carefully."
 	},
 	"importFromFilePage":{
 	  "title":"Importing wallet from a backup file",
@@ -421,7 +421,7 @@
 	  "mnemonicBlock":{
 		"title":"Mnemonic phrase",
 		"mnemonic":{
-		  "label":"Mnemonic phrase : 25 words",
+		  "label":"Mnemonic phrase: 25 words",
 		  "invalid":"The mnemonic phrase is invalid",
 		  "language":"Language"
 		},
@@ -433,7 +433,7 @@
 	  "subtitle":"Use your keys to create a wallet",
 	  "parametersBlock":{
 		"viewOnlyWallet":{
-		  "label":"Do you want a view only wallet"
+		  "label":"Do you want a view only wallet?"
 		}
 	  },
 	  "keysBlock":{
