@@ -1,0 +1,468 @@
+{
+  "website":{
+	"title":"Hivatalos Masari webtárca",
+	"description":"A Masari hivatalos online tárcája - névtelen, biztonságos és teljes mértékben böngészőből kezelt az optimális biztonság érdekében"
+  },
+  "messages": {
+	"menu": {
+	  "home": "Kezdőlap",
+	  "account": "Számla",
+	  "send": "Küldés",
+	  "receive": "Fogadás",
+	  "export": "Exportálás",
+	  "donate": "Adományozás",
+	  "settings": "Beállítások",
+	  "disconnect": "Szétkapcsolás",
+	  "network": "Hálózati statisztika",
+	  "mining": "Bányászás"
+	},
+	"global": {
+	  "loading": "Betöltés",
+	  "disableSecurity":"Biztonság kikapcsolása, megértettem a kockázatot",
+	  "passwordInvalidRequirements":"A jelszónak legalább 8 karakterből kell állnia és tartalmaznia kell egy nagybetűt, egy kisbetűt, egy számot és egy különleges karaktert",
+	  "passwordConfirmationNotMatching":"A megadott jelszavak nem egyeznek",
+	  "download":"Letöltés",
+	  "newVersionModal":{
+		"title":"Elérhető egy új verzió",
+		"content":"Szeretnéd újratölteni az oldalt az új verzió használatához?",
+		"confirmText":"Igen",
+		"cancelText":"Vissza"
+	  },
+	  "openWalletModal":{
+		"title":"Tárca jelszava",
+		"confirmText":"Megnyitás",
+		"cancelText":"Mégsem"
+	  },
+	  "invalidPasswordModal":{
+		"title":"Hupsz...",
+		"content":"Érvénytelen jelszó",
+		"confirmText":"OK"
+	  },
+	  "invalidMnemonicModal":{
+		"title":"Hupsz...",
+		"content":"Érvénytelen mnemonikus szósor",
+		"confirmText":"OK"
+	  },
+	  "passwordNotComplexEnoughModal":{
+		"title":"A jelszó nem elég összetett",
+		"confirmText":"OK"
+	  },
+	  "permissionRequiredForCameraModal":{
+		"title":"Hupsz...",
+		"content":"A kamerához való hozzáférés szükséges a QR-kód beolvasásához",
+		"confirmText":"OK"
+	  }
+	},
+	"bottom": {
+	  "termsOfUse": "Felhasználási feltételek",
+	  "support": "Ügyfélszolgálat",
+	  "donate": "Adományozás",
+	  "network": "Hálózati statisztika",
+	  "miningPool": "Bányász pool",
+	  "github": "GitHub"
+	},
+	"homepage": {
+	  "mainTitle": "Biztonságos Masari tárca",
+	  "tagLine": "A Masari használatának legegyszerűbb módja - bárhol és bármikor",
+	  "actions": {
+		"loadWallet": "Tárca betöltése",
+		"importWallet": "Tárcaimportálás",
+		"create": "Létrehozás",
+		"createWallet": "Tárca létrehozása"
+	  },
+	  "notes": {
+		"secure": {
+		  "title": "Biztonságos",
+		  "description": "Nincsenek szerverek, teljesen titkosított!"
+		},
+		"fast": {
+		  "title": "Gyors",
+		  "description": "Küldj bárhonnan, bármikor!"
+		},
+		"technology": {
+		  "title": "Egyedi technológia",
+		  "description": "Közvetlen kapcsolat a Masari blokklánccal!"
+		},
+		"openSource": {
+		  "title": "Teljesen nyílt forrású",
+		  "description": "Elérhető a Githubon!"
+		}
+	  }
+	},
+	"accountPage": {
+	  "title": "Számla",
+	  "subtitle": "Számlaáttekintés és tranzakciós előzmények",
+	  "synchronizingBlock": {
+		"text": "Szinkronizálás..."
+	  },
+	  "balanceBlock": {
+		"title": "Egyenleg",
+		"unlocked": "Feloldva"
+	  },
+	  "historyBlock": {
+		"title": "Tranzakciós előzmények",
+		"pendingTxStatus": "Függőben",
+		"emptyWallet": "Jelenleg nincsen egyenleged ebben a tárcában.",
+		"waitSync": "Kérlek, várj, míg a tárca naprakész lesz",
+		"beReallyPatient": "A kezdeti beállítás némi időbe telhet...",
+		"getMSRAddress": "MSR fogadása"
+	  },
+	  "txDetails":{
+		"title":"Tranzakciórészletek",
+		"txHash":"Tranzakció hash",
+		"feesOnTx":"Tranzakció díjai",
+		"blockHeight":"Blokk",
+		"paymentId":"Fizetési azonosító"
+	  }
+	},
+	"changeWalletPasswordPage":{
+	  "title":"Jelszómódosítás",
+	  "oldPassword":{
+		"label":"Régi jelszó",
+		"invalid":"Érvénytelen jelszó"
+	  },
+	  "newPassword":{
+		"label":"Válassz új jelszót"
+	  },
+	  "newPasswordConfirm":{
+		"label":"Ismételd meg az új jelszót"
+	  },
+	  "confirm":"Jelszómódosítás",
+	  "modalSuccess":{
+		"title":"Jelszó módosítva!",
+		"confirmText":"OK"
+	  }
+	},
+	"createWalletPage":{
+	  "generatingStep":{
+		"title":"A tárcád létrehozása folyamatban...",
+		"subtitle":"Majdnem kész",
+		"waitingMessage":"Tárcád létrehozása..."
+	  },
+	  "finalizationStep":{
+		"title":"Ez egyszerű volt. A számlád rendelkezésre áll!",
+		"subtitle":"Állj készen a Masari használatára",
+		"passwordSelectionBlock":{
+		  "label":"Védd a tárcád"
+		},
+		"passwordConfirmBlock":{
+		  "label":"Erősítsd meg a jelszót"
+		},
+		"validPassword":"Megadott jelszó használata",
+		"backupBlock":{
+		  "title":"Mentsd el a visszaállításra szolgáló privát adataidat.",
+		  "titlePdf":"1. lehetőség: másolat letöltése PDF-ben",
+		  "titleManualWrite":"2. lehetőség: kulcsok lejegyzése",
+		  "privateKeys":"Privát kulcs",
+		  "mnemonicPhrase":"Mnemonikus szósor",
+		  "separatorManualMethodsSolution":" vagy ",
+		  "confirmManuallyWritten":"Lejegyeztem",
+		  "warningMessage":"**Ne veszítsd el!** Ha elveszted, nem lehet visszaállítani.<br/>**Ne oszd meg!** Pénzedet ellophatják, ha ezt a fájlt megosztod mással, esetleg rosszindulatú, adathalász oldalon közzéteszed.<br/>**Készíts biztonsági másolatot!** Tartsd úgy biztonságban, mint a több millió dollárt, amit egyszer érhet.<br/>",
+		  "finishButton":"Megértettem. Tovább."
+		}
+	  },
+	  "disclaimerBlock":{
+		"title":"A MasariWallet használatának kockázatai",
+		"content":"A MasariWallet egy webes felület, mely lehetővé teszi a Masari használatát teljes csomópont futtatása nélkül.<br/>Kezeld úgy a MasariWalletet, mintha az a valódi pénztárcád lenne."
+	  }
+	},
+	"donatePage":{
+	  "title":"Adományozás",
+	  "subtitle":"Segíts a fejlesztés finanszírozásában és a számlák kifizetésében",
+	  "webwalletBlock":{
+		"title":"Webtárca",
+		"content":"A webtárcát Gnock fejleszti szabadidejében.<br/>Ha szeretnéd segíteni a fejlesztést, a szerverek fizetését és tetszik az applikáció, úgy vedd fontolóra az adományozást:<br/><br/>"
+	  },
+	  "masariFundBlock":{
+		"title":"Masari fejlesztési alap",
+		"content":"Ha szeretnél segíteni a Masarinak, az alábbi címekre adományozhatsz"
+	  }
+	},
+	"supportPage":{
+	  "title":"Ügyfélszolgálat",
+	  "subtitle":"Itt vagyunk, hogy segítsünk!",
+	  "getInTouchBlock":{
+		"title":"Lépjünk kapcsolatba!",
+		"content":"Visszajelzésed vagy ötleted van a tárcával kapcsolatban? Keress fel bennünket!",
+		"discord":"Masari Discord-csatorna"
+	  }
+	},
+	"networkPage":{
+	  "title":"Hálózati statisztika",
+	  "subtitle":"Betekintés a Masari hálózatába",
+	  "statsBlock":{
+		"hashrate":"Hálózati hashrate",
+		"height":"Blokklánc hossza",
+		"difficulty":"Hálózati nehézség",
+		"lastTimeBlock":"Utolsó blokk ideje",
+		"lastReward":"Utolsó blokk jutalma"
+	  }
+	},
+	"sendPage":{
+	  "title":"MSR küldése",
+	  "sendBlock":{
+		"address":{
+		  "label":"Kedvezményezett címe",
+		  "invalid":"A kedvezményezett címe érvénytelen",
+		  "fundsTo":"A pénz ide kerül küldésre:",
+		  "receiver":"Fogadás",
+		  "description":"Leírás"
+		},
+		"amount":{
+		  "label":"Küldendő mennyiség",
+		  "invalid":"Érvénytelen mennyiség"
+		},
+		"paymentId":{
+		  "label":"Fizetési azonosító (opcionális)",
+		  "invalid":"Érvénytelen fizetési azonosító. Hosszának 16 vagy 64 karakternek kell lennie"
+		},
+		"sendButton":"Küldés",
+		"cancelButton":"Mégsem"
+	  },
+	  "qrCodeScanning":{
+		"explication":"Mutasd be a QR-kódot"
+	  },
+	  "notEnoughMoneyModal":{
+		"title":"Hupsz...",
+		"content":"Egyenleged nem elegendő a tranzakció végrehajtásához",
+		"confirmText":"OK"
+	  },
+	  "thankYouDonationModal":{
+		"title":"Köszönjük az adományt!",
+		"content":"Értékeljük a segítséged.<br/>Ez az adomány is segít jobbá tenni a Masarit.",
+		"confirmText":"OK"
+	  },
+	  "transferSentModal":{
+		"title":"Sikeres tranzakció!",
+		"confirmText":"OK"
+	  },
+	  "transferExceptionModal":{
+		"title":"Hupsz...",
+		"content":"Hiba történt. Kérlek, jelentsd az alábbi hibát: {details}",
+		"confirmText":"OK"
+	  },
+	  "invalidAmountModal":{
+		"title":"Hupsz...",
+		"content":"Érvénytelen mennyiség",
+		"confirmText":"OK"
+	  },
+	  "creatingTransferModal":{
+		"title":"Tranzakció létrehozása...",
+		"content":"Kérlek, várj..."
+	  },
+	  "finalizingTransferModal":{
+		"title":"Tranzakció véglegesítése...",
+		"content":"Kérlek, várj..."
+	  },
+	  "confirmTransactionModal":{
+		"title":"Megerősíted a tranzakciót?",
+		"content":"Mennyiség: {amount}<br/>Díj: {fees}<br/>Összesen: {total}",
+		"confirmText":"Megerősítés",
+		"cancelText":"Mégsem"
+	  }
+	},
+	"receivePage":{
+	  "title":"MSR fogadása",
+	  "receiveBlock":{
+		"address":{
+		  "title":"Pénz fogadására szolgáló cím:",
+		  "label":"Pénz fogadásához ezt a címet add meg"
+		},
+		"qrCode":{
+		  "title":"Vagy használj egyéni QR-kódot",
+		  "labelAmount":"Mennyiség (opcionális)",
+		  "labelRecipient":"Kedvezményezett neve (opcionális)",
+		  "labelDescription":"Tranzakció leírása (opcionális)",
+		  "updateButton":"Frissítés"
+		}
+	  },
+	  "qrBlock":{
+		"title":"Egyéni QR-kód"
+	  }
+	},
+	"miningPage":{
+	  "title":"Bányássz közvetlenül böngészőből",
+	  "subtitle":"Támogasd a hálózatot a bányászással és szerezz érte jutalmat Masariban",
+	  "parameterBlock":{
+		"title":"Paraméterek",
+		"labelDestinationAddress":"Céltárca",
+		"labelThreads":"Szálak száma (több = nagyobb hashrate)",
+		"start":"Indítás",
+		"stop":"Megállítás"
+	  },
+	  "statisticsBlocks":{
+		"title":"Statisztika",
+		"validShares":"Érvényes részesedés",
+		"hashrate":"Hashrate",
+		"maxHashrate":"Maximális hashrate",
+		"dedicatedHardware":"Bányászásra dedikált szoftver és hardver használatával nagyobb bevételre tehetsz szert és segíthetsz a hálózat decentralizálásában.",
+		"miningHandledBy":"Ezt a bányászást a get.masaricoin.com pool kezeli"
+	  }
+	},
+	"settingsPage":{
+	  "title":"Beállítások",
+	  "subtitle":"Módosítsd a beállításaidat",
+	  "settingsBlock":{
+		"speed":{
+		  "label":"Tárcafrissítés sebessége (több erőforrást igényel)",
+		  "fastest":"Leggyorsabb",
+		  "fast":"Gyors",
+		  "medium":"Közepes",
+		  "slow":"Lassú"
+		},
+		"readMinerTx":{
+		  "label":"Bányászási tranzakciók beolvasása (csak egyedülálló bányászás esetén)"
+		}
+	  },
+	  "changePasswordButton":"Jelszómódosítás",
+	  "deleteWalletButton":"Tárca törlése (helyi másolat)",
+	  "walletSettings":{
+		"creationHeight":{
+		  "label":"Tárcalétrehozási blokklánchossz"
+		},
+		"currentScanningHeight": {
+		  "label": "Jelenlegi beolvasási hossz"
+		},
+		"updateButton":"Frissítés"
+	  },
+	  "deleteWalletModal":{
+		"title":"Tárca törlése (helyi másolat)",
+		"content":"Biztosan törölni szeretnéd a tárcádat?",
+		"confirmText":"Igen, biztosan",
+		"cancelButtonText":"Mégsem"
+	  }
+	},
+	"importBasePage":{
+	  "parametersBlock":{
+		"title":"Paraméterek",
+		"password":{
+		  "label":"Tárcajelszó"
+		},
+		"passwordConfirm":{
+		  "label":"Jelszó megerősítése",
+		  "invalid":"A jelszavak nem egyeznek"
+		},
+		"importHeight":{
+		  "label":"Importálási blokklánchossz:"
+		}
+	  }
+	},
+	"importFromQrPage":{
+	  "title":"Tárca importálása QR-kóddal",
+	  "subtitle":"Tárca importálása offline biztonsági mentésből",
+	  "qrCodeBlock":{
+		"title":"QR-kód",
+		"startScanButton":"Beolvasás",
+		"importButton":"Importálás"
+	  },
+	  "qrScanningBlock":{
+		"title":"Mutasd be a QR-kódot"
+	  }
+	},
+	"exportPage":{
+	  "title":"Készíts biztonsági mentést az adataidról",
+	  "publicAddressBlock":{
+		"title":"Nyilvános tárcacím"
+	  },
+	  "pdfBlock":{
+		"title":"Biztonsági mentés PDF-ben",
+		"downloadButton":"Letöltés"
+	  },
+	  "warningBlock":{
+		"title":"Figyelmeztetés",
+		"content":"Ha a privát kulcsaid vagy a mnemonikus szósorod mentését választod, úgy saját biztonságod érdekében ne tárold azokat egyszerű szövegként.<br/>A fájl egy alternatív megoldásként szolgál, ez esetben a kulcsaid titkosítottak és tartalmazza a tranzakciód biztonsági mentését is, így megkímél egy jövőbeli szinkronizálástól."
+	  },
+	  "exportBlock":{
+		"title":"Nyers adatok exportálása",
+		"privateKeysButton":"Privát kulcsok beszerzése",
+		"mnemonicKeysButton":"Mnemonikus szósor beszerzése",
+		"fileButton":"Exportálás fájlba"
+	  },
+	  "walletKeysModal":{
+		"title":"Privát kulcsok",
+		"confirmText":"OK",
+		"content":"Kérlek, gondosan tárold a kulcsokat. <b>Birtoklása a hozzá tartozó pénzösszeg birtoklását is jelenti.</b>!<br/>Privát költőkulcs: {privSpendKey}<br/>Privát figyelőkulcs: {privViewKey}"
+	  },
+	  "mnemonicKeyModal":{
+		"title":"Mnemonikus szósor",
+		"confirmText":"OK",
+		"content":"Kérlek, gondosan tárold a mnemonikus szósort. <b>Birtoklása a hozzá tartozó pénzösszeg birtoklását is jelenti.</b>! A szósor:<br/>{mnemonic}"
+	  },
+	  "mnemonicLangSelectionModal":{
+		"title":"Milyen nyelven kéred a mnemonikus szósorod?",
+		"confirmText":"Exportálás"
+	  }
+	},
+	"importPage":{
+	  "title":"Tárca létrehozása",
+	  "subtitle":"Korábban létrehozott kulcsokkal, fájllal vagy mnemonikus szósorral",
+	  "chooseMethod":"Válassz importálási módszert:",
+	  "fromKeys":"Kulcsok",
+	  "fromFile":"Fájl",
+	  "fromMnemonic":"Mnemonikus szósor",
+	  "fromQr":"QR-kód"
+	},
+	"termsOfUsePage":{
+	  "title":"Felhasználási feltételek",
+	  "subtitle":"Kérlek, alaposan olvasd el."
+	},
+	"importFromFilePage":{
+	  "title":"Tárca importálása biztonsági mentési fájllal",
+	  "subtitle":"Használd a biztonsági mentési fájlod a tárca létrehozásához",
+	  "walletBlock":{
+		"title":"Tárcafájl",
+		"label":"Tallózás",
+		"importButton":"Importálás"
+	  }
+	},
+	"importFromMnemonicPage":{
+	  "title":"Tárca importálása mnemonikus szósorral",
+	  "subtitle":"Használd a szósorodat a tárca létrehozásához",
+	  "mnemonicBlock":{
+		"title":"Mnemonikus szósor",
+		"mnemonic":{
+		  "label":"Mnemonikus szósor: 25 szó",
+		  "invalid":"Érvénytelen mnemonikus szósor",
+		  "language":"Nyelv"
+		},
+		"importButton":"Importálás"
+	  }
+	},
+	"importFromKeysPage":{
+	  "title":"Tárca importálása kulcsokkal",
+	  "subtitle":"Használd a kulcsaidat a tárca létrehozásához",
+	  "parametersBlock":{
+		"viewOnlyWallet":{
+		  "label":"Csak megtekinthető (view only) tárcát szeretnél?"
+		}
+	  },
+	  "keysBlock":{
+		"titleNotViewOnly":"Tárcakulcsok",
+		"titleViewOnly":"sak megtekinthető tárca",
+		"privateSpend":{
+		  "label":"Privát költőkulcs"
+		},
+		"privateView":{
+		  "label":"Privát figyelőkulcs",
+		  "optional":"(opcionális)"
+		},
+		"publicKey":{
+		  "label":"Nyilvános kulcs"
+		},
+		"importButton":"Importálás"
+	  }
+	}
+  },
+  "number":{
+
+  },
+  "date":{
+	"short": {
+	  "year": "numeric", "month": "short", "day": "numeric"
+	},
+	"long": {
+	  "year": "numeric", "month": "short", "day": "numeric",
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": true
+	}
+  }
+}
