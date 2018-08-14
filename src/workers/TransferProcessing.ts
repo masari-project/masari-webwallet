@@ -1,6 +1,7 @@
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {Wallet, WalletOptions} from "../model/Wallet";
 import {Mnemonic} from "../model/Mnemonic";
+import {Transaction} from "../model/Transaction";
 
 //bridge for cnUtil with the new mnemonic class
 (<any>self).mn_random = Mnemonic.mn_random;
@@ -37,6 +38,7 @@ onmessage = function(data : MessageEvent){
 
 				let transaction = TransactionsExplorer.parse(rawTransaction, currentWallet);
 				if(transaction !== null){
+					currentWallet.addNew(transaction);
 					transactions.push(transaction.export());
 				}
 			}

@@ -151,8 +151,10 @@
 		"validPassword":"Use this password",
 		"backupBlock":{
 		  "title":"Save your private credentials for recovery.",
-		  "titlePdf":"Option 1: Download a PDF copy",
-		  "titleManualWrite":"Option 2: Write down my keys",
+		  "option1":"Option 1: ",
+		  "option2":"Option 2: ",
+		  "titlePdf":"Download a PDF copy",
+		  "titleManualWrite":"Write down my keys",
 		  "privateKeys":"Private key",
 		  "mnemonicPhrase":"Mnemonic phrase",
 		  "separatorManualMethodsSolution":" or ",
@@ -259,6 +261,10 @@
 		"content":"Amount: {amount}<br/>Fees: {fees}<br/>Total: {total}",
 		"confirmText":"Confirm",
 		"cancelText":"Cancel"
+	  },
+	  "waitingNfcModal":{
+		"title":"Waiting Nfc",
+		"content":"Bring closer to the other device"
 	  }
 	},
 	"receivePage":{
@@ -278,6 +284,14 @@
 	  },
 	  "qrBlock":{
 		"title":"Your customized QR code"
+	  },
+	  "waitingNfcToWriteModal":{
+		"title":"Waiting Nfc",
+		"titleSuccess":"Nfc Tag written",
+		"content":"Bring closer the NFC tag to write"
+	  },
+	  "nfcErrorModal":{
+		"titleInsufficientCapacity":"Tag capacity insufficient"
 	  }
 	},
 	"miningPage":{
@@ -302,6 +316,10 @@
 	"settingsPage":{
 	  "title":"Settings",
 	  "subtitle":"Change your parameters here",
+	  "versionBlock":{
+		"versionNumber":"Version number: ",
+		"versionCode":"Version code: "
+	  },
 	  "settingsBlock":{
 		"speed":{
 		  "label":"Speed to update the wallet (will consume more resources)",
@@ -309,6 +327,9 @@
 		  "fast":"Fast",
 		  "medium":"Medium",
 		  "slow":"Slow"
+		},
+		"language":{
+		  "label":"Language"
 		},
 		"readMinerTx":{
 		  "label":"Read miner transactions (only for solo mining)"
@@ -454,7 +475,6 @@
 	}
   },
   "number":{
-
   },
   "date":{
 	"short": {

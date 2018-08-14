@@ -152,8 +152,10 @@
 		"validPassword":"Користите ову лозинку",
 		"backupBlock":{
 		  "title":"И преузмите шифровану копију ваших података за будућу употребу ",
-		  "titlePdf":"Опција 1: Преузмите PDF фајл",
-		  "titleManualWrite":"Опција 2: Запишите кључеве",
+		  "option1":"Опција 1: ",
+		  "option2":"Опција 2: ",
+		  "titlePdf":"Преузмите PDF фајл",
+		  "titleManualWrite":"Запишите кључеве",
 		  "privateKeys":"Приватни кључ",
 		  "mnemonicPhrase":"Мнемоничка фраза",
 		  "separatorManualMethodsSolution":" или ",
@@ -260,6 +262,10 @@
 		"content":"'Количина: {amount}<br/>Провизија: {fees}<br/>Укупно: {total}",
 		"confirmText":"Потврди",
 		"cancelText":"Откажи"
+	  },
+	  "waitingNfcModal":{
+		"title":"Waiting Nfc",
+		"content":"Bring closer to the other device"
 	  }
 	},
 	"receivePage":{
@@ -279,6 +285,14 @@
 	  },
 	  "qrBlock":{
 		"title":"Ваш QR код"
+	  },
+	  "waitingNfcToWriteModal":{
+		"title":"Waiting Nfc",
+		"titleSuccess":"Nfc Tag written",
+		"content":"Bring closer the NFC tag to write"
+	  },
+	  "nfcErrorModal":{
+		"titleInsufficientCapacity":"Tag capacity insufficient"
 	  }
 	},
 	"miningPage":{
@@ -303,6 +317,10 @@
 	"settingsPage":{
 	  "title":"Подешавања",
 	  "subtitle":"Промените подешавања овде",
+	  "versionBlock":{
+		"versionNumber":"Version number: ",
+		"versionCode":"Version code: "
+	  },
 	  "settingsBlock":{
 		"speed":{
 		  "label":"Брзина ажурирања новчаника(утиче на потрошњу енергије)",
@@ -310,6 +328,9 @@
 		  "fast":"Брзо",
 		  "medium":"Средње",
 		  "slow":"Споро"
+		},
+		"language":{
+		  "label":"Language"
 		},
 		"readMinerTx":{
 		  "label":"Трансакције рудара(само за соло рударење)"
@@ -455,7 +476,6 @@
 	}
   },
   "number":{
-
   },
   "date":{
 	"short": {
@@ -463,7 +483,7 @@
 	},
 	"long": {
 	  "year": "numeric", "month": "short", "day": "numeric",
-	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": true
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": false
 	}
   }
 }

@@ -9,7 +9,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://www.masariwallet.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
 	<meta name="referrer" content="none">
+	<meta name="msapplication-tap-highlight" content="no">
 
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
@@ -71,14 +73,15 @@
 
 <div id="page" ></div>
 
-<div id="copyright" v-cloak="">
-	<div class="hideOnNative">© 2018 www.masariwallet.com</div>
+<div id="copyright" v-cloak="" class="hideOnNative">
+	<div>© 2018 www.masariwallet.com</div>
 	<div class="right" >
 		<select v-model="language">
 			<option value="en">English</option>
-			<option value="fr">Français</option>
-			<option value="de">German</option>
 			<option value="sr">Српски</option>
+			<option value="de">Deutch</option>
+			<option value="fr">Français</option>
+			<option value="hu">Hungarian</option>
 		</select>
 		<a href="#!termsOfUse" >{{ $t("bottom.termsOfUse") }}</a>
 		<a href="#!support" >{{ $t("bottom.support") }}</a>
@@ -107,6 +110,7 @@
 <script src="lib/jspdf.min.js"></script>
 <!--<script src="lib/mnemonic.js"></script>-->
 <script src="lib/cn_utils.js"></script>
+<script src="lib/cn_utils_native.js"></script>
 <script src="lib/FileSaver.min.js"></script>
 <script data-main="index.js" src="lib/require.js"></script>
 

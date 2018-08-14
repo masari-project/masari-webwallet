@@ -15,33 +15,21 @@
 
 import {WalletRepository} from "../model/WalletRepository";
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
-import {Constants} from "../model/Constants";
-import {BlockchainExplorerRpc2, WalletWatchdog} from "../model/blockchain/BlockchainExplorerRpc2";
 import {VueRequireFilter, VueVar} from "../lib/numbersLab/VueAnnotate";
 import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {Wallet} from "../model/Wallet";
-import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
-import {KeysRepository} from "../model/KeysRepository";
-import {Observable, Observer} from "../lib/numbersLab/Observable";
-import {VueFilterDate} from "../filters/Filters";
-import {Mnemonic} from "../model/Mnemonic";
-import {TransactionsExplorer} from "../model/TransactionsExplorer";
-import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {AppState} from "../model/AppState";
-import {Password} from "../model/Password";
-
-let injector = DependencyInjectorInstance();
-
-let blockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 class IndexView extends DestructableView{
-	@VueVar(false) hasLocalWallet : boolean;
-	@VueVar(false) isWalletLoaded : boolean;
+	@VueVar(false) hasLocalWallet !: boolean;
+	@VueVar(false) isWalletLoaded !: boolean;
 
 	constructor(container : string){
 		super(container);
 		this.isWalletLoaded = DependencyInjectorInstance().getInstance(Wallet.name,'default', false) !== null;
-		this.hasLocalWallet = WalletRepository.hasOneStored();
+		WalletRepository.hasOneStored().then((status : boolean)=>{
+			this.hasLocalWallet = status;
+		});
 		// this.importWallet();
 		AppState.disableLeftMenu();
 	}
@@ -57,3 +45,56 @@ class IndexView extends DestructableView{
 }
 
 let newIndexView = new IndexView('#app');
+
+
+/*
+function readFile(fileEnty:any){
+	console.log(fileEnty);
+}
+
+function writeFile(fileEntry, dataObj) {
+	// Create a FileWriter object for our FileEntry (log.txt).
+	fileEntry.createWriter(function (fileWriter) {
+
+		fileWriter.onwriteend = function() {
+			console.log("Successful file write...");
+			readFile(fileEntry);
+		};
+
+		fileWriter.onerror = function (e) {
+			console.log("Failed file write: " + e.toString());
+		};
+
+		// If data object is not passed in,
+		// create a new Blob instead.
+		if (!dataObj) {
+			dataObj = new Blob(['some file data'], { type: 'text/plain' });
+		}
+
+		fileWriter.write(dataObj);
+	});
+}
+
+function onErrorCreateFile(error){
+	alert('onErrorCreateFile:'+JSON.stringify(error));
+}
+function onErrorLoadFs(error){
+	alert('onErrorLoadFs:'+JSON.stringify(error));
+}
+
+
+window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs : any) {
+
+	console.log('file system open: ' + fs.name);
+	fs.root.getFile(cordova.file.documentsDirectory+"newPersistentFile.txt", { create: true, exclusive: false }, function (fileEntry : any) {
+
+		console.log("fileEntry is file?" + fileEntry.isFile.toString());
+		// fileEntry.name == 'someFile.txt'
+		// fileEntry.fullPath == '/someFile.txt'
+		writeFile(fileEntry, null);
+
+	}, onErrorCreateFile);
+
+}, onErrorLoadFs);
+
+*/
