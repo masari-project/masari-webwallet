@@ -103,7 +103,7 @@
 		"title": "Transaction history",
 		"pendingTxStatus": "Pending",
 		"emptyWallet": "You currently have no funds in this wallet.",
-		"waitSync": "Please wait until the wallet is updated",
+		"waitSync": "Please wait until the wallet is updated.",
 		"beReallyPatient": "The initial setup can take some time...",
 		"getMSRAddress": "Receive MSR"
 	  },
