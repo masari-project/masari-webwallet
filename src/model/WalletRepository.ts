@@ -45,12 +45,8 @@ export class WalletRepository{
 
 	static getLocalWalletWithPassword(password : string) : Promise<Wallet|null>{
 		return Storage.getItem('wallet', null).then((existingWallet : any) => {
-			console.log(existingWallet);
 			if(existingWallet !== null){
-				console.log(JSON.parse(existingWallet));
-				let wallet : Wallet|null = this.getWithPassword(JSON.parse(existingWallet), password);
-				console.log(wallet);
-				return wallet;
+				return this.getWithPassword(JSON.parse(existingWallet), password);
 			}else{
 				return null;
 			}

@@ -160,12 +160,17 @@ export class AppState{
 										title: i18n.t('global.invalidPasswordModal.title'),
 										text: i18n.t('global.invalidPasswordModal.content'),
 										confirmButtonText: i18n.t('global.invalidPasswordModal.confirmText'),
+										onOpen: () => {
+											swal.hideLoading();
+										}
 									});
 									reject();
 								}
 							});
-						}else
+						}else {
 							swal.close();
+							window.location.href = '#account';
+						}
 					}else
 						reject();
 				},1);

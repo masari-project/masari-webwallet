@@ -189,6 +189,7 @@ class AccountView extends DestructableView{
 	destruct(): Promise<void> {
 		this.nfc.unshareNdef();
 		this.nfc.cancelWriteNdef();
+		swal.close();
 		return super.destruct();
 	}
 }

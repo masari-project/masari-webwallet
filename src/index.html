@@ -9,7 +9,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://www.masariwallet.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://www.masariwallet.com 'unsafe-eval' ; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
 	<meta name="referrer" content="none">
 	<meta name="msapplication-tap-highlight" content="no">
 
@@ -53,7 +53,7 @@
 </div>
 
 <div id="menu" >
-	<a href="#!index" onclick="return false;"><img src="./assets/img/logo.png"/></a>
+	<a><img src="./assets/img/logo.png"/></a>
 	<a href="#!index" class="onlyNotConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> {{ $t("menu.home") }}</a>
 	<a href="#!account" class="onlyWhenConnected"><span class="icon" ><i class="fa fa-bank" aria-hidden="true"></i></span> {{ $t("menu.account") }}</a>
 	<a href="#!send" class="onlyWhenConnected notViewOnlyWallet"><span class="icon" ><i class="fa fa-level-up" aria-hidden="true"></i></span> {{ $t("menu.send") }}</a>
@@ -91,6 +91,7 @@
 		<a href="https://get.masaricoin.com" target="_blank" >{{ $t("bottom.miningPool") }}</a>
 		<a href="https://github.com/gnock/masari-webwallet" target="_blank">{{ $t("bottom.github") }}</a>
 	</div>
+	<div class="cb" ></div>
 </div>
 
 <script src="lib/biginteger.js"></script>

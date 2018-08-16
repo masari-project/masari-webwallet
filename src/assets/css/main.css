@@ -196,11 +196,11 @@ body.menuHidden #page,body.menuDisabled #page{
 	color: #474E5D;
 	font-size: 14px;
 	padding-left:10px;
-	margin-left:280px;
-	width: 100%;
+	position: relative;
+	left:280px;right:0;
 }
 body.menuDisabled #copyright{
-	margin-left:0;
+	left:0;
 }
 body.transparent #copyright{
 	display: none;
@@ -208,7 +208,7 @@ body.transparent #copyright{
 /* computer */
 @media screen and (max-width: 600px) {
 	body.menuHidden #copyright{
-		margin-left: 0;
+		left: 0;
 	}
 }
 
@@ -997,6 +997,7 @@ body{
 .center,.tc{text-align:center}
 .left,.tl{text-align:left}
 .right,.tr{text-align:right}
+.clearBoth,.cb{clear:both;}
 
 .text.loader{
 	min-width: 2.28571429rem;

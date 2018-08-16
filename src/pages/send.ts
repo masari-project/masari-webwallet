@@ -216,6 +216,7 @@ class SendView extends DestructableView {
 	destruct(): Promise<void> {
 		this.stopScan();
 		this.stopNfcScan();
+		swal.close();
 		return super.destruct();
 	}
 
