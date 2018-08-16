@@ -19,6 +19,7 @@ Translations:
 - French: gnock
 - Serbian cyrillic: girugameshh
 - German: F0sching
+- Hungarian: Gelesztaa
 - Greek: GeraltOfTrivia
 
 # Contributing
