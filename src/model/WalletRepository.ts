@@ -15,10 +15,14 @@
 
 import {RawWallet, Wallet} from "./Wallet";
 import {CoinUri} from "./CoinUri";
+import {Storage} from "./Storage";
 
 export class WalletRepository{
-	static hasOneStored(){
-		return window.localStorage.getItem('wallet') !== null;
+
+	static hasOneStored() : Promise<boolean>{
+		return Storage.getItem('wallet', null).then(function (wallet : any) {
+			return wallet !== null;
+		});
 	}
 	
 	static getWithPassword(rawWallet : RawWallet, password : string) : Wallet|null{
@@ -39,18 +43,23 @@ export class WalletRepository{
 		return Wallet.loadFromRaw(rawWallet);
 	}
 
-	static getLocalWalletWithPassword(password : string) : Wallet|null{
-		let existingWallet = window.localStorage.getItem('wallet');
-		if(existingWallet !== null){
-			return this.getWithPassword(JSON.parse(existingWallet), password);
-		}else{
-			return null;
-		}
+	static getLocalWalletWithPassword(password : string) : Promise<Wallet|null>{
+		return Storage.getItem('wallet', null).then((existingWallet : any) => {
+			console.log(existingWallet);
+			if(existingWallet !== null){
+				console.log(JSON.parse(existingWallet));
+				let wallet : Wallet|null = this.getWithPassword(JSON.parse(existingWallet), password);
+				console.log(wallet);
+				return wallet;
+			}else{
+				return null;
+			}
+		});
 	}
 	
-	static save(wallet : Wallet, password : string){
+	static save(wallet : Wallet, password : string) : Promise<void>{
 		let rawWallet = this.getEncrypted(wallet, password);
-		window.localStorage.setItem('wallet', JSON.stringify(rawWallet));
+		return Storage.setItem('wallet', JSON.stringify(rawWallet));
 	}
 
 	static getEncrypted(wallet : Wallet, password : string){
@@ -77,8 +86,8 @@ export class WalletRepository{
 		return rawWallet;
 	}
 
-	static deleteLocalCopy(){
-		window.localStorage.removeItem('wallet');
+	static deleteLocalCopy() : Promise<void>{
+		return Storage.remove('wallet');
 	}
 
 

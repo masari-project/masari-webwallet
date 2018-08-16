@@ -30,7 +30,7 @@ class NetworkView extends DestructableView{
 	@VueVar(0) blockchainHeight !: number;
 	@VueVar(0) networkDifficulty !: number;
 	@VueVar(0) lastReward !: number;
-	@VueVar('?') lastBlockFound !: string;
+	@VueVar(0) lastBlockFound !: number;
 
 	private intervalRefreshStat = 0;
 
@@ -52,13 +52,13 @@ class NetworkView extends DestructableView{
 	refreshStats() {
 		let self = this;
 		$.ajax({
-			url:'https://get.masaricoin.com/api/network/stats'
+			url:config.apiUrl+'network.php'
 		}).done(function(data : any){
 			self.networkDifficulty = data.difficulty;
 			self.networkHashrate = data.difficulty/120/1000000;
 			self.blockchainHeight = data.height;
-			self.lastReward = data.value/1000000000000;
-			self.lastBlockFound = (new Date(data.ts*1000)).toLocaleString('en');
+			self.lastReward = data.reward/1000000000000;
+			self.lastBlockFound = parseInt(data.timestamp);
 		});
 	}
 

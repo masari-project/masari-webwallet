@@ -1,5 +1,5 @@
 <textarea id="clipboardTextarea" style="width:0;height:0;position:absolute;top:0;left:0;"></textarea>
-<div id="app" class="body-root receiveTab">
+<div id="app" class="body-root receiveTab" v-cloak="">
 	<div class="body-header" >
 		<div class="header-title">
 			<i class="fa fa-level-down" aria-hidden="true"></i> {{ $t("receivePage.title") }}
@@ -50,6 +50,20 @@
 				<div class="content" >
 					<div class="qrCode">
 						<div id="qrCodeContainer" ></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel inline" v-if="hasNfc && hasWritableNfc">
+			<div class="body" >
+				<div class="header-title" >Nfc</div>
+				<div class="content" >
+					<div>
+						<button @click="shareWithNfc()" class="btn primary">Share by NFC</button>
+					</div>
+					<div>
+						<button @click="writeOnNfc()" class="btn" >Write on a Nfc Tag</button>
 					</div>
 				</div>
 			</div>

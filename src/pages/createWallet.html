@@ -1,7 +1,7 @@
 <img src="./assets/img/Masari_Vertical.png" id="verticalMasariLogo" style="display: none;"/>
 <canvas id="canvasExport" style="display: none;"></canvas>
 
-<div id="app" class="body-root">
+<div id="app" class="body-root" v-cloak="">
 	<div class="body-header" v-if="step == 0">
 		<div class="header-title">
 			{{ $t("createWalletPage.generatingStep.title") }}
@@ -62,14 +62,14 @@
 			<div class="body" >
 				<div class="header-title" >{{ $t("createWalletPage.finalizationStep.backupBlock.title") }}</div>
 				<div class="content" >
-					<div class="step">
-						<div class="title" >{{ $t("createWalletPage.finalizationStep.backupBlock.titlePdf") }}</div>
+					<div class="step hideOnNative" >
+						<div class="title" ><span class="hideOnNative">{{ $t("createWalletPage.finalizationStep.backupBlock.option1") }}</span>{{ $t("createWalletPage.finalizationStep.backupBlock.titlePdf") }}</div>
 						<div class="content tc actions" >
 							<button @click="downloadBackup()" class="btn">{{ $t("global.download") }}</button>
 						</div>
 					</div>
 					<div class="step">
-						<div class="title" >{{ $t("createWalletPage.finalizationStep.backupBlock.titleManualWrite") }}</div>
+						<div class="title" ><span class="hideOnNative" >{{ $t("createWalletPage.finalizationStep.backupBlock.option2") }}</span>{{ $t("createWalletPage.finalizationStep.backupBlock.titleManualWrite") }}</div>
 						<div class="content" >
 							<div class="message" >
 								<div class="title" >{{ $t("createWalletPage.finalizationStep.backupBlock.privateKeys") }}</div>
@@ -97,7 +97,7 @@
 			</div>
 		</div>
 
-		<div class="panel inline" >
+		<div class="panel inline hideOnNative" >
 			<div class="body" >
 				<div class="header-title" >{{ $t("createWalletPage.disclaimerBlock.title") }}</div>
 				<div class="content" v-html="$t('createWalletPage.disclaimerBlock.content')"></div>

@@ -1,68 +1,77 @@
-<div id="app" class="body-root">
-	<div class="body-header" >
-		<div class="header-title">
-			{{ $t("importFromQrPage.title") }}
-		</div>
-		<div class="header-subtitle" >
-			{{ $t("importFromQrPage.subtitle") }}
-		</div>
-	</div>
-	<div class="body-content" >
-		<div class="panel">
-			<div class="body" >
-				<div class="header-title" >{{ $t("importFromQrPage.parametersBlock.title") }}</div>
-				<div class="content" >
-					<div class="field">
-						<label>{{ $t("importFromQrPage.parametersBlock.password.label") }}</label>
-						<input type="password" name="public" v-model="password">
-						<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
-							{{ $t("global.passwordInvalidRequirements") }}
-							<div class="tc">
-								<button @click="forceInsecurePasswordCheck()" class="btn mini">{{ $t("global.disableSecurity") }}</button>
-							</div>
-						</div>
-					</div>
-
-					<div class="field">
-						<label>{{ $t("importFromQrPage.parametersBlock.passwordConfirm.label") }}</label>
-						<input type="password" name="public" v-model="password2">
-						<div v-if="password != '' && password2 != '' && password != password2" class="message error">
-							{{ $t("importFromQrPage.parametersBlock.passwordConfirm.invalid") }}
-						</div>
-					</div>
-
-					<div class="field">
-						<label>{{ $t("importFromQrPage.parametersBlock.importHeight.label") }}</label>
-						<input type="text" name="public" v-model="importHeight">
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="panel" >
-			<div class="body" >
-				<div class="header-title" >{{ $t("importFromQrPage.qrCodeBlock.title") }}</div>
-				<div class="content" >
-					<div class="actions tc" >
-						<button @click="startScan()" class="btn">{{ $t("importFromQrPage.qrCodeBlock.startScanButton") }}</button>
-					</div>
-
-					<div class="actions tc" >
-						<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >{{ $t("importFromQrPage.qrCodeBlock.importButton") }}</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
-	<div class="qrCodeScanningContainer" :class="(qrScanning ? '' : 'hidden')">
+<div id="app" class="body-root" v-cloak="">
+	<div class="qrCodeScanningContainer native" id="nativeCameraPreview" >
+		<h2 class="text" >{{ $t("importFromQrPage.qrScanningBlock.title") }}</h2>
 		<div class="close" @click="stopScan()">
 			<i class="fa fa-close" aria-hidden="true"></i>
 		</div>
-		<h2>{{ $t("importFromQrPage.qrScanningBlock.title") }}</h2>
-		<div class="videoContainer" >
-			<video width="100" id="cameraVideoFluxForDelivery" autoplay></video>
+	</div>
+
+	<div id="appContent" >
+		<div class="body-header" >
+			<div class="header-title">
+				{{ $t("importFromQrPage.title") }}
+			</div>
+			<div class="header-subtitle" >
+				{{ $t("importFromQrPage.subtitle") }}
+			</div>
+		</div>
+		<div class="body-content" >
+			<div class="panel">
+				<div class="body" >
+					<div class="header-title" >{{ $t("importBasePage.parametersBlock.title") }}</div>
+					<div class="content" >
+						<div class="field">
+							<label>{{ $t("importBasePage.parametersBlock.password.label") }}</label>
+							<input type="password" name="public" v-model="password">
+							<div v-if="insecurePassword && !forceInsecurePassword" class="message error">
+								{{ $t("global.passwordInvalidRequirements") }}
+								<div class="tc">
+									<button @click="forceInsecurePasswordCheck()" class="btn mini">{{ $t("global.disableSecurity") }}</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="field">
+							<label>{{ $t("importBasePage.parametersBlock.passwordConfirm.label") }}</label>
+							<input type="password" name="public" v-model="password2">
+							<div v-if="password != '' && password2 != '' && password != password2" class="message error">
+								{{ $t("importBasePage.parametersBlock.passwordConfirm.invalid") }}
+							</div>
+						</div>
+
+						<div class="field">
+							<label>{{ $t("importBasePage.parametersBlock.importHeight.label") }}</label>
+							<input type="text" name="public" v-model="importHeight">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel" >
+				<div class="body" >
+					<div class="header-title" >{{ $t("importFromQrPage.qrCodeBlock.title") }}</div>
+					<div class="content" >
+						<div class="actions tc" >
+							<button @click="startScan()" class="btn">{{ $t("importFromQrPage.qrCodeBlock.startScanButton") }}</button>
+						</div>
+
+						<div class="actions tc" >
+							<button @click="importWallet()" class="btn primary" :disabled="!formValid()" >{{ $t("importFromQrPage.qrCodeBlock.importButton") }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="qrCodeScanningContainer" :class="(qrScanning ? '' : 'hidden')">
+			<div class="close" @click="stopScan()">
+				<i class="fa fa-close" aria-hidden="true"></i>
+			</div>
+			<h2>{{ $t("importFromQrPage.qrScanningBlock.title") }}</h2>
+			<div class="videoContainer" >
+				<video width="100" id="cameraVideoFluxForDelivery" autoplay></video>
+			</div>
 		</div>
 	</div>
 </div>

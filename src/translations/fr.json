@@ -151,8 +151,10 @@
 		"validPassword":"Utiliser ce mot de passe",
 		"backupBlock":{
 		  "title":"Télécharger une copie chiffrée de mes identifiants pour un futur usage",
-		  "titlePdf":"Option 1: Télécharger une copie PDF",
-		  "titleManualWrite":"Option 2: Ecrire mes cléfs d'accès",
+		  "option1": "Option 1: ",
+		  "option2": "Option 2: ",
+		  "titlePdf":"Télécharger une copie PDF",
+		  "titleManualWrite":"Ecrire mes cléfs d'accès",
 		  "privateKeys":"Cléfs privées",
 		  "mnemonicPhrase":"Phrase mnémotechnique",
 		  "separatorManualMethodsSolution":" ou ",
@@ -259,6 +261,10 @@
 		"content":"Montant: {amount}<br/>Frais: {fees}<br/>Total: {total}",
 		"confirmText":"Confirmer",
 		"cancelText":"Annuler"
+	  },
+	  "waitingNfcModal":{
+		"title":"Attente du Nfc",
+		"content":"Veuillez rapprocher votre téléphone de l'autre appareil"
 	  }
 	},
 	"receivePage":{
@@ -278,6 +284,14 @@
 	  },
 	  "qrBlock":{
 		"title":"Votre QR code customisé"
+	  },
+	  "waitingNfcToWriteModal":{
+		"title":"Waiting Nfc",
+		"titleSuccess":"Nfc Tag written",
+		"content":"Bring closer the NFC tag to write"
+	  },
+	  "nfcErrorModal":{
+		"titleInsufficientCapacity":"Tag capacity insufficient"
 	  }
 	},
 	"miningPage":{
@@ -302,6 +316,10 @@
 	"settingsPage":{
 	  "title":"Paramètres",
 	  "subtitle":"Changez vos paramètres ici",
+	  "versionBlock":{
+		"versionNumber":"Numéro de version: ",
+		"versionCode":"Code de la version: "
+	  },
 	  "settingsBlock":{
 		"speed":{
 		  "label":"Vitesse d'actualisation du portefeuille (will consume more energy)",
@@ -309,6 +327,9 @@
 		  "fast":"Rapide",
 		  "medium":"Normal",
 		  "slow":"Lent"
+		},
+		"language":{
+		  "label":"Language"
 		},
 		"readMinerTx":{
 		  "label":"Lire les transactions de minage (uniquement pour les personnes faisant du solo-minage)"
@@ -352,11 +373,11 @@
 	  "subtitle":"Importation depuis une sauvegarder hors ligne",
 	  "qrCodeBlock":{
 		"title":"QR code",
-		"startScanButton":"Commençcer le scan",
+		"startScanButton":"Commençer le scan",
 		"importButton":"Importer"
 	  },
 	  "qrScanningBlock":{
-		"title":"Presentez le QR code"
+		"title":"Présentez le QR code"
 	  }
 	},
 	"exportPage":{
@@ -454,7 +475,6 @@
 	}
   },
   "number":{
-
   },
   "date":{
 	"short": {

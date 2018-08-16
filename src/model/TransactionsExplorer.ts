@@ -17,7 +17,7 @@ import {Transaction, TransactionIn, TransactionOut} from "./Transaction";
 import {CryptoUtils} from "./CryptoUtils";
 import {Wallet} from "./Wallet";
 import {MathUtil} from "./MathUtil";
-
+import {CnUtilNative} from "./CnUtilNative";
 
 export const TX_EXTRA_PADDING_MAX_COUNT = 255;
 export const TX_EXTRA_NONCE_MAX_COUNT = 255;
@@ -148,19 +148,22 @@ export class TransactionsExplorer {
 						paymentId += String.fromCharCode(extra.data[i]);
 					}
 					paymentId = CryptoUtils.bintohex(paymentId);
+					break;
 				} else if (extra.data[0] === TX_EXTRA_NONCE_ENCRYPTED_PAYMENT_ID) {
 					encryptedPaymentId = '';
 					for (let i = 1; i < extra.data.length; ++i) {
 						encryptedPaymentId += String.fromCharCode(extra.data[i]);
 					}
 					encryptedPaymentId = CryptoUtils.bintohex(encryptedPaymentId);
+					break;
 				}
 			}
 		}
 
 		let derivation = null;
 		try {
-			derivation = cnUtil.generate_key_derivation(tx_pub_key, wallet.keys.priv.view);//9.7ms
+			// derivation = cnUtil.generate_key_derivation(tx_pub_key, wallet.keys.priv.view);//9.7ms
+			derivation = CnUtilNative.generate_key_derivation(tx_pub_key, wallet.keys.priv.view);
 		} catch (e) {
 			console.log('UNABLE TO CREATE DERIVATION', e);
 			return null;
@@ -175,9 +178,8 @@ export class TransactionsExplorer {
 			let amount = out.amount;
 			let output_idx_in_tx = iOut;
 
-			let generated_tx_pubkey = cnUtil.derive_public_key(derivation,
-				output_idx_in_tx,
-				wallet.keys.pub.spend);//5.5ms
+			// let generated_tx_pubkey = cnUtil.derive_public_key(derivation,output_idx_in_tx,wallet.keys.pub.spend);//5.5ms
+			let generated_tx_pubkey = CnUtilNative.derive_public_key(derivation,output_idx_in_tx,wallet.keys.pub.spend);//5.5ms
 
 			// check if generated public key matches the current output's key
 			let mine_output = (txout_k.key == generated_tx_pubkey);

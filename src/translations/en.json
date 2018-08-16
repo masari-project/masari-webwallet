@@ -263,8 +263,8 @@
 		"cancelText":"Cancel"
 	  },
 	  "waitingNfcModal":{
-		"title":"Waiting for NFC",
-		"content":"Bring your phone closer to the other device"
+		  "title":"Waiting for NFC",
+		  "content":"Bring your phone closer to the other device"
 	  }
 	},
 	"receivePage":{
@@ -286,9 +286,9 @@
 		"title":"Your customized QR code"
 	  },
 	  "waitingNfcToWriteModal":{
-		"title":"Waiting for NFC",
-		"titleSuccess":"NFC Tag Written",
-		"content":"Bring your phone closer to the NFC tag to write"
+		  "title":"Waiting for NFC",
+		  "titleSuccess":"NFC Tag Written",
+		  "content":"Bring your phone closer to the NFC tag to write"
 	  },
 	  "nfcErrorModal":{
 		"titleInsufficientCapacity":"Tag capacity insufficient"

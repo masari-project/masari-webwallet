@@ -22,6 +22,8 @@ import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 import {AppState} from "../model/AppState";
+import {Storage} from "../model/Storage";
+import {Translations} from "../model/Translations";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -35,6 +37,10 @@ class SendView extends DestructableView{
 	@VueVar(0) scanHeight !: number;
 
 	@VueVar(-1) maxHeight !: number;
+	@VueVar('en') language !: string;
+
+	@VueVar(0) nativeVersionCode !: number;
+	@VueVar('') nativeVersionNumber !: string;
 
 	constructor(container : string){
 		super(container);
@@ -48,6 +54,25 @@ class SendView extends DestructableView{
 		blockchainExplorer.getHeight().then(function (height: number) {
 			self.maxHeight = height;
 		});
+
+		Translations.getLang().then((userLang : string) => {
+			this.language = userLang;
+		});
+
+		if(typeof (<any>window).cordova !== 'undefined' && typeof (<any>window).cordova.getAppVersion !== 'undefined') {
+			(<any>window).cordova.getAppVersion.getVersionNumber().then((version : string) => {
+				this.nativeVersionNumber = version;
+			});
+			(<any>window).cordova.getAppVersion.getVersionCode().then((version : number) => {
+				this.nativeVersionCode = version;
+			});
+		}
+	}
+
+	@VueWatched()
+	languageWatch() {
+		Translations.setBrowserLang(this.language);
+		Translations.loadLangTranslation(this.language);
 	}
 
 	deleteWallet() {
