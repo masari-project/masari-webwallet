@@ -130,7 +130,7 @@ export class AppState{
 									}
 									let blockchainHeightToRescan = Object.keys(blockchainHeightToRescanObj);
 									if (blockchainHeightToRescan.length > 0) {
-										let blockchainExplorer: BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+										let blockchainExplorer: BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 
 										let promisesBlocks = [];
 										for (let height of blockchainHeightToRescan) {

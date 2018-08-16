@@ -26,7 +26,7 @@ const buildSW = () => {
 			'**\/*.{js,css,html,json,png,ico,jpg}',
 		],
 		globIgnores:[
-			'd/Vue.js'
+			'd/Vue.js', 'src/service-worker-raw.js'
 		]
 	});
 };

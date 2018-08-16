@@ -23,9 +23,10 @@ import {Constants} from "../model/Constants";
 import {Wallet} from "../model/Wallet";
 import {AppState, WalletWorker} from "../model/AppState";
 import {Password} from "../model/Password";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
 
 class ChangeWalletPasswordView extends DestructableView{

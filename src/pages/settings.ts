@@ -24,9 +24,10 @@ import {Wallet} from "../model/Wallet";
 import {AppState} from "../model/AppState";
 import {Storage} from "../model/Storage";
 import {Translations} from "../model/Translations";
+import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
 let walletWatchdog : WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name,'default', false);
 
 class SendView extends DestructableView{
