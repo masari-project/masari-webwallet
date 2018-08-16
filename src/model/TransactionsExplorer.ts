@@ -83,8 +83,7 @@ export class TransactionsExplorer {
 
 				continue;
 			} else if (extra[0] === TX_EXTRA_TAG_ADDITIONAL_PUBKEYS) {
-				extraSize = extra[0] * 32;
-				startOffset = 2;
+				extraSize = 0;
 			}
 
 			if (extraSize === 0) {
@@ -135,7 +134,9 @@ export class TransactionsExplorer {
 		}
 
 		if (tx_pub_key === '')
-			throw 'MISSING TX PUB KEY';
+			// throw 'MISSING TX PUB KEY';
+			return null;
+
 		tx_pub_key = CryptoUtils.bintohex(tx_pub_key);
 
 		let encryptedPaymentId: string | null = null;
