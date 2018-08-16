@@ -107,6 +107,7 @@ body.menuDisabled #topBar{
 	position: fixed;
 	left:0;top:0;bottom: 0;
 	width:280px;
+	overflow: auto;
 }
 body.menuHidden #menu {
 	left:-100%;
@@ -196,6 +197,7 @@ body.menuHidden #page,body.menuDisabled #page{
 	font-size: 14px;
 	padding-left:10px;
 	margin-left:280px;
+	width: 100%;
 }
 body.menuDisabled #copyright{
 	margin-left:0;

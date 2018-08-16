@@ -20,6 +20,7 @@ Translations:
 - Serbian cyrillic: girugameshh
 - German: F0sching
 - Hungarian: Gelesztaa
+- Greek: GeraltOfTrivia
 
 # Contributing
 - You can help Masari by translation the wallet in your native language, it's really easy!  
