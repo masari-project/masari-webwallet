@@ -1,7 +1,7 @@
 <?php
 
 $testnet = false;
-$cacheLocation = $testnet ? 'cache-testnet' : 'cache';
+$cacheLocation = __DIR__.'/'.($testnet ? 'cache-testnet' : 'cache');
 $daemonAddress = 'localhost';
 $rpcPort = $testnet ? 48081 : 38081;
 $coinSymbol = 'msr';

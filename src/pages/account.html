@@ -1,4 +1,4 @@
-<div id="app" class="body-root">
+<div id="app" class="body-root" v-cloak="">
 	<div class="body-header" >
 		<div class="header-title">
 			<i class="fa fa-bank" aria-hidden="true"></i> {{ $t("accountPage.title") }}
@@ -9,7 +9,7 @@
 	</div>
 	<div class="body-content" >
 
-		<div class="panel inline" v-if="currentScanBlock+1 !== blockchainHeight" >
+		<div class="panel inline" v-if="currentScanBlock+2 < blockchainHeight" >
 			<div class="progress" >
 				<div class="bar" :style="'width:'+((currentScanBlock+1)/blockchainHeight*100 | 0)+'%'" >{{(((currentScanBlock+1)/blockchainHeight*1000 | 0) / 10)}}%</div>
 				<label>
@@ -22,9 +22,9 @@
 			<div class="body" >
 				<div class="header-title" >{{ $t("accountPage.balanceBlock.title") }}</div>
 				<div class="content" >
-					<span class="walletAmount" >{{walletAmount | piconero}}</span> MSR
+					<span class="walletAmount" >{{ $n(walletAmount / currencyDivider) }}</span> MSR
 					<tempate class="amount unlocked" v-if="unlockedWalletAmount !== walletAmount" >
-						<br/><span class="walletAmount" >{{ $t("accountPage.balanceBlock.unlocked") }}: {{unlockedWalletAmount | piconero}}</span> MSR
+						<br/><span class="walletAmount" >{{ $t("accountPage.balanceBlock.unlocked") }}: {{ $n(unlockedWalletAmount / currencyDivider) }}</span> MSR
 					</tempate>
 				</div>
 			</div>
@@ -43,9 +43,9 @@
 										<i v-if="transaction.ins.length == 0" class="fa fa-level-down" aria-hidden="true"></i>
 										<i v-else="" class="fa fa-level-up" aria-hidden="true"></i>
 									</td><!--LEfT-->
-									<td class="timestamp" v-if="transaction.blockHeight > 0">{{transaction.timestamp | date}}</td>
+									<td class="timestamp" v-if="transaction.blockHeight > 0">{{$d(new Date(transaction.timestamp*1000), 'long')}}</td>
 									<td class="timestamp" v-else="">{{ $t("accountPage.historyBlock.pendingTxStatus") }}...</td>
-									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{transaction.getAmount() | piconero}}</td>
+									<td :class="'amount '+(transaction.getAmount() > 0 ? 'more' : 'less')" >{{ $n(transaction.getAmount() / currencyDivider) }}</td>
 									<td class="moreInfo">
 										<i class="fa fa-search" aria-hidden="true" @click="moreInfoOnTx(transaction)"></i>
 									</td>

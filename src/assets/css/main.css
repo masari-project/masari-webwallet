@@ -13,11 +13,14 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-body,html{margin:0;padding:0;height:100%;overflow-x:hidden}
+body,html{margin:0;padding:0;min-height:100%;overflow-x:hidden}
 div,p,input,label{box-sizing: border-box;}
 
 *[v-cloak] {
 	display: none;
+}
+*{
+	transition: all 0.2s ease-out;
 }
 
 body{
@@ -62,9 +65,13 @@ body.transparent{
 	display:none !important;
 }
 
-.native{}
+.hideOnNative{}
 body.native .hideOnNative{
 	display: none !important;
+}
+.hideOnNonNative{display: none !important;}
+body.native .hideOnNonNative{
+	display: initial !important;
 }
 
 #topBar{
@@ -285,7 +292,8 @@ body.transparent #copyright{
 	padding-top:20px;
 }
 .receiveTab .qrCode img{
-	width: 80%;
+	width: 80% !important;
+	height: auto !important;
 	image-rendering: pixelated;
 	display: inline-block !important;
 	max-width: 300px;
@@ -477,6 +485,10 @@ body.transparent #copyright{
 	background-size: cover;
 	margin-bottom:160px;
 }
+body.native .indexTab .mainBlock {
+	height: 100vh;
+	margin-bottom: 0;
+}
 @media screen and (max-width: 940px) {
 	.indexTab .mainBlock{
 		margin-bottom:40px;
@@ -510,6 +522,9 @@ body.transparent #copyright{
 	color:white;
 	padding:20px;
 	vertical-align: middle;
+}
+body.native .indexTab .mainBlock > .actions{
+	text-align: center;
 }
 .indexTab .mainBlock > .actions img{
 	max-height: 35px;
@@ -897,6 +912,10 @@ body{
 	padding: 5px;
 	display: inline-block;
 }
+.field .subfield input.twoActions {
+	width: calc(100% - 82px);
+}
+
 .field .subfield .action{
 	width: 20px;
 	border-left:1px solid #D9DCE7;

@@ -13,6 +13,8 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import {CnUtilNative} from "./CnUtilNative";
+
 export class CryptoUtils{
 
 
@@ -201,20 +203,23 @@ export class CryptoUtils{
 	static generate_key_image_helper(ack:{view_secret_key:any,spend_secret_key:string, public_spend_key:string}, tx_public_key:any, real_output_index:any,recv_derivation:string|null)
 	{
 		if(recv_derivation === null)
-			recv_derivation = cnUtil.generate_key_derivation(tx_public_key, ack.view_secret_key);
+			// recv_derivation = cnUtil.generate_key_derivation(tx_public_key, ack.view_secret_key);
+			recv_derivation = CnUtilNative.generate_key_derivation(tx_public_key, ack.view_secret_key);
 		// console.log('recv_derivation', recv_derivation);
 
 		// CHECK_AND_ASSERT_MES(r, false, "key image helper: failed to generate_key_derivation(" << tx_public_key << ", " << ack.m_view_secret_key << ")");
 		//
 
-		let start = Date.now();
+		// let start = Date.now();
 
-		let in_ephemeral_pub = cnUtil.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
+		// let in_ephemeral_pub = cnUtil.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
+		let in_ephemeral_pub = CnUtilNative.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
 		// console.log('in_ephemeral_pub',in_ephemeral_pub);
 
 
 		// CHECK_AND_ASSERT_MES(r, false, "key image helper: failed to derive_public_key(" << recv_derivation << ", " << real_output_index <<  ", " << ack.m_account_address.m_spend_public_key << ")");
 		//
+		// let in_ephemeral_sec = cnUtil.derive_secret_key(recv_derivation, real_output_index, ack.spend_secret_key);
 		let in_ephemeral_sec = cnUtil.derive_secret_key(recv_derivation, real_output_index, ack.spend_secret_key);
 		// console.log('in_ephemeral_sec',in_ephemeral_sec);
 
@@ -222,7 +227,7 @@ export class CryptoUtils{
 
 		let ki = cnUtil.generate_key_image_2(in_ephemeral_pub, in_ephemeral_sec);
 
-		let end = Date.now();
+		// let end = Date.now();
 		// console.log(end-start);
 
 		return {

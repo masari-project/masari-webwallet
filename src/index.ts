@@ -17,6 +17,9 @@ import {Router} from "./lib/numbersLab/Router";
 import {Mnemonic} from "./model/Mnemonic";
 import {DestructableView} from "./lib/numbersLab/DestructableView";
 import {VueClass, VueVar, VueWatched} from "./lib/numbersLab/VueAnnotate";
+import {Storage} from "./model/Storage";
+import {Translations} from "./model/Translations";
+import {Transaction} from "./model/Transaction";
 
 //========================================================
 //bridge for cnUtil with the new mnemonic class
@@ -37,62 +40,12 @@ const i18n = new VueI18n({
 let browserUserLang = ''+(navigator.language || (<any>navigator).userLanguage);
 browserUserLang = browserUserLang.toLowerCase().split('-')[0];
 
-let userLang = browserUserLang;
-let storedUserLang = window.localStorage.getItem('user-lang');
-if(storedUserLang !== null){
-	userLang = storedUserLang;
-}
-
-let storedTranslations : any = {};
-
-function loadLangTranslation(lang : string) : Promise<void>{
-	console.log('setting lang to '+lang);
-	let promise : Promise<{messages?: any, date?: string, number?: string }>;
-	if(typeof storedTranslations[lang] !== 'undefined')
-		promise = Promise.resolve(storedTranslations[lang]);
-	else
-		promise = new Promise<{messages?: any, date?: string, number?: string }>(function (resolve, reject) {
-			$.ajax({
-				url: './translations/' + lang + '.json'
-			}).then(function (data: any) {
-				if(typeof data === 'string')data = JSON.parse(data);
-				storedTranslations[lang] = data;
-				resolve(data);
-			}).fail(function () {
-				reject();
-			});
-		});
-
-	promise.then(function(data: { website?:any,messages?: any, date?: string, number?: string }){
-		if (typeof data.date !== 'undefined')
-			i18n.setDateTimeFormat(lang, data.date);
-		if (typeof data.number !== 'undefined')
-			i18n.setNumberFormat(lang, data.number);
-		if (typeof data.messages !== 'undefined')
-			i18n.setLocaleMessage(lang, data.messages);
-
-		i18n.locale = lang;
-
-		$('title').html(data.website.title);
-		$('meta[property="og:title"]').attr('content',data.website.title);
-		$('meta[property="twitter:title"]').attr('content',data.website.title);
-
-		$('meta[name="description"]').attr('content',data.website.description);
-		$('meta[property="og:description"]').attr('content',data.website.description);
-		$('meta[property="twitter:description"]').attr('content',data.website.description);
-
-
-		let htmlDocument = document.querySelector('html');
-		if (htmlDocument !== null)
-			htmlDocument.setAttribute('lang', lang);
+Storage.getItem('user-lang', browserUserLang).then(function(userLang : string){
+	Translations.loadLangTranslation(userLang).catch(function () {
+		Translations.loadLangTranslation('en');
 	});
-
-	return (<any>promise);
-}
-
-loadLangTranslation(userLang).catch(function () {
-	loadLangTranslation('en');
 });
+
 
 //========================================================
 //====================Generic design======================
@@ -105,10 +58,20 @@ class MenuView extends Vue{
 	constructor(containerName:any,vueData:any=null){
 		super(vueData);
 		this.isMenuHidden = $('body').hasClass('menuHidden');
+		if($('body').hasClass('menuDisabled'))
+			this.isMenuHidden = true;
+		this.update();
 	}
 
 	toggle(){
-		this.isMenuHidden = !this.isMenuHidden;
+		if($('body').hasClass('menuDisabled'))
+			this.isMenuHidden = true;
+		else
+			this.isMenuHidden = !this.isMenuHidden;
+
+		this.update();
+	}
+	update(){
 		if(this.isMenuHidden)
 			$('body').addClass('menuHidden');
 		else
@@ -135,19 +98,76 @@ $(window).click(function() {
 	$('body').addClass('menuHidden');
 });
 
+//mobile swipe
+let pageWidth = window.innerWidth || document.body.clientWidth;
+let treshold = Math.max(1,Math.floor(0.01 * (pageWidth)));
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+
+const limit = Math.tan(45 * 1.5 / 180 * Math.PI);
+const gestureZone : HTMLElement= $('body')[0];
+
+gestureZone.addEventListener('touchstart', function(event : TouchEvent) {
+	touchstartX = event.changedTouches[0].screenX;
+	touchstartY = event.changedTouches[0].screenY;
+}, false);
+
+gestureZone.addEventListener('touchend', function(event : TouchEvent) {
+	touchendX = event.changedTouches[0].screenX;
+	touchendY = event.changedTouches[0].screenY;
+	handleGesture(event);
+}, false);
+
+function handleGesture(e : Event) {
+	let x = touchendX - touchstartX;
+	let y = touchendY - touchstartY;
+	let xy = Math.abs(x / y);
+	let yx = Math.abs(y / x);
+	if (Math.abs(x) > treshold || Math.abs(y) > treshold) {
+		if (yx <= limit) {
+			if (x < 0) {
+				//left
+				if(!menuView.isMenuHidden)
+					menuView.toggle();
+			} else {
+				//right
+				if(menuView.isMenuHidden)
+					menuView.toggle();
+			}
+		}
+		if (xy <= limit) {
+			if (y < 0) {
+				//top
+			} else {
+				//bottom
+			}
+		}
+	} else {
+		//tap
+	}
+}
+
+
+
 @VueClass()
 class CopyrightView extends Vue{
 
-	@VueVar(userLang) language !: string;
+	@VueVar('en') language !: string;
 
 	constructor(containerName:any,vueData:any=null){
 		super(vueData);
+
+		Translations.getLang().then((userLang : string) => {
+			this.language = userLang;
+		});
 	}
 
 	@VueWatched()
 	languageWatch(){
-		window.localStorage.setItem('user-lang', this.language);
-		loadLangTranslation(this.language);
+		Translations.setBrowserLang(this.language);
+		Translations.loadLangTranslation(this.language);
 	}
 }
 let copyrightView = new CopyrightView('#copyright');

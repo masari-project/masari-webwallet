@@ -18,11 +18,13 @@ export class MnemonicLang{
 	words: Array<String> = [];
 	trunc_words: Array<String> = [];
 	name='';
+	shortLang='';
 
-	constructor(name:string,prefixLen: number, words: Array<String>) {
+	constructor(name:string,shortLang:string,prefixLen: number, words: Array<String>) {
 		this.prefixLen = prefixLen;
 		this.words = words;
 		this.name = name;
+		this.shortLang = shortLang;
 		this.calculateTruncWords();
 	}
 
@@ -39,6 +41,7 @@ export class MnemonicLang{
 		let langs = [];
 		langs.push(new MnemonicLang(
 			'electrum',
+			'el',
 			0,[
 			"like", "just", "love", "know", "never", "want", "time", "out", "there",
 			"make", "look", "eye", "down", "only", "think", "heart", "back", "then",
@@ -258,6 +261,7 @@ export class MnemonicLang{
 		));
 		langs.push(new MnemonicLang(
 			'english',
+			'en',
 			3, [
 				"abbey", "abducts", "ability", "ablaze", "abnormal", "abort", "abrasive", "absorb",
 				"abyss", "academy", "aces", "aching", "acidic", "acoustic", "acquire", "across",
@@ -467,6 +471,7 @@ export class MnemonicLang{
 		));
 		langs.push(new MnemonicLang(
 			'spanish',
+			'es',
 			4,[
 				"ábaco", "abdomen", "abeja", "abierto", "abogado", "abono", "aborto", "abrazo",
 				"abrir", "abuelo", "abuso", "acabar", "academia", "acceso", "acción", "aceite",
@@ -676,6 +681,7 @@ export class MnemonicLang{
 		));
 		langs.push(new MnemonicLang(
 			'portuguese',
+			'pt',
 			3,[
 				"abaular", "abdominal", "abeto", "abissinio", "abjeto", "ablucao", "abnegar", "abotoar",
 				"abrutalhar", "absurdo", "abutre", "acautelar", "accessorios", "acetona", "achocolatado", "acirrar",
@@ -885,6 +891,7 @@ export class MnemonicLang{
 		));
 		langs.push(new MnemonicLang(
 			'japanese',
+			'ja',
 			4,[
 				"あいこくしん", "あいさつ", "あいだ", "あおぞら", "あかちゃん", "あきる", "あけがた", "あける",
 				"あこがれる", "あさい", "あさひ", "あしあと", "あじわう", "あずかる", "あずき", "あそぶ",
@@ -1092,7 +1099,11 @@ export class MnemonicLang{
 				"びじゅつかん", "ひしょ"
 			]
 		));
-		langs.push(new MnemonicLang('french', 4,[
+		langs.push(new MnemonicLang(
+			'french',
+			'fr',
+			4,
+			[
 			"abandon","abattre","aboi","abolir","aborder","abri","absence","absolu","abuser","acacia",
 			"acajou","accent","accord","accrocher","accuser","acerbe","achat","acheter","acide","acier",
 			"acquis","acte","action","adage","adepte","adieu","admettre","admis","adorer","adresser",
@@ -1256,7 +1267,11 @@ export class MnemonicLang{
 			"voici","voile","voir","voisin","voiture","volaille","volcan","voler","volt","votant",
 			"votre","vouer","vouloir","vous","voyage","voyou","vrac","vrai","yacht","yeti",
 			"yeux","yoga","zeste","zinc","zone","zoom"]));
-		langs.push(new MnemonicLang('german',4,[
+		langs.push(new MnemonicLang(
+			'german',
+			'de',
+			4,
+			[
 			"Abakus","Abart","abbilden","Abbruch","Abdrift","Abendrot","Abfahrt","abfeuern","Abflug","abfragen",
 			"Abglanz","abhärten","abheben","Abhilfe","Abitur","Abkehr","Ablauf","ablecken","Ablösung","Abnehmer",
 			"abnutzen","Abonnent","Abrasion","Abrede","abrüsten","Absicht","Absprung","Abstand","absuchen","Abteil",
@@ -1420,7 +1435,11 @@ export class MnemonicLang{
 			"Zahnfee","Zäpfchen","Zaster","Zaumzeug","Zebra","zeigen","Zeitlupe","Zellkern","Zeltdach","Zensor",
 			"Zerfall","Zeug","Ziege","Zielfoto","Zimteis","Zobel","Zollhund","Zombie","Zöpfe","Zucht",
 			"Zufahrt","Zugfahrt","Zugvogel","Zündung","Zweck","Zyklop"]));
-		langs.push(new MnemonicLang('italian',4,[
+		langs.push(new MnemonicLang(
+			'italian',
+			'it',
+			4,
+			[
 			"abbinare","abbonato","abisso","abitare","abominio","accadere","accesso","acciaio","accordo","accumulo",
 			"acido","acqua","acrobata","acustico","adattare","addetto","addio","addome","adeguato","aderire",
 			"adorare","adottare","adozione","adulto","aereo","aerobica","affare","affetto","affidare","affogato",
@@ -1584,7 +1603,11 @@ export class MnemonicLang{
 			"voglia","volare","volpe","volto","volume","vongole","voragine","vortice","votare","vulcano",
 			"vuotare","zabaione","zaffiro","zainetto","zampa","zanzara","zattera","zavorra","zenzero","zero",
 			"zingaro","zittire","zoccolo","zolfo","zombie","zucchero"]));
-		langs.push(new MnemonicLang('dutch',4,[
+		langs.push(new MnemonicLang(
+			'dutch',
+			'nl',
+			4,
+			[
 			"aalglad","aalscholver","aambeeld","aangeef","aanlandig","aanvaard","aanwakker","aapmens","aarten","abdicatie",
 			"abnormaal","abrikoos","accu","acuut","adjudant","admiraal","advies","afbidding","afdracht","affaire",
 			"affiche","afgang","afkick","afknap","aflees","afmijner","afname","afpreekt","afrader","afspeel",
@@ -1748,7 +1771,11 @@ export class MnemonicLang{
 			"zinnelijk","zionist","zitdag","zitruimte","zitzak","zoal","zodoende","zoekbots","zoem","zoiets",
 			"zojuist","zondaar","zotskap","zottebol","zucht","zuivel","zulk","zult","zuster","zuur",
 			"zweedijk","zwendel","zwepen","zwiep","zwijmel","zworen"]));
-		langs.push(new MnemonicLang("chinese",1,[
+		langs.push(new MnemonicLang(
+			"chinese",
+			'zh',
+			1,
+			[
 			"的","一","是","在","不","了","有","和","人","这",
 			"中","大","为","上","个","国","我","以","要","他",
 			"时","来","用","们","生","到","作","地","于","出",
@@ -1912,7 +1939,11 @@ export class MnemonicLang{
 			"籍","敏","涂","熙","皆","侦","悬","掘","享","纠",
 			"醒","狂","锁","淀","恨","牲","霸","爬","赏","逆",
 			"玩","陵","祝","秒","浙","貌"]));
-		langs.push(new MnemonicLang('russian',4,[
+		langs.push(new MnemonicLang(
+			'russian',
+			'ru',
+			4,
+			[
 			"абажур","абзац","абонент","абрикос","абсурд","авангард","август","авиация","авоська","автор",
 			"агат","агент","агитатор","агнец","агония","агрегат","адвокат","адмирал","адрес","ажиотаж",
 			"азарт","азбука","азот","аист","айсберг","академия","аквариум","аккорд","акробат","аксиома",
@@ -2076,7 +2107,11 @@ export class MnemonicLang{
 			"юбилей","юбка","южный","юмор","юноша","юрист","яблоко","явление","ягода","ядерный",
 			"ядовитый","ядро","язва","язык","яйцо","якорь","январь","японец","яркий","ярмарка",
 			"ярость","ярус","ясный","яхта","ячейка","ящик"]));
-		langs.push(new MnemonicLang('lojban',4,[
+		langs.push(new MnemonicLang(
+			'lojban',
+			'',
+			4,
+			[
 			"backi","bacru","badna","badri","bajra","bakfu","bakni","bakri","baktu","balji",
 			"balni","balre","balvi","bambu","bancu","bandu","banfi","bangu","banli","banro",
 			"banxa","banzu","bapli","barda","bargu","barja","barna","bartu","basfa","basna",
@@ -2240,7 +2275,11 @@ export class MnemonicLang{
 			"mencre","matmau","nunctu","selma'o","titnanba","naldra","jvajvo","nunsnu","nerkla","cimjvo",
 			"muvgau","zipcpi","runbau","faumlu","terbri","balcu'e","dragau","smuvelcki","piksku","selpli",
 			"bregau","zvafa'i","ci'izra","noltruti'u","samtci","snaxa'a",]));
-		langs.push(new MnemonicLang('esperanto',4,[
+		langs.push(new MnemonicLang(
+			'esperanto',
+			'',
+			4,
+			[
 			"abako","abdiki","abelo","abituriento","ablativo","abnorma","abonantoj","abrikoto","absoluta","abunda",
 			"acetono","acida","adapti","adekvata","adheri","adicii","adjektivo","administri","adolesko","adreso",
 			"adstringa","adulto","advokato","adzo","aeroplano","aferulo","afgana","afiksi","aflaba","aforismo",

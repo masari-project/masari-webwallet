@@ -1,7 +1,7 @@
 <img src="./assets/img/Masari_Vertical.png" id="verticalMasariLogo" style="display: none;"/>
 <canvas id="canvasExport" style="display: none;"></canvas>
 
-<div id="app" class="body-root receiveTab">
+<div id="app" class="body-root receiveTab" v-cloak="">
 	<div class="body-header" >
 		<div class="header-title">
 			<i class="fa fa-download" aria-hidden="true"></i> {{ $t("exportPage.title") }}
@@ -17,7 +17,7 @@
 			</div>
 		</div>
 
-		<div class="panel">
+		<div class="panel" v-if="!nativePlatform">
 			<div class="body" >
 				<div class="header-title" >{{ $t("exportPage.pdfBlock.title") }}</div>
 				<div class="content tc" >
@@ -29,7 +29,7 @@
 		<div class="panel inline">
 			<div class="body" >
 				<div class="header-title" >{{ $t("exportPage.warningBlock.title") }}</div>
-				<div class="content" v-html="$t('exportPage.warningBlock.title')"></div>
+				<div class="content" v-html="$t('exportPage.warningBlock.content')"></div>
 			</div>
 		</div>
 
@@ -43,7 +43,7 @@
 					<div class="tab" >
 						<button class="btn" @click="getMnemonicPhrase()" >{{ $t("exportPage.exportBlock.mnemonicKeysButton") }}</button>
 					</div>
-					<div class="tab" >
+					<div class="tab" v-if="!nativePlatform" >
 						<button class="btn" @click="fileExport()" >{{ $t("exportPage.exportBlock.fileButton") }}</button>
 					</div>
 				</div>

@@ -138,38 +138,73 @@ class ImportView extends DestructableView{
 	}
 
 	startScan(){
-		this.initQr();
-		if(this.qrReader) {
-			let self = this;
-			this.qrScanning = true;
-			this.qrReader.scan(function(result : string){
-				let parsed = false;
-				try{
-					let txDetails  = CoinUri.decodeWallet(result);
-					if(
-						txDetails !== null &&
-						(typeof txDetails.spendKey !== 'undefined' || typeof txDetails.mnemonicSeed !== 'undefined')
-					){
-						if(typeof txDetails.spendKey !== 'undefined')self.privateSpendKey = txDetails.spendKey;
-						if(typeof txDetails.mnemonicSeed !== 'undefined')self.mnemonicSeed = txDetails.mnemonicSeed;
-						if(typeof txDetails.viewKey !== 'undefined')self.privateViewKey = txDetails.viewKey;
-						if(typeof txDetails.height !== 'undefined')self.importHeight = parseInt(''+txDetails.height);
-						if(typeof txDetails.address !== 'undefined')self.publicAddress = txDetails.address;
-						parsed = true;
-					}
-				}catch(e){}
+		let self = this;
+		if(typeof window.QRScanner !== 'undefined') {
+			window.QRScanner.scan(function(err : any, result : any){
+				if (err) {
+					if(err.name === 'SCAN_CANCELED'){
 
-				self.qrScanning = false;
-				self.stopScan();
+					}else{
+						alert(JSON.stringify(err));
+					}
+				} else {
+					self.handleScanResult(result);
+				}
 			});
+
+			window.QRScanner.show();
+			$('body').addClass('transparent');
+			$('#appContent').hide();
+			$('#nativeCameraPreview').show();
+		}else {
+			this.initQr();
+			if (this.qrReader) {
+				this.qrScanning = true;
+				this.qrReader.scan((result: string) => {
+					this.handleScanResult(result);
+				});
+			}
 		}
 	}
 
+	handleScanResult(result : string){
+		this.qrScanning = false;
+		this.stopScan();
+
+		try {
+			let txDetails = CoinUri.decodeWallet(result);
+			if (
+				txDetails !== null &&
+				(typeof txDetails.spendKey !== 'undefined' || typeof txDetails.mnemonicSeed !== 'undefined')
+			) {
+				if (typeof txDetails.spendKey !== 'undefined') this.privateSpendKey = txDetails.spendKey;
+				if (typeof txDetails.mnemonicSeed !== 'undefined') this.mnemonicSeed = txDetails.mnemonicSeed;
+				if (typeof txDetails.viewKey !== 'undefined') this.privateViewKey = txDetails.viewKey;
+				if (typeof txDetails.height !== 'undefined') this.importHeight = parseInt('' + txDetails.height);
+				if (typeof txDetails.address !== 'undefined') this.publicAddress = txDetails.address;
+				return true;
+			}
+		} catch (e) {
+		}
+
+		return false;
+	}
+
 	stopScan(){
-		if(this.qrReader !== null){
-			this.qrReader.stop();
-			this.qrReader = null;
-			this.qrScanning = false;
+		if(typeof window.QRScanner !== 'undefined') {
+			window.QRScanner.cancelScan(function(status:any){
+				console.log(status);
+			});
+			window.QRScanner.hide();
+			$('body').removeClass('transparent');
+			$('#appContent').show();
+			$('#nativeCameraPreview').hide();
+		}else {
+			if (this.qrReader !== null) {
+				this.qrReader.stop();
+				this.qrReader = null;
+				this.qrScanning = false;
+			}
 		}
 	}
 
@@ -191,8 +226,7 @@ class ImportView extends DestructableView{
 	}
 
 	forceInsecurePasswordCheck(){
-		let self = this;
-		self.forceInsecurePassword = true;
+		this.forceInsecurePassword = true;
 	}
 
 }
