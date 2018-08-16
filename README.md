@@ -19,6 +19,7 @@ Translations:
 - French: gnock
 - Serbian cyrillic: girugameshh
 - German: F0sching
+- Hungarian: Gelesztaa
 
 # Contributing
 - You can help Masari by translation the wallet in your native language, it's really easy!  
