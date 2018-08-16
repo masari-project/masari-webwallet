@@ -67,11 +67,11 @@ class ImportView extends DestructableView{
 		blockchainExplorer.getHeight().then(function(currentHeight){
 			let newWallet = new Wallet();
 			if(self.viewOnly){
-				let decodedPublic = cnUtil.decode_address(self.publicAddress);
+				let decodedPublic = cnUtil.decode_address(self.publicAddress.trim());
 				newWallet.keys = {
 					priv:{
 						spend:'',
-						view:self.privateViewKey
+						view:self.privateViewKey.trim()
 					},
 					pub:{
 						spend:decodedPublic.spend,
@@ -80,12 +80,12 @@ class ImportView extends DestructableView{
 				};
 			}else {
 				console.log(1);
-				let viewkey = self.privateViewKey;
+				let viewkey = self.privateViewKey.trim();
 				if(viewkey === ''){
-					viewkey = cnUtil.generate_keys(cnUtil.cn_fast_hash(self.privateSpendKey)).sec;
+					viewkey = cnUtil.generate_keys(cnUtil.cn_fast_hash(self.privateSpendKey.trim())).sec;
 				}
 				console.log(1, viewkey);
-				newWallet.keys = KeysRepository.fromPriv(self.privateSpendKey, viewkey);
+				newWallet.keys = KeysRepository.fromPriv(self.privateSpendKey.trim(), viewkey);
 				console.log(1);
 			}
 
@@ -124,18 +124,18 @@ class ImportView extends DestructableView{
 
 	@VueWatched()
 	privateSpendKeyWatch(){
-		this.validPrivateSpendKey = this.privateSpendKey.length == 64;
+		this.validPrivateSpendKey = this.privateSpendKey.trim().length == 64;
 	}
 
 	@VueWatched()
 	privateViewKeyWatch(){
-		this.validPrivateViewKey = this.privateViewKey.length == 64 || (!this.viewOnly && this.privateViewKey.length == 0);
+		this.validPrivateViewKey = this.privateViewKey.trim().length == 64 || (!this.viewOnly && this.privateViewKey.trim().length == 0);
 	}
 
 	@VueWatched()
 	publicAddressWatch(){
 		try{
-			cnUtil.decode_address(this.publicAddress);
+			cnUtil.decode_address(this.publicAddress.trim());
 			this.validPublicAddress = true;
 		}catch(e){
 			this.validPublicAddress = false;

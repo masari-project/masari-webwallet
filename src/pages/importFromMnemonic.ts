@@ -78,12 +78,12 @@ class ImportView extends DestructableView{
 		blockchainExplorer.getHeight().then(function(currentHeight){
 			let newWallet = new Wallet();
 
-			let mnemonic = self.mnemonicPhrase;
+			let mnemonic = self.mnemonicPhrase.trim();
 			// let current_lang = 'english';
 			let current_lang = 'english';
 
 			if(self.language === 'auto') {
-				let detectedLang = Mnemonic.detectLang(self.mnemonicPhrase);
+				let detectedLang = Mnemonic.detectLang(self.mnemonicPhrase.trim());
 				if(detectedLang !== null)
 					current_lang = detectedLang;
 			}
@@ -145,11 +145,11 @@ class ImportView extends DestructableView{
 	}
 
 	checkMnemonicValidity(){
-		let splitted = this.mnemonicPhrase.split(' ');
+		let splitted = this.mnemonicPhrase.trim().split(' ');
 		if(splitted.length != 25){
 			this.validMnemonicPhrase = false;
 		}else {
-			let detected = Mnemonic.detectLang(this.mnemonicPhrase);
+			let detected = Mnemonic.detectLang(this.mnemonicPhrase.trim());
 			if(this.language === 'auto')
 				this.validMnemonicPhrase = detected !== null;
 			else
