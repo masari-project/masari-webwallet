@@ -82,13 +82,16 @@ body.native .hideOnNonNative{
 	color:white;
 	font-size:16px;
 	font-weight: bold;
-	padding:0 10px;
+	padding:0;
 	z-index: 20;
 	left:280px;
 	display: none;
 }
-#topBar a{
+#topBar a.toggleMenu{
 	color:white;
+	display: inline-block;
+	height: 100%;
+	padding: 0 15px;
 }
 @media screen and (max-width: 600px) {
 	#topBar{
@@ -699,7 +702,7 @@ body{
 .body-header {
 	display: table;
 	width: 100%;
-	margin-top: 29px;
+	margin-top: 36px;
 	padding-bottom: 20px;
 	border-bottom: 1px solid #D6DDED;
 }
