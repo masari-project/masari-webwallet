@@ -26,13 +26,12 @@ let STRUCT_SIZES = {
 	SIGNATURE: 64 // ec_scalar * 2
 };
 
-
-//let myFunc = Module_native.cwrap('myFunc', 'number', ['number', 'number']);
-let generate_key_derivation_bind = (<any>self).Module_native.cwrap('generate_key_derivation', null, ['number', 'number', 'number']);
-let derive_public_key_bind = (<any>self).Module_native.cwrap('derive_public_key', null, ['number', 'number', 'number', 'number']);
-
+let generate_key_derivation_bind : any = null;
+let derive_public_key_bind : any = null;
 
 export class CnUtilNative{
+	static generate_key_derivation : (pub : any, sec : any) => string;
+	static derive_public_key : (derivation : string,output_idx_in_tx : number,pubSpend : string) => string;
 
 	static hextobin(hex : any) {
 		if (hex.length % 2 !== 0) throw "Hex string has invalid length!";
@@ -51,7 +50,7 @@ export class CnUtilNative{
 		return out.join("");
 	}
 
-	static generate_key_derivation(pub : any, sec : any){
+	static generate_key_derivation_native(pub : any, sec : any){
 
 		let pub_b = CnUtilNative.hextobin(pub);
 		let sec_b = CnUtilNative.hextobin(sec);
@@ -75,7 +74,7 @@ export class CnUtilNative{
 		return CnUtilNative.bintohex(res);
 	}
 
-	static derive_public_key(derivation : string,
+	static derive_public_key_native(derivation : string,
 							 output_idx_in_tx : number,
 							 pubSpend : string){
 
@@ -102,4 +101,14 @@ export class CnUtilNative{
 
 		return CnUtilNative.bintohex(res);
 	}
+}
+
+if(typeof (<any>self).Module_native !== 'undefined') {
+	generate_key_derivation_bind = (<any>self).Module_native.cwrap('generate_key_derivation', null, ['number', 'number', 'number']);
+	derive_public_key_bind = (<any>self).Module_native.cwrap('derive_public_key', null, ['number', 'number', 'number', 'number']);
+	CnUtilNative.generate_key_derivation = CnUtilNative.generate_key_derivation_native;
+	CnUtilNative.derive_public_key = CnUtilNative.derive_public_key_native;
+}else{
+	CnUtilNative.generate_key_derivation = function(pub : any, sec : any){return cnUtil.generate_key_derivation(pub, sec)};
+	CnUtilNative.derive_public_key = function(derivation : string,output_idx_in_tx : number,pubSpend : string){return cnUtil.derive_public_key(derivation, output_idx_in_tx, pubSpend)}
 }

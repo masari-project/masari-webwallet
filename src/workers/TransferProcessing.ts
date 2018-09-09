@@ -11,9 +11,8 @@ import {Transaction} from "../model/Transaction";
 let currentWallet : Wallet|null = null;
 
 onmessage = function(data : MessageEvent){
-	if(data.isTrusted){
+	// if(data.isTrusted){
 		let event : any = data.data;
-		// console.log(event);
 		if(event.type === 'initWallet'){
 			currentWallet = Wallet.loadFromRaw(event.wallet,true);
 			postMessage('readyWallet');
@@ -49,7 +48,9 @@ onmessage = function(data : MessageEvent){
 			});
 		}
 		// let transaction = TransactionsExplorer.parse(rawTransaction, height, this.wallet);
-	}
+	// }else {
+	// 	console.warn('Non trusted data', data.data, JSON.stringify(data.data));
+	// }
 };
 
 postMessage('ready');

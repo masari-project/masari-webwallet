@@ -231,22 +231,6 @@ body.transparent #copyright{
 	}
 }
 
-.walletHeader{
-	background: #005B95;
-	color:white;
-	padding:15px 5px;
-}
-.walletHeader .amount{
-	text-align: center;
-	font-size: 30px;
-}
-.walletHeader .amount.unlocked{
-	font-size:18px;
-}
-.walletHeader .connectionStatus{
-	text-align: right;
-}
-
 .transactions table{
 	width: 100%;
 	border-collapse: collapse;

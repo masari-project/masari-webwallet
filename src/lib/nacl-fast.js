@@ -2444,6 +2444,20 @@
 		// Initialize PRNG if environment provides CSPRNG.
 		// If not, methods calling randombytes will throw.
 		var crypto = typeof self !== 'undefined' ? (self.crypto || self.msCrypto) : null;
+
+		if(typeof crypto === 'undefined' || crypto === null){
+			console.log('trying global');
+			if(typeof global !== 'undefined'){
+				console.log('trying global', global.crypto, global.msCrypto);
+				if(typeof global.crypto !== 'undefined') {
+					console.log('trying global crypto', global.crypto.getRandomValues);
+				}
+				console.log(global.crypto.getRandomValues);
+				console.log(JSON.stringify(global));
+			}
+			crypto = typeof global !== 'undefined' ? (global.crypto || global.msCrypto) : null;
+		}
+
 		if (crypto && crypto.getRandomValues) {
 			// Browsers.
 			var QUOTA = 65536;
