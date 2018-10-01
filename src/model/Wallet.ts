@@ -53,7 +53,12 @@ export type RawWallet = {
 	nonce:string,
 	keys?:UserKeys,
 	creationHeight?:number,
-	options?:RawWalletOptions
+	options?:RawWalletOptions,
+	coinAddressPrefix?:any,
+}
+export type RawFullyEncryptedWallet = {
+	data:number[],
+	nonce:string
 }
 
 export class Wallet extends Observable{
@@ -66,12 +71,13 @@ export class Wallet extends Observable{
 	txsMem : Transaction[] = [];
 	private modified = true;
 	creationHeight : number = 0;
+	coinAddressPrefix:any = config.addressPrefix;
 
 	keys !: UserKeys;
 
 	private _options : WalletOptions = new WalletOptions();
 
-	exportToRaw(includeKeys=false) : RawWallet{
+	exportToRaw() : RawWallet{
 		let transactions : any[] = [];
 		for(let transaction of this.transactions){
 			transactions.push(transaction.export());
@@ -81,31 +87,25 @@ export class Wallet extends Observable{
 			transactions: transactions,
 			lastHeight: this._lastHeight,
 			nonce:'',
-			options : this._options
+			options : this._options,
+			coinAddressPrefix:this.coinAddressPrefix
 		};
 
-		if(includeKeys){
-			data.keys = this.keys;
-		}else{
-			if(this.keys.priv.spend !== '')
-				data.encryptedKeys=this.keys.priv.view+this.keys.priv.spend;
-			else
-				data.encryptedKeys=this.keys.priv.view+this.keys.pub.view+this.keys.pub.spend;
-		}
+		data.keys = this.keys;
 
 		if(this.creationHeight !== 0) data.creationHeight = this.creationHeight;
 
 		return data;
 	}
 
-	static loadFromRaw(raw : RawWallet, includeKeys=false) : Wallet{
+	static loadFromRaw(raw : RawWallet) : Wallet{
 		let wallet = new Wallet();
 		wallet.transactions = [];
 		for(let rawTransac of raw.transactions){
 			wallet.transactions.push(Transaction.fromRaw(rawTransac));
 		}
 		wallet._lastHeight = raw.lastHeight;
-		if(typeof raw.encryptedKeys === 'string') {
+		if(typeof raw.encryptedKeys === 'string' && raw.encryptedKeys !== '') {
 			if(raw.encryptedKeys.length === 128) {
 				let privView = raw.encryptedKeys.substr(0, 64);
 				let privSpend = raw.encryptedKeys.substr(64, 64);
@@ -126,13 +126,15 @@ export class Wallet extends Observable{
 					}
 				};
 			}
-		}
-		if(includeKeys && typeof raw.keys !== 'undefined'){
+		}else if(typeof raw.keys !== 'undefined'){
 			wallet.keys = raw.keys;
 		}
 		if(typeof raw.creationHeight !== 'undefined') wallet.creationHeight = raw.creationHeight;
 
 		if(typeof raw.options !== 'undefined') wallet._options = WalletOptions.fromRaw(raw.options);
+
+		if(typeof raw.coinAddressPrefix !== 'undefined') wallet.coinAddressPrefix = raw.coinAddressPrefix;
+		else wallet.coinAddressPrefix = config.addressPrefix;
 
 		wallet.recalculateKeyImages();
 		return wallet;

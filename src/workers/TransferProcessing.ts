@@ -14,11 +14,11 @@ onmessage = function(data : MessageEvent){
 	// if(data.isTrusted){
 		let event : any = data.data;
 		if(event.type === 'initWallet'){
-			currentWallet = Wallet.loadFromRaw(event.wallet,true);
+			currentWallet = Wallet.loadFromRaw(event.wallet);
 			postMessage('readyWallet');
 		}else if (event.type === 'process'){
 			if(typeof event.wallet !== 'undefined'){
-				currentWallet = Wallet.loadFromRaw(event.wallet,true);
+				currentWallet = Wallet.loadFromRaw(event.wallet);
 			}
 
 			if(currentWallet === null){

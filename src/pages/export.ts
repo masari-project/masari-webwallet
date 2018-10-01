@@ -127,8 +127,7 @@ class ExportView extends DestructableView {
 	fileExport() {
 		this.askUserPassword().then(function (params: { wallet: Wallet, password: string } | null) {
 			if (params !== null && params.wallet !== null) {
-				let exported = WalletRepository.getEncrypted(params.wallet, params.password);
-				let blob = new Blob([JSON.stringify(exported)], {type: "application/json"});
+				let blob = new Blob([JSON.stringify(WalletRepository.getEncrypted(params.wallet, params.password))], {type: "application/json"});
 				saveAs(blob, "wallet.json");
 			}
 		});

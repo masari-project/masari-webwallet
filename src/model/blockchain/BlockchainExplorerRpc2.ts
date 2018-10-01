@@ -38,7 +38,6 @@ export class WalletWatchdog{
 		this.workerProcessing = new Worker('./workers/TransferProcessingEntrypoint.js');
 		this.workerProcessing.onmessage = function(data : MessageEvent){
 			let message : string|any = data.data;
-			// console.log(message);
 			if(message === 'ready'){
 				self.signalWalletUpdate();
 			}else if(message === 'readyWallet'){
@@ -68,7 +67,7 @@ export class WalletWatchdog{
 		this.lastBlockLoading = -1;//reset scanning
 		this.workerProcessing.postMessage({
 			type:'initWallet',
-			wallet:this.wallet.exportToRaw(true)
+			wallet:this.wallet.exportToRaw()
 		});
 		clearInterval(this.intervalTransactionsProcess);
 		this.intervalTransactionsProcess = setInterval(function(){

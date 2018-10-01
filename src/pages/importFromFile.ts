@@ -84,7 +84,7 @@ class ImportView extends DestructableView{
 		let self = this;
 		blockchainExplorer.getHeight().then(function(currentHeight){
 			setTimeout(function(){
-				let newWallet = WalletRepository.getWithPassword(self.rawFile,self.password);
+				let newWallet = WalletRepository.decodeWithPassword(self.rawFile,self.password);
 				if(newWallet !== null) {
 					newWallet.recalculateIfNotViewOnly();
 					AppState.openWallet(newWallet, self.password);
