@@ -48,6 +48,7 @@ export class WalletOptions{
 
 export type RawWallet = {
 	transactions : any[],
+	txPrivateKeys?:any,
 	lastHeight : number,
 	encryptedKeys?:string|Array<number>,
 	nonce:string,
@@ -71,6 +72,7 @@ export class Wallet extends Observable{
 	txsMem : Transaction[] = [];
 	private modified = true;
 	creationHeight : number = 0;
+	txPrivateKeys : {[id: string]: string} = {};
 	coinAddressPrefix:any = config.addressPrefix;
 
 	keys !: UserKeys;
@@ -85,6 +87,7 @@ export class Wallet extends Observable{
 
 		let data : RawWallet = {
 			transactions: transactions,
+			txPrivateKeys:this.txPrivateKeys,
 			lastHeight: this._lastHeight,
 			nonce:'',
 			options : this._options,
@@ -132,6 +135,7 @@ export class Wallet extends Observable{
 		if(typeof raw.creationHeight !== 'undefined') wallet.creationHeight = raw.creationHeight;
 
 		if(typeof raw.options !== 'undefined') wallet._options = WalletOptions.fromRaw(raw.options);
+		if(typeof raw.txPrivateKeys !== 'undefined') wallet.txPrivateKeys = raw.txPrivateKeys;
 
 		if(typeof raw.coinAddressPrefix !== 'undefined') wallet.coinAddressPrefix = raw.coinAddressPrefix;
 		else wallet.coinAddressPrefix = config.addressPrefix;
@@ -199,6 +203,16 @@ export class Wallet extends Observable{
 			if(tr.txPubKey === pubKey)
 				return tr;
 		return null;
+	}
+
+	findTxPrivateKeyWithHash(hash : string) : string|null{
+		if(typeof this.txPrivateKeys[hash] !== 'undefined')
+			return this.txPrivateKeys[hash];
+		return null;
+	}
+
+	addTxPrivateKeyWithTxHash(txHash : string, txPrivKey : string) : void{
+		this.txPrivateKeys[txHash] = txPrivKey;
 	}
 
 	getTransactionKeyImages(){

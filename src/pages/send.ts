@@ -293,8 +293,11 @@ class SendView extends DestructableView {
 								}).catch(reject);
 							}, 1);
 						});
-					}).then(function (data: { raw: { hash: string, prvKey: string, raw: string }, signed: any }) {
-					blockchainExplorer.sendRawTx(data.raw.raw).then(function () {
+					}).then(function (rawTxData: { raw: { hash: string, prvKey: string, raw: string }, signed: any }) {
+					blockchainExplorer.sendRawTx(rawTxData.raw.raw).then(function () {
+						//save the tx private key
+						wallet.addTxPrivateKeyWithTxHash(rawTxData.raw.hash, rawTxData.raw.prvKey);
+
 						//force a mempool check so the user is up to date
 						let watchdog: WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
 						if (watchdog !== null)
@@ -321,7 +324,7 @@ class SendView extends DestructableView {
 
 						promise.then(function () {
 							if (self.redirectUrlAfterSend !== null) {
-								window.location.href = self.redirectUrlAfterSend.replace('{TX_HASH}', data.raw.hash);
+								window.location.href = self.redirectUrlAfterSend.replace('{TX_HASH}', rawTxData.raw.hash);
 							}
 						});
 					}).catch(function (data: any) {

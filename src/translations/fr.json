@@ -112,7 +112,8 @@
 		"txHash":"Tx hash",
 		"feesOnTx":"Frais sur la tx",
 		"blockHeight":"Hauteur sur la blockchain",
-		"paymentId":"ID du paiement"
+		"paymentId":"ID du paiement",
+		"txPrivKey":"Clé privée de la transaction"
 	  }
 	},
 	"changeWalletPasswordPage":{

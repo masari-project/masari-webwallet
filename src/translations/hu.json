@@ -112,7 +112,8 @@
 		"txHash":"Tranzakció hash",
 		"feesOnTx":"Tranzakció díjai",
 		"blockHeight":"Blokk",
-		"paymentId":"Fizetési azonosító"
+		"paymentId":"Fizetési azonosító",
+		"txPrivKey":"Transaction Private Key"
 	  }
 	},
 	"changeWalletPasswordPage":{
