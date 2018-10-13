@@ -1,0 +1,488 @@
+{
+  "website":{
+	"title":"Επίσημο πορτοφόλι ιστού Masari",
+	"description":"Επίσημο online πορτοφόλι για το νόμισμα Masari - ανώνυμο, ασφαλές, και πλήρως διαχειριζόμενο από τον φυλλομετρητή σας για μέγιστη ασφάλεια"
+  },
+  "messages": {
+	"menu": {
+	  "home": "Αρχική",
+	  "account": "Λογαριασμός",
+	  "send": "Αποστολή",
+	  "receive": "Λήψη",
+	  "export": "Εξαγωγή",
+	  "donate": "Δωρεά",
+	  "settings": "Ρυθμίσεις",
+	  "disconnect": "Αποσύνδεση",
+	  "network": "Στατιστικά Δικτύου",
+	  "mining": "Mining"
+	},
+	"global": {
+	  "loading": "Φόρτωση",
+	  "disableSecurity":"Κατάργησε την ασφάλεια, κατανοώ τον κίνδυνο",
+	  "passwordInvalidRequirements":"Ο κωδικός πρέπει να αποτελείται από τουλάχιστο 8 χαρακτήρες - 1 κεφαλαίο, 1 πεζό, 1 αριθμό και 1 σύμβολο",
+	  "passwordConfirmationNotMatching":"Οι κωδικοί δεν ταιριάζουν μεταξύ τους",
+	  "download":"Λήψη",
+	  "newVersionModal":{
+		"title":"Μια νέα έκδοση είναι διαθέσιμη",
+		"content":"Θέλετε να φορτώσετε τη νέα έκδοση;",
+		"confirmText":"Ναι",
+		"cancelText":"Πίσω"
+	  },
+	  "openWalletModal":{
+		"title":"Κωδικός Πορτοφολιού",
+		"confirmText":"Άνοιγμα",
+		"cancelText":"Ακύρωση"
+	  },
+	  "invalidPasswordModal":{
+		"title":"Ουπς...",
+		"content":"Ο κωδικός σας είναι άκυρος.",
+		"confirmText":"OK"
+	  },
+	  "invalidMnemonicModal":{
+		"title":"Ουπς...",
+		"content":"Η μνημονική φράση είναι άκυρη",
+		"confirmText":"OK"
+	  },
+	  "passwordNotComplexEnoughModal":{
+		"title":"Ο κωδικός δεν είναι αρκετά περίπλοκος",
+		"confirmText":"OK"
+	  },
+	  "permissionRequiredForCameraModal":{
+		"title":"Ουπς...",
+		"content":"Η άδεια προσπέλασης της κάμεράς σας είναι απαραίτητη για τη σάρωση του QR code",
+		"confirmText":"OK"
+	  }
+	},
+	"bottom": {
+	  "termsOfUse": "Όροι χρήσης",
+	  "support": "Υποστήριξη",
+	  "donate": "Δωρεά",
+	  "network": "Στατιστικά Δικτύου",
+	  "miningPool": "Mining Pool",
+	  "github": "GitHub"
+	},
+	"homepage": {
+	  "mainTitle": "Ασφαλισμένο Πορτοφόλι Masari",
+	  "tagLine": "Ο απλούστερος τρόπος χρήσης του Masari - οπουδήποτε, οποτεδήποτε",
+	  "actions": {
+		"loadWallet": "Φόρτωσε το πορτοφόλι μου",
+		"importWallet": "Εισαγωγή πορτοφολιού",
+		"create": "Δημιουργία",
+		"createWallet": "Δημιουργία πορτοφολιού"
+	  },
+	  "notes": {
+		"secure": {
+		  "title": "Ασφαλές",
+		  "description": "Χωρίς διακομιστές, πλήρως κρυπτογραφημένο!"
+		},
+		"fast": {
+		  "title": "Γρήγορο",
+		  "description": "Στείλε οπουδήποτε, οποτεδήποτε!"
+		},
+		"technology": {
+		  "title": "Μοναδική Τεχνολογία",
+		  "description": "Συνδεδεμένο κατευθείαν στο Masari blockchain!"
+		},
+		"openSource": {
+		  "title": "100% ανοιχτού κώδικα",
+		  "description": "Διαθέσιμο στο Github!"
+		}
+	  }
+	},
+	"accountPage": {
+	  "title": "Λογαριασμός",
+	  "subtitle": "Επισκόπηση του λογαριασμού σας και ιστορικό συναλλαγών",
+	  "synchronizingBlock": {
+		"text": "Συγχρονισμός..."
+	  },
+	  "balanceBlock": {
+		"title": "Το υπόλοιπό σας",
+		"unlocked": "Ξεκλείδωτο"
+	  },
+	  "historyBlock": {
+		"title": "Ιστορικό συναλλαγών",
+		"pendingTxStatus": "Εκκρεμεί",
+		"emptyWallet": "Αυτή τη στιγμή δεν έχετε χρήματα σε αυτό το πορτοφόλι.",
+		"waitSync": "Παρακαλώ περιμένετε μέχρι να ανανεωθεί το πορτοφόλι",
+		"beReallyPatient": "Η αρχική ρύθμιση μπορεί να διαρκέσει λίγη ώρα...",
+		"getMSRAddress": "Λήψη MSR"
+	  },
+	  "txDetails":{
+		"title":"Λεπτομέρειες συναλλαγής",
+		"txHash":"Αναγνωριστικό συναλλαγής",
+		"feesOnTx":"Τέλη συναλλαγής",
+		"blockHeight":"Block height",
+		"paymentId":"Payment ID"
+	  }
+	},
+	"changeWalletPasswordPage":{
+	  "title":"Αλλάγή κωδικού",
+	  "oldPassword":{
+		"label":"Παλαιός κωδικός",
+		"invalid":"Ο κωδικός είναι άκυρος"
+	  },
+	  "newPassword":{
+		"label":"Διαλέξτε ένα νέα κωδικό για να προστατέψετε το πορτοφόλι σας"
+	  },
+	  "newPasswordConfirm":{
+		"label":"Επιβεβαιώστε το νέο κωδικό"
+	  },
+	  "confirm":"Αλλαγή κωδικού",
+	  "modalSuccess":{
+		"title":"Ο κωδικός άλλαξε!",
+		"confirmText":"OK"
+	  }
+	},
+	"createWalletPage":{
+	  "generatingStep":{
+		"title":"Το πορτοφόλι σας δημιουργείται...",
+		"subtitle":"Σχεδόν τελείωσε",
+		"waitingMessage":"Δημιουργία πορτοφολιού..."
+	  },
+	  "finalizationStep":{
+		"title":"Αυτό ήταν απλό. Ο λογαριασμός σας είναι έτοιμος!",
+		"subtitle":"Ετοιμαστείτε να χρησιμοποιήσετε το Masari όπως δεν το έχετε ξανακάνει",
+		"passwordSelectionBlock":{
+		  "label":"Προστατέψτε το πορτοφόλι σας με έναν κωδικό"
+		},
+		"passwordConfirmBlock":{
+		  "label":"Επιβεβαιώστε τον κωδικό"
+		},
+		"validPassword":"Χρησιμοποιήστε αυτόν τον κωδικό",
+		"backupBlock":{
+		  "title":"Αποθηκεύστε τα ιδιωτικά σας αναγνωριστικά για επαναφορά.",
+		  "option1":"Επιλογή 1: ",
+		  "option2":"Επιλογή 2: ",
+		  "titlePdf":"Κατεβάστε ένα αντίγραφο PDF",
+		  "titleManualWrite":"Γράψε τα κλειδιά μου",
+		  "privateKeys":"Ιδιωτικό κλειδί",
+		  "mnemonicPhrase":"Μνημονική φράση",
+		  "separatorManualMethodsSolution":" ή ",
+		  "confirmManuallyWritten":"Έγραψα τη μνημονική μου φράση σε χαρτί",
+		  "warningMessage":"**Μην το χάσετε!** Δεν μπορεί να ανακτηθεί αν το χάσετε.<br/>**Μην το κοινοποιείτε!** Τα χρήματά σας θα κλαπούν εαν χρησιμοποιήσετε αυτό το αρχείο ή τη μνημονική φράση σε κακόβουλο ιστότοπο.<br/>**Δημιουργήστε αντίγραφο ασφαλείας!** Ασφαλείστε το σαν να ασφαλίζατε τα εκατομμύρια ευρώ που μπορεί κάποτε να αξίζει.<br/>",
+		  "finishButton":"Καταλαβαίνω. Συνέχισε."
+		}
+	  },
+	  "disclaimerBlock":{
+		"title":"Κίνδυνος χρήσης του MasariWallet",
+		"content":"Το MasariWallet είναι ένα πορτοφόλι βασισμένο στον ιστό. Σας επιτρέπει να χρησιμοποιήσετε το Masari χωρίς να χρειάζετε να λειτουργείτε έναν δικό σας κόμβο Masari. <br/> Σας συνιστούμε να θεωρείτε το MasariWallet ως ένα κανονικό πορτοφόλι"
+	  }
+	},
+	"donatePage":{
+	  "title":"Δωρεά",
+	  "subtitle":"Βοηθήστε στην ανάπτυξη και στα έξοδα",
+	  "webwalletBlock":{
+		"title":"Webwallet",
+		"content":"Αυτό το πορτοφόλι ιστού αναπτύχθηκε από τον Gnock στον ελεύθερό του χρόνο.<br/> Εαν θέλετε να βοηθήσετε στην ανάπτυξη, να συνεισφέρετε στα έξοδα των διακομιστών και σας αρέσει αυτή η εφαρμογή, παρακαλώ σκεφτείτε να κάνετε μια δωρεά: <br/><br/>"
+	  },
+	  "masariFundBlock":{
+		"title":"Masari Dev fund",
+		"content":"Για να βοηθήσετε το Masari, μπορείτε να κάνετε δωρεά στις παρακάτω διευθύνσεις"
+	  }
+	},
+	"supportPage":{
+	  "title":"Υποστήριξη",
+	  "subtitle":"Είμαστε εδώ για να βοηθήσουμε!",
+	  "getInTouchBlock":{
+		"title":"Ας έρθουμε σε επικοινωνία!",
+		"content":"'Εχετε ιδέες που θα μπορούσαν να μας βοηθήσουν να βελτιώσουμε το πορτοφόλι; Επικοινωνήστε μαζί μας!",
+		"discord":"Masari Discord Channel"
+	  }
+	},
+	"networkPage":{
+	  "title":"Στατιστικά Δικτύου΄",
+	  "subtitle":"Επισκόπηση τπυ δικτύου Masari",
+	  "statsBlock":{
+		"hashrate":"Network hashrate",
+		"height":"Blockchain height",
+		"difficulty":"Network difficulty",
+		"lastTimeBlock":"Τελευταίο block που βρέθηκε",
+		"lastReward":"Τελευταία αμοιβή block"
+	  }
+	},
+	"sendPage":{
+	  "title":"Στείλτε MSR",
+	  "sendBlock":{
+		"address":{
+		  "label":"Διεύθυνση παραλήπτη",
+		  "invalid":"Η διεύθυνση παραλήπτη είναι άκυρη",
+		  "fundsTo":"Τα χρήματά θα σταλούν στην ακόλουθη διεύθυνση",
+		  "receiver":"Παραλήπτης",
+		  "description":"Περιγραφή"
+		},
+		"amount":{
+		  "label":"Ποσό προς αποστολή",
+		  "invalid":"Το ποσό είναι άκυρο"
+		},
+		"paymentId":{
+		  "label":"Payment ID (προαιρετικό)",
+		  "invalid":"Το payment ID είναι άκυρο. Πρέπει να αποτελείται από 16 ή 64 χαρακτήρες"
+		},
+		"sendButton":"Αποστολή",
+		"cancelButton":"Ακύρωση"
+	  },
+	  "qrCodeScanning":{
+		"explication":"Δείξε το QR code"
+	  },
+	  "notEnoughMoneyModal":{
+		"title":"Ουπς...",
+		"content":"Δεν έχετε αρκετά χρήματα στο πορτοφόλι σας για να εκτελέσετε αυτή τη συναλλαγή",
+		"confirmText":"OK"
+	  },
+	  "thankYouDonationModal":{
+		"title":"Ευχαριστούμε για τη δωρεά σας!",
+		"content":"Εκτιμούμε τη βοήθειά σας. <br/>Αυτή η δωρεά θα βοηθήσει στο να κάνουμε το Masari καλύτερο",
+		"confirmText":"OK"
+	  },
+	  "transferSentModal":{
+		"title":"Η συναλλαγή έγινε επιτυχώς!",
+		"confirmText":"OK"
+	  },
+	  "transferExceptionModal":{
+		"title":"Ουπς...",
+		"content":"Συνέβη ένα σφάλμα. Παρακαλώ αναφέρετε αυτό το σφάλμα: {details}",
+		"confirmText":"OK"
+	  },
+	  "invalidAmountModal":{
+		"title":"Ουπς...",
+		"content":"Άκυρο ποσό",
+		"confirmText":"OK"
+	  },
+	  "creatingTransferModal":{
+		"title":"Δημιουργία συναλλαγής ...",
+		"content":"Παρακαλώ περιμένετε..."
+	  },
+	  "finalizingTransferModal":{
+		"title":"Οριστικοποίηση συναλλαγής ...",
+		"content":"Παρακαλώ περιμένετε..."
+	  },
+	  "confirmTransactionModal":{
+		"title":"Αποδοχή συναλλαγής;",
+		"content":"Ποσό: {amount}<br/>Τέλη: {fees}<br/>Total: {total}",
+		"confirmText":"Αποδοχή",
+		"cancelText":"Ακύρωση"
+	  },
+	  "waitingNfcModal":{
+		"title":"Αναμονή NFC",
+		"content":"Πλησιάστε στην άλλη συσκευή"
+	  }
+	},
+	"receivePage":{
+	  "title":"Λήψη MSR",
+	  "receiveBlock":{
+		"address":{
+		  "title":"Η διεύθυνσή σας για λήψη χρημάτων:",
+		  "label":"Δώστε αυτή τη διεύθυνση για να λάβετε χρήματα"
+		},
+		"qrCode":{
+		  "title":"Ή εξατομικεύστε το QR code:",
+		  "labelAmount":"Ποσό (προαιρετικό)",
+		  "labelRecipient":"Όνομα παραλήπτη (προαιρετικό)",
+		  "labelDescription":"Περιγραφή συναλλαγής (προαιρετικό)",
+		  "updateButton":"Ανανέωση"
+		}
+	  },
+	  "qrBlock":{
+		"title":"Το εξατομικευμένο QR code σας"
+	  },
+	  "waitingNfcToWriteModal":{
+		"title":"Αναμονή NFC",
+		"titleSuccess":"Έγινε εγγραφή του NFC Tag",
+		"content":"Πλησιάστε το NFC tag για εγγραφή"
+	  },
+	  "nfcErrorModal":{
+		"titleInsufficientCapacity":"Ανεπαρκής χωρητικότητα Tag"
+	  }
+	},
+	"miningPage":{
+	  "title":"Κάντε mining μέσω του φυλλομετρητή σας",
+	  "subtitle":"Υποστηρίξτε το δίκτυο και αμοιφθείτε με MSR",
+	  "parameterBlock":{
+		"title":"Παράμετροι",
+		"labelDestinationAddress":"Πορτοφόλι για κατάθεση αμοιβών από mining",
+		"labelThreads":"Αριθμός threads (περισσότερα = υψηλότερο hashrate)",
+		"start":"Έναρξη",
+		"stop":"Σταμάτημα"
+	  },
+	  "statisticsBlocks":{
+		"title":"Στατιστικά",
+		"validShares":"Έγκυρα shares",
+		"hashrate":"Hashrate",
+		"maxHashrate":"Μέγιστο Hashrate",
+		"dedicatedHardware":"Με εξειδικευμένο λογισμικό και υλισμοκό για mining μπορείτε να αμοιφθείτε περισσότερα και να βοηθήσει στην αποκέντρωση του δικτύου.",
+		"miningHandledBy":"Το mining σε αυτή τη σελίδα διαχειρίζεται από το pool get.masaricoin.com"
+	  }
+	},
+	"settingsPage":{
+	  "title":"Ρυθμίσεις",
+	  "subtitle":"Αλλάξτε τις παραμέτρους εδώ",
+	  "versionBlock":{
+		"versionNumber":"Version number: ",
+		"versionCode":"Version code: "
+	  },
+	  "settingsBlock":{
+		"speed":{
+		  "label":"Ρυθμός ανανέωσης πορτοφολιού (καταναλώνει περισσότερους πόρους)",
+		  "fastest":"Ταχύτατο",
+		  "fast":"Γρήγορο",
+		  "medium":"Μεσαίο",
+		  "slow":"Αργό"
+		},
+		"language":{
+		  "label":"Γλώσσα"
+		},
+		"readMinerTx":{
+		  "label":"Ανάγνωση συναλλαγών miner (Μόνο για όσους κάνουν solo mining)"
+		}
+	  },
+	  "changePasswordButton":"Άλλαξε τον κωδικό του πορτοφολιού μου",
+	  "deleteWalletButton":"Διέγραψε το πορτοφόλι μου (τοπικό αντίγραφο)",
+	  "walletSettings":{
+		"creationHeight":{
+		  "label":"Ύψος δημιουργίας του πορτοφολιού"
+		},
+		"currentScanningHeight": {
+		  "label": "Τρέχον ύψος σάρωσης"
+		},
+		"updateButton":"Ανανέωση"
+	  },
+	  "deleteWalletModal":{
+		"title":"Διέγραψε το πορτοφόλι μου (τοπικό αντίγραφο)",
+		"content":"Είστε βέβαιοι ότι θέλετε ΠΡΑΓΜΑΤΙΚΑ να διαγράψετε το πορτοφόλι σας;",
+		"confirmText":"Ναι είμαι βέβαιος",
+		"cancelButtonText":"Ακύρωση"
+	  }
+	},
+	"importBasePage":{
+	  "parametersBlock":{
+		"title":"Παράμετροι",
+		"password":{
+		  "label":"Κωδικός προστασίας του πορτοφολιού σας"
+		},
+		"passwordConfirm":{
+		  "label":"Επιβεβαιώστε τον κωδικό",
+		  "invalid":"Οι κωδικοί δεν ταιριάζουν μεταξύ τους"
+		},
+		"importHeight":{
+		  "label":"Ύψος από το οποίο θα γίνει η εισαγωγή:"
+		}
+	  }
+	},
+	"importFromQrPage":{
+	  "title":"Εισαγωγή πορτοφολιού από QR code",
+	  "subtitle":"Εισαγωγή πορτοφολιού από εφεδρικό αντίγραφο εκτός σύνδεσης",
+	  "qrCodeBlock":{
+		"title":"QR code",
+		"startScanButton":"Έναρξη σάρωσης",
+		"importButton":"Εισαγωγή"
+	  },
+	  "qrScanningBlock":{
+		"title":"Δείξτε το QR code"
+	  }
+	},
+	"exportPage":{
+	  "title":"Backup your credentials",
+	  "publicAddressBlock":{
+		"title":"Your public address"
+	  },
+	  "pdfBlock":{
+		"title":"PDF Backup",
+		"downloadButton":"Download"
+	  },
+	  "warningBlock":{
+		"title":"Warning",
+		"content":"If you choose to save your private keys or your mnemonic phrase, PLEASE DO NOT store them in clear-text for your own safety.<br/>The file is an alternate solution where your keys are encrypted and contains a backup of all your transactions to spare you a future synchronisation."
+	  },
+	  "exportBlock":{
+		"title":"Export your RAW credentials",
+		"privateKeysButton":"Get my private keys",
+		"mnemonicKeysButton":"Get my mnemonic phrase",
+		"fileButton":"Εξαγωγή σε αρχείο"
+	  },
+	  "walletKeysModal":{
+		"title":"Ιδιωτικά κλειδιά",
+		"confirmText":"OK",
+		"content":"Παρακαλώ αποθηκεύστε προσεκτικά αυτά τα κλειδιά. <b>Η κατοχή τους σημαίνει κατοχή των χρημάτων του πορτοφολιού αυτού</b> !<br/>Κλειδί πληρωμής: {privSpendKey}<br/>Ιδιωτικό κλειδί προβολής: {privViewKey}"
+	  },
+	  "mnemonicKeyModal":{
+		"title":"Μνημονική φράση",
+		"confirmText":"OK",
+		"content":"Παρακαλώ αποθηκεύστε προσεκτικά αυτή τη μνημονική φράση.<b>Η κατοχή της σημαίνει κατοχή των χρημάτων του πορτοφολιού αυτού</b> ! Η φράση είναι:<br/>{mnemonic}"
+	  },
+	  "mnemonicLangSelectionModal":{
+		"title":"Σε ποιά γλώσσα θέλετε τη μνημονική φράση σας;",
+		"confirmText":"Εξαγωγή"
+	  }
+	},
+	"importPage":{
+	  "title":"Δημιουργία πορτοφολιού",
+	  "subtitle":"Από προηγουμένως δημιουργημένα κλειδιά, αρχείο ή μνημονική φράση",
+	  "chooseMethod":"Διαλέξτε την μέθοδο εισαγωγής:",
+	  "fromKeys":"Απο κλειδιά",
+	  "fromFile":"Από αρχείο",
+	  "fromMnemonic":"Από μνημονική φράση",
+	  "fromQr":"Από QR code"
+	},
+	"termsOfUsePage":{
+	  "title":"Όροι χρήσης",
+	  "subtitle":"Παρακαλώ διαβάστε τους προσεκτικά."
+	},
+	"importFromFilePage":{
+	  "title":"Εισαγωγή πορτοφολιού από αντίγραφο ασφαλείας",
+	  "subtitle":"Χρησιμοποιήστε το αντίγραφο ασφαλείας για να δημιουργήσετε ένα πορτοφόλι",
+	  "walletBlock":{
+		"title":"Αρχείο πορτοφολιού",
+		"label":"Επιλέξτε το αρχείο",
+		"importButton":"Εισαγωγή"
+	  }
+	},
+	"importFromMnemonicPage":{
+	  "title":"Εισαγωγή πορτοφολιού από μνημονική φράση",
+	  "subtitle":"Χρησιμοποιήστε τη φράση σας για να δημιουργήσετε ένα πορτοφόλι",
+	  "mnemonicBlock":{
+		"title":"Μνημονική φράση",
+		"mnemonic":{
+		  "label":"Μνημονική φράση: 25 λέξεις",
+		  "invalid":"Η μνημονική φράση είναι άκυρη",
+		  "language":"Γλώσσα"
+		},
+		"importButton":"Εισαγωγή"
+	  }
+	},
+	"importFromKeysPage":{
+	  "title":"Εισαγωγή πορτοφολιού από κλειδιά",
+	  "subtitle":"Χρησιμοποιήστε τα κλειδιά σας για να δημιουργήσετε ένα πορτοφόλι",
+	  "parametersBlock":{
+		"viewOnlyWallet":{
+		  "label":"Θέλετε ένα πορτοφόλι μόνο για προβολή;"
+		}
+	  },
+	  "keysBlock":{
+		"titleNotViewOnly":"Κλειδιά πορτοφολιού",
+		"titleViewOnly":"Πορτοφόλι μόνο για προβολή",
+		"privateSpend":{
+		  "label":"Ιδιωτικό κλειδί πληρωμής"
+		},
+		"privateView":{
+		  "label":"Ιδιωτικό κλειδί προβολής",
+		  "optional":"(προαιρετικό)"
+		},
+		"publicKey":{
+		  "label":"Δημόσιο Κλειδί"
+		},
+		"importButton":"Εισαγωγή"
+	  }
+	}
+  },
+  "number":{
+  },
+  "date":{
+	"short": {
+	  "year": "numeric", "month": "short", "day": "numeric"
+	},
+	"long": {
+	  "year": "numeric", "month": "short", "day": "numeric",
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": true
+	}
+  }
+}
