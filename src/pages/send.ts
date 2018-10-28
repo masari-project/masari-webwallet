@@ -312,7 +312,7 @@ class SendView extends DestructableView {
 							promise = swal({
 								type: 'success',
 								title: i18n.t('sendPage.thankYouDonationModal.title'),
-								text: i18n.t('sendPage.thankYouDonationModal.content'),
+								html: i18n.t('sendPage.thankYouDonationModal.content'),
 								confirmButtonText: i18n.t('sendPage.thankYouDonationModal.confirmText'),
 							});
 						} else
