@@ -15,9 +15,8 @@
 
 export class CoinUri{
 
-	static coinTxPrefix = 'masari:';
-	static coinWalletPrefix = 'masari:';
-	static coinAddressLength = 95;
+	static coinTxPrefix = config.coinUriPrefix;
+	static coinWalletPrefix = config.coinUriPrefix;
 
 	static decodeTx(str : string) : {
 		address:string,
@@ -33,8 +32,11 @@ export class CoinUri{
 			if(exploded.length == 0)
 				throw 'missing_address';
 
-			if(exploded[0].length !== this.coinAddressLength)
+			try {
+				cnUtil.decode_address(exploded[0]);
+			}catch(e){
 				throw 'invalid_address_length';
+			}
 
 			let decodedUri : any = {
 				address:exploded[0]
@@ -75,8 +77,11 @@ export class CoinUri{
 
 	static encodeTx(address : string, paymentId:string|null = null, amount : string|null=null, recipientName:string|null = null, description : string|null=null) : string{
 		let encoded = this.coinTxPrefix + address;
-		if(address.length !== this.coinAddressLength)
+		try {
+			cnUtil.decode_address(address);
+		}catch(e){
 			throw 'invalid_address_length';
+		}
 
 		if(paymentId !== null) encoded += '?tx_payment_id='+paymentId;
 		if(amount !== null) encoded+= '?tx_amount='+amount;
@@ -101,8 +106,11 @@ export class CoinUri{
 			if(exploded.length == 0)
 				throw 'missing_address';
 
-			if(exploded[0].length !== this.coinAddressLength)
+			try {
+				cnUtil.decode_address(exploded[0]);
+			}catch(e){
 				throw 'invalid_address_length';
+			}
 
 			let decodedUri : any = {
 				address:exploded[0]
@@ -157,8 +165,11 @@ export class CoinUri{
 
 	static encodeWalletKeys(address : string, spendKey : string, viewKey : string|null=null, height:number|null=null, encryptMethod:string|null=null,nonce:string|null=null){
 		let encoded = this.coinWalletPrefix + address;
-		if(address.length !== this.coinAddressLength)
+		try {
+			cnUtil.decode_address(address);
+		}catch(e){
 			throw 'invalid_address_length';
+		}
 
 		if(spendKey !== null) encoded += '?spend_key='+spendKey;
 		if(viewKey !== null) encoded+= '?view_key='+viewKey;
