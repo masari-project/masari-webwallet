@@ -63,7 +63,7 @@ class AccountView extends DestructableView{
 	}
 
 	moreInfoOnTx(transaction : Transaction){
-		let explorerUrl = config.testnet ? config.testnetExplorerUrl : config.mainnetExplorerUrl;
+		let explorerUrl = config.testnet ? config.testnetExplorerUrlHash : config.mainnetExplorerUrlHash;
 		let feesHtml = '';
 		if(transaction.getAmount() < 0)
 			feesHtml = `<div>`+i18n.t('accountPage.txDetails.feesOnTx')+`: `+Vue.options.filters.piconero(transaction.fees)+`</a></div>`;
@@ -83,7 +83,7 @@ class AccountView extends DestructableView{
 			title:i18n.t('accountPage.txDetails.title'),
 			html:`
 <div class="tl" >
-	<div>`+i18n.t('accountPage.txDetails.txHash')+`: <a href="`+explorerUrl+`tx/`+transaction.hash+`" target="_blank">`+transaction.hash+`</a></div>
+	<div>`+i18n.t('accountPage.txDetails.txHash')+`: <a href="`+explorerUrl.replace('{ID}', transaction.hash)+`" target="_blank">`+transaction.hash+`</a></div>
 	`+paymentId+`
 	`+feesHtml+`
 	`+txPrivKeyMessage+`

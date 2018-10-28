@@ -2,7 +2,11 @@ let global : any = typeof window !== 'undefined' ? window : self;
 global.config = {
 	apiUrl:typeof window !== 'undefined' && window.location ? window.location.href.substr(0,window.location.href.lastIndexOf('/')+1)+'api/' : 'https://www.masariwallet.com/api/',
 	mainnetExplorerUrl: "https://msrchain.net/",
+	mainnetExplorerUrlHash: "https://msrchain.net/tx/{ID}",
+	mainnetExplorerUrlBlock: "https://msrchain.net/block/{ID}",
 	testnetExplorerUrl: "http://testnet.msrchain.net/",
+	testnetExplorerUrlHash: "http://testnet.msrchain.net/tx/{ID}",
+	testnetExplorerUrlBlock: "http://testnet.msrchain.net/block/{ID}",
 	testnet: false,
 	coinUnitPlaces: 12,
 	txMinConfirms: 10,         // corresponds to CRYPTONOTE_DEFAULT_TX_SPENDABLE_AGE in Monero
