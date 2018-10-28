@@ -388,8 +388,8 @@ export class TransactionsExplorer {
 		mixin: number,
 		neededFee: number,
 		payment_id: string
-	): Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }> {
-		return new Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }>(function (resolve, reject) {
+	): Promise<{ raw: { hash: string, prvkey: string, raw: string }, signed: any }> {
+		return new Promise<{ raw: { hash: string, prvkey: string, raw: string }, signed: any }>(function (resolve, reject) {
 			let signed;
 			try {
 				console.log('Destinations: ');
@@ -430,8 +430,8 @@ export class TransactionsExplorer {
 		obtainMixOutsCallback: (quantity: number) => Promise<any[]>,
 		confirmCallback: (amount: number, feesAmount: number) => Promise<void>,
 		mixin : number = config.defaultMixin):
-		Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }> {
-		return new Promise<{ raw: { hash: string, prvKey: string, raw: string }, signed: any }>(function (resolve, reject) {
+		Promise<{ raw: { hash: string, prvkey: string, raw: string }, signed: any }> {
+		return new Promise<{ raw: { hash: string, prvkey: string, raw: string }, signed: any }>(function (resolve, reject) {
 			// few multiplayers based on uint64_t wallet2::get_fee_multiplier
 			let fee_multiplayers = [1, 4, 20, 166];
 			let default_priority = 2;
@@ -598,9 +598,9 @@ export class TransactionsExplorer {
 					}
 					console.log('mix_outs', mix_outs);
 
-					TransactionsExplorer.createRawTx(dsts, wallet, true, usingOuts, pid_encrypt, mix_outs, mixin, neededFee, paymentId).then(function (data: { raw: { hash: string, prvKey: string, raw: string }, signed: any }) {
+					TransactionsExplorer.createRawTx(dsts, wallet, true, usingOuts, pid_encrypt, mix_outs, mixin, neededFee, paymentId).then(function (data: { raw: { hash: string, prvkey: string, raw: string }, signed: any }) {
 						resolve(data);
-					}).catch(function (e) {
+					}).catch(function (e : any) {
 						reject(e);
 					});
 				});

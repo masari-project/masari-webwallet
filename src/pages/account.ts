@@ -24,6 +24,7 @@ import {VueFilterPiconero} from "../filters/Filters";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+(<any>window).wallet = wallet;
 
 @VueRequireFilter('piconero', VueFilterPiconero)
 class AccountView extends DestructableView{
