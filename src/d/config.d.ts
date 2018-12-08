@@ -28,4 +28,5 @@ declare var config : {
 	idleWarningDuration: number,
 	maxBlockNumber: number,
 	avgBlockTime: number,
+	donationAddresses?:string[]
 };

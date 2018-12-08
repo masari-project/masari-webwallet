@@ -19,7 +19,7 @@ import {Wallet} from "./Wallet";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {Observable} from "../lib/numbersLab/Observable";
 import {WalletRepository} from "./WalletRepository";
-import {BlockchainExplorer} from "./blockchain/BlockchainExplorer";
+import {BlockchainExplorer, RawDaemon_Transaction} from "./blockchain/BlockchainExplorer";
 import {Constants} from "./Constants";
 import {TransactionsExplorer} from "./TransactionsExplorer";
 
@@ -136,7 +136,7 @@ export class AppState{
 										for (let height of blockchainHeightToRescan) {
 											promisesBlocks.push(blockchainExplorer.getTransactionsForBlocks(parseInt(height)));
 										}
-										Promise.all(promisesBlocks).then(function (arrayOfTxs: Array<RawDaemonTransaction[]>) {
+										Promise.all(promisesBlocks).then(function (arrayOfTxs: Array<RawDaemon_Transaction[]>) {
 											for (let txs of arrayOfTxs) {
 												for (let rawTx of txs) {
 													if (wallet !== null) {

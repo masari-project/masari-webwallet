@@ -2,6 +2,7 @@ import {TransactionsExplorer} from "../model/TransactionsExplorer";
 import {Wallet, WalletOptions} from "../model/Wallet";
 import {Mnemonic} from "../model/Mnemonic";
 import {Transaction} from "../model/Transaction";
+import {RawDaemon_Transaction} from "../model/blockchain/BlockchainExplorer";
 
 //bridge for cnUtil with the new mnemonic class
 (<any>self).mn_random = Mnemonic.mn_random;
@@ -28,7 +29,7 @@ onmessage = function(data : MessageEvent){
 
 			let readMinersTx = typeof currentWallet.options.checkMinerTx !== 'undefined' && currentWallet.options.checkMinerTx;
 
-			let rawTransactions : RawDaemonTransaction[] = event.transactions;
+			let rawTransactions : RawDaemon_Transaction[] = event.transactions;
 			let transactions : any[] = [];
 			for(let rawTransaction of rawTransactions){
 				if(!readMinersTx && TransactionsExplorer.isMinerTx(rawTransaction)) {

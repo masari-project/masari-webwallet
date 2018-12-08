@@ -69,6 +69,31 @@ bool derive_public_key(const crypto::key_derivation &derivation, size_t output_i
     return true;
 }
 
+//TODO functions required in the next release
+//sc_reduce32
+//sc_add
+//sc_sub
+//sc_mulsub
+//sc_0
+
+//ge_fromfe_frombytes_vartime
+//ge_mul8
+//ge_p1p1_to_p3
+//ge_fromfe_frombytes_vartime
+//ge_p3_tobytes
+//ge_scalarmult
+//ge_tobytes
+//ge_scalarmult_base
+//ge_double_scalarmult_base_vartime
+//ge_double_scalarmult_precomp_vartime
+//ge_frombytes_vartime
+//ge_dsm_precomp
+
+//generate_ring_signature
+//generate_key_image_2
+//hash_to_ec
+//hash_to_ec_2
+
 int main(void) {
     return 0;
 }

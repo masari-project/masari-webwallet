@@ -13,12 +13,13 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {BlockchainExplorer} from "./BlockchainExplorer";
+import {BlockchainExplorer, RawDaemon_Transaction} from "./BlockchainExplorer";
 import {Wallet} from "../Wallet";
 import {TransactionsExplorer, TX_EXTRA_TAG_PUBKEY} from "../TransactionsExplorer";
-import {CryptoUtils} from "../CryptoUtils";
+// import {CryptoUtils} from "../CryptoUtils";
 import {Transaction} from "../Transaction";
 import {MathUtil} from "../MathUtil";
+import {CnTransactions, CnUtils} from "../Cn";
 
 export class WalletWatchdog{
 
@@ -122,16 +123,16 @@ export class WalletWatchdog{
 		this.workerCountProcessed = 0;
 	}
 
-	transactionsToProcess : RawDaemonTransaction[] = [];
+	transactionsToProcess : RawDaemon_Transaction[] = [];
 	intervalTransactionsProcess = 0;
 
 	workerProcessing !: Worker;
 	workerProcessingReady = false;
 	workerProcessingWorking = false;
-	workerCurrentProcessing : RawDaemonTransaction[] = [];
+	workerCurrentProcessing : RawDaemon_Transaction[] = [];
 	workerCountProcessed = 0;
 
-	checkTransactions(rawTransactions : RawDaemonTransaction[]){
+	checkTransactions(rawTransactions : RawDaemon_Transaction[]){
 		for(let rawTransaction of rawTransactions){
 			let height = rawTransaction.height;
 			if(typeof height !== 'undefined') {
@@ -163,7 +164,7 @@ export class WalletWatchdog{
 			return;
 		}
 
-		let transactionsToProcess : RawDaemonTransaction[] = this.transactionsToProcess.splice(0, 30);
+		let transactionsToProcess : RawDaemon_Transaction[] = this.transactionsToProcess.splice(0, 30);
 		if(transactionsToProcess.length > 0) {
 			this.workerCurrentProcessing = transactionsToProcess;
 			this.workerProcessing.postMessage({
@@ -178,7 +179,7 @@ export class WalletWatchdog{
 		}
 	}
 
-	processTransactions(transactions : RawDaemonTransaction[]){
+	processTransactions(transactions : RawDaemon_Transaction[]){
 		let transactionsToAdd = [];
 		for(let tr of transactions){
 			if(typeof tr.height !== 'undefined')
@@ -224,7 +225,7 @@ export class WalletWatchdog{
 				let startBlock = Math.floor(self.lastBlockLoading/100)*100;
 				// console.log('=>',self.lastBlockLoading, endBlock, height, startBlock, self.lastBlockLoading);
 				console.log('load block from '+startBlock);
-				self.explorer.getTransactionsForBlocks(previousStartBlock).then(function(transactions : RawDaemonTransaction[]){
+				self.explorer.getTransactionsForBlocks(previousStartBlock).then(function(transactions : RawDaemon_Transaction[]){
 					//to ensure no pile explosion
 					if(transactions.length > 0){
 						let lastTx = transactions[transactions.length-1];
@@ -303,9 +304,9 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 		return watchdog;
 	}
 
-	getTransactionsForBlocks(startBlock : number) : Promise<RawDaemonTransaction[]>{
+	getTransactionsForBlocks(startBlock : number) : Promise<RawDaemon_Transaction[]>{
 		let self = this;
-		return new Promise<RawDaemonTransaction[]>(function (resolve, reject) {
+		return new Promise<RawDaemon_Transaction[]>(function (resolve, reject) {
 			$.ajax({
 				url: self.serverAddress+'blockchain.php?height='+startBlock,
 				method: 'GET',
@@ -319,9 +320,9 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 		});
 	}
 
-	getTransactionPool() : Promise<RawDaemonTransaction[]>{
+	getTransactionPool() : Promise<RawDaemon_Transaction[]>{
 		let self = this;
-		return new Promise<RawDaemonTransaction[]>(function (resolve, reject) {
+		return new Promise<RawDaemon_Transaction[]>(function (resolve, reject) {
 			$.ajax({
 				url: self.serverAddress+'getTransactionPool.php',
 				method: 'GET',
@@ -350,7 +351,7 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 		}
 
 		return this.getHeight().then(function(height : number){
-			let txs : RawDaemonTransaction[] = [];
+			let txs : RawDaemon_Transaction[] = [];
 			let promises = [];
 
 			let randomBlocksIndexesToGet : number[] = [];
@@ -365,7 +366,7 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 				}while(selectedIndex === -1 || randomBlocksIndexesToGet.indexOf(selectedIndex) !== -1);
 				randomBlocksIndexesToGet.push(selectedIndex);
 
-				let promise = self.getTransactionsForBlocks(Math.floor(selectedIndex/100)*100).then(function(rawTransactions : RawDaemonTransaction[]){
+				let promise = self.getTransactionsForBlocks(Math.floor(selectedIndex/100)*100).then(function(rawTransactions : RawDaemon_Transaction[]){
 					txs.push.apply(txs,rawTransactions);
 				});
 				promises.push(promise);
@@ -401,8 +402,8 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 						if(typeof tx.global_index_start !== 'undefined')
 							globalIndex += tx.global_index_start;
 
-						if(tx.vout[output_idx_in_tx].amount !== 0){//check if miner tx
-							rct = cnUtil.zeroCommit(cnUtil.d2s(tx.vout[output_idx_in_tx].amount));
+						if(parseInt(tx.vout[output_idx_in_tx].amount) !== 0){//check if miner tx
+							rct = CnTransactions.zeroCommit(CnUtils.d2s(tx.vout[output_idx_in_tx].amount));
 						}else {
 							let rtcOutPk = tx.rct_signatures.outPk[output_idx_in_tx];
 							let rtcMask = tx.rct_signatures.ecdhInfo[output_idx_in_tx].mask;

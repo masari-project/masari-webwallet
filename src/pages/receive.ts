@@ -20,6 +20,7 @@ import {Constants} from "../model/Constants";
 import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {CoinUri} from "../model/CoinUri";
 import {Nfc} from "../model/Nfc";
+import {Cn} from "../model/Cn";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 
@@ -91,7 +92,7 @@ class AccountView extends DestructableView{
 		if(this.paymentId !== '' && this.paymentId.length <= 8) {
 			let paymentId8 = ('00000000'+this.stringToHex(this.paymentId)).slice(-16);
 			console.log(paymentId8+'==>'+this.stringToHex(this.paymentId));
-			this.address = cnUtil.get_account_integrated_address(wallet.getPublicAddress(), paymentId8);
+			this.address = Cn.get_account_integrated_address(wallet.getPublicAddress(), paymentId8);
 		}else
 			this.address = wallet.getPublicAddress();
 	}
