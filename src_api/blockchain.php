@@ -89,7 +89,8 @@ function createOptimizedBock($startHeight, $endHeight){
 				$minerTx['global_index_start'] = $outCount;
 				$minerTx['ts'] = $blockTimes[$height];
 				$finalTransactions[] = $minerTx;
-				++$outCount;
+				$voutCount = count($minerTx['vout']);
+                		$outCount += $voutCount;
 				break;
 			}
 		}
