@@ -199,9 +199,10 @@ export class TransactionsExplorer {
 						amount,
 						derivation);
 
-					if (r === false)
+					if (r === false) {
 						console.error("Cant decode ringCT!");
-					else
+						continue;
+					} else
 						amount = r;
 				}
 
