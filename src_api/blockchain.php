@@ -53,6 +53,7 @@ function createOptimizedBock($startHeight, $endHeight){
 	
 	$blockTimes = array();
 	
+	//fetching all blocks in the range [startHeight;endHeight( and adding the txs+coinbase tx to the list of txs
 	for($height = $startHeight; $height < $endHeight; ++$height){
 		$body = json_encode(array("jsonrpc" => "2.0", "id" => "0", "method" => "get_block", "params" => array("height" => $height)));
 		
@@ -61,9 +62,6 @@ function createOptimizedBock($startHeight, $endHeight){
 		$resp = curl_exec($curl);
 		$array = json_decode($resp, true);
 		
-		
-		
-		//	var_dump($array);
 		$blockJson = json_decode($array['result']['json'], true);
 		$minerTx = $blockJson['miner_tx'];
 		$minerTx['height'] = $height;
@@ -111,93 +109,36 @@ function createOptimizedBock($startHeight, $endHeight){
 			$rawTransactions = $decodedJson['txs'];
 		}
 		
-//		var_dump($decodedJson['txs']);
-//		var_dump($rawTransactions);
-		
 		for($iTransaction = 0; $iTransaction < count($rawTransactionsJson); ++$iTransaction){
 			$rawTransactionJson = $rawTransactionsJson[$iTransaction];
 			$rawTransaction = $rawTransactions[$iTransaction];
-			//			var_dump($txHashesMap[$txHashes[$iTransaction]].'<=>'.$height.'=>'.count($rawTransactions));
-//			if($txHashesMap[$txHashes[$iTransaction]] === $height){
-				//				++$outCount;
-				$finalTransaction = json_decode($rawTransactionJson, true);
-				unset($finalTransaction['rctsig_prunable']);
-				$finalTransaction['global_index_start'] = $outCount;
-				$finalTransaction['ts'] = $rawTransaction['block_timestamp'];
-				$finalTransaction['height'] = $height;
-				$finalTransaction['hash'] = $rawTransaction['tx_hash'];
-				//				var_dump('-->'.$txHashesMap[$txHashes[$iTransaction]]);
-				$finalTransactions[] = $finalTransaction;
-				
-				
-				$voutCount = count($finalTransaction['vout']);
-//								var_dump('vout of ' . $voutCount);
-				$outCount += $voutCount;
-//			}
+			$finalTransaction = json_decode($rawTransactionJson, true);
+			unset($finalTransaction['rctsig_prunable']);
+			$finalTransaction['global_index_start'] = $outCount;
+			$finalTransaction['ts'] = $rawTransaction['block_timestamp'];
+			$finalTransaction['height'] = $height;
+			$finalTransaction['hash'] = $rawTransaction['tx_hash'];
+			$finalTransactions[] = $finalTransaction;
+			
+			
+			$voutCount = count($finalTransaction['vout']);
+			$outCount += $voutCount;
 		}
-		//		var_dump($outCount);
 	}
 	
 	
 	curl_close($curl);
 	
-	//	return array_merge($finalTransactions,$minerTxs);
 	return $finalTransactions;
 }
 
-/*
-function createOptimizedBock2($startHeight, $endHeight){
-	global $rpcPort;
-	global $outCount;
-	$txHashesPerBlock = array();
-	$txHashes = array();
-	$txHashesMap = array();
-	
-	$finalTransactions = array();
-	
-	for($height = $startHeight; $height < $endHeight; ++$height){
-		$body = json_encode(array("jsonrpc" => "2.0", "id" => "0", "method" => "getblock", "params" => array("height" => $height)));
-		
-		$curl = curl_init();
-		
-		curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => 1, CURLOPT_URL => 'http://'.$daemonAddress.':'.$rpcPort.'/json_rpc', CURLOPT_POST => 1, CURLOPT_POSTFIELDS => $body));
-		
-		$resp = curl_exec($curl);
-		curl_close($curl);
-		$array = json_decode($resp, true);
-		
-		//	var_dump($array);
-		$blockJson = json_decode($array['result']['json'], true);
-		$blockTxHashes = ($blockJson['tx_hashes']);
-		
-		$txHashesPerBlock[$height] = $blockTxHashes;
-		foreach($blockTxHashes as $txHash){
-			$txHashesMap[$txHash] = $height;
-			$txHashes[] = $txHash;
-		}
-		
-		++$outCount;//minx tx
-		
-		if(count($txHashesPerBlock[$height]) > 0){
-			$rawTransactions = getTxWithHashes($txHashesPerBlock[$height])['txs_as_json'];
-			$iTransaction = 0;
-			foreach($rawTransactions as $rawTransaction){
-				++$outCount;
-				$finalTransaction = json_decode($rawTransaction, true);
-				unset($finalTransaction['rctsig_prunable']);
-				$finalTransaction['height'] = $txHashesPerBlock[$height];
-				$finalTransaction['global_index_start'] = $outCount;
-				$finalTransactions[] = $finalTransaction;
-				++$iTransaction;
-				$outCount+=count($finalTransaction['vout'])-1;
-			}
-		}
-	}
-	
-	return $finalTransactions;
-}
-*/
-
+/**
+ * Retrieve a cache file from disk
+ * @param $startHeight
+ * @param $endHeight
+ * @param bool $decoded
+ * @return bool|mixed|null|string
+ */
 function retrieveCache($startHeight, $endHeight, $decoded=true){
 	global $cacheLocation;
 	$content = @file_get_contents($cacheLocation.'/'.$startHeight.'-'.$endHeight);
@@ -208,11 +149,22 @@ function retrieveCache($startHeight, $endHeight, $decoded=true){
 	return $content;
 }
 
+/**
+ * Sache a cache file to disk
+ * @param $startHeight int starting height of the cache file
+ * @param $endHeight int last block height of the cache file
+ * @param $content
+ */
 function saveCache($startHeight, $endHeight, $content){
 	global $cacheLocation;
-	file_put_contents($cacheLocation.'/'.$startHeight.'-'.$endHeight, json_encode($content));
+	$writeStatus = file_put_contents($cacheLocation.'/'.$startHeight.'-'.$endHeight, json_encode($content));
+	if($writeStatus === false){
+		echo 'Unable to save cache files';
+		exit;
+	}
 }
 
+//if the environment variable generate does NOT exist, only serve the cache file requested
 if(getenv('generate') !== 'true'){
 	if(!is_int($_GET['height']+0)){
 		http_response_code(400);
@@ -230,8 +182,6 @@ if(getenv('generate') !== 'true'){
 		$endHeight = $blockchainHeight;
 	}
 	
-	//	var_dump($startHeight, $endHeight);
-	//	exit;
 	$cacheContent = retrieveCache($startHeight, $endHeight, false);
 	if($cacheContent === null){
 		http_response_code(400);
@@ -247,7 +197,9 @@ if(getenv('generate') !== 'true'){
 		header('Content-Type: application/json');
 		echo json_encode($txForUser);
 	}
-}else{
+}else{//but if the env. variable exist, generate cache files
+	
+	//use a file to check for anti concurrency, only allow a new process if the last time is at least 60s old
 	$lastRunStored = @file_get_contents('./lastRun.txt');
 	if($lastRunStored===false)
 		$lastRunStored = 0;
@@ -258,17 +210,22 @@ if(getenv('generate') !== 'true'){
 		exit;
 	file_put_contents('./lastRun.txt', time());
 	
+	//loop until the end of the times (59min), and create cache files
 	$lastScanHeight = 0;
 	$timeStart = time();
 	$lastOutCount = 0;
 	while(time() - $timeStart < 59*60){
 		$blockchainHeight = getBlockchainHeight();
+		if($blockchainHeight === null){
+			echo 'Cant connect to the daemon';
+			exit;
+		}
+		
 		$lastBlockCacheContent = null;
 		for($startHeight = $lastScanHeight; $startHeight < $blockchainHeight; $startHeight += 100){
 			
 			$endHeight = $startHeight + 100;
 			$realStartHeight = $startHeight;
-			//	if($realStartHeight < 1) $realStartHeight = 1;
 			
 			if($endHeight > $blockchainHeight){
 				$endHeight = $blockchainHeight;
@@ -277,7 +234,6 @@ if(getenv('generate') !== 'true'){
 			var_dump('scanning ' . $startHeight . ' to ' . $endHeight);
 			
 			$cacheContent = retrieveCache($realStartHeight, $endHeight, false);
-			//		var_dump('==>',$lastBlockCacheContent,$cacheContent);
 			if($cacheContent === null){
 				if($realStartHeight > 0){
 					$lastBlockCacheContent = retrieveCache($realStartHeight-100, $realStartHeight, false);
@@ -295,13 +251,8 @@ if(getenv('generate') !== 'true'){
 				
 				var_dump("generating...");
 				$cacheContent = createOptimizedBock($realStartHeight, $endHeight);
-				//			var_dump($cacheContent);
 				saveCache($realStartHeight, $endHeight, $cacheContent);
 				$cacheContent = json_encode($cacheContent);
-			}else{
-//				if($cacheContent !== '[]' && $cacheContent !== null){
-//					$lastBlockCacheContent = $cacheContent;
-//				}
 			}
 			
 			var_dump($outCount);
