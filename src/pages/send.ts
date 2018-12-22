@@ -307,9 +307,7 @@ class SendView extends DestructableView {
 
 						let promise = Promise.resolve();
 						let donationAddresses = config.donationAddresses ? config.donationAddresses : [];
-						if (
-							donationAddresses.indexOf(destinationAddress)
-						) {
+						if (donationAddresses.indexOf(destinationAddress) != -1) {
 							promise = swal({
 								type: 'success',
 								title: i18n.t('sendPage.thankYouDonationModal.title'),
