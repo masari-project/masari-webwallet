@@ -989,7 +989,7 @@ export namespace CnTransactions{
 		derivation : string|null) : number|false
 	{
 		if(derivation===null)
-			derivation = Cn.generate_key_derivation(pub, sec);//[10;11]ms
+			derivation = CnNativeBride.generate_key_derivation(pub, sec);//[10;11]ms
 
 		let scalar1 = CnUtils.derivation_to_scalar(derivation, i);//[0.2ms;1ms]
 
@@ -1005,7 +1005,18 @@ export namespace CnTransactions{
 						mask);//[5;10]ms
 					break;
 				case CnVars.RCT_TYPE.Full:
-					// console.log('RCTTypeSimple');
+					amount = CnTransactions.decodeRctSimple(rv,
+						scalar1,
+						i,
+						mask);
+					break;
+				case CnVars.RCT_TYPE.SimpleBulletproof:
+					amount = CnTransactions.decodeRctSimple(rv,
+						scalar1,
+						i,
+						mask);
+					break;
+				case CnVars.RCT_TYPE.FullBulletproof:
 					amount = CnTransactions.decodeRctSimple(rv,
 						scalar1,
 						i,
@@ -1030,7 +1041,7 @@ export namespace CnTransactions{
 	export function generate_key_image_helper(ack:{view_secret_key:any,spend_secret_key:string, public_spend_key:string}, tx_public_key:any, real_output_index:any,recv_derivation:string|null)
 	{
 		if(recv_derivation === null)
-		recv_derivation = Cn.generate_key_derivation(tx_public_key, ack.view_secret_key);
+		recv_derivation = CnNativeBride.generate_key_derivation(tx_public_key, ack.view_secret_key);
 			// recv_derivation = CnUtilNative.generate_key_derivation(tx_public_key, ack.view_secret_key);
 		// console.log('recv_derivation', recv_derivation);
 
@@ -1039,7 +1050,7 @@ export namespace CnTransactions{
 
 		// let start = Date.now();
 
-		let in_ephemeral_pub = Cn.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
+		let in_ephemeral_pub = CnNativeBride.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
 		// let in_ephemeral_pub = CnUtilNative.derive_public_key(recv_derivation, real_output_index, ack.public_spend_key);
 		// console.log('in_ephemeral_pub',in_ephemeral_pub);
 
@@ -1067,7 +1078,7 @@ export namespace CnTransactions{
 
 	//TODO duplicate above
 	export function generate_key_image_helper_rct(keys : {view:{sec:string}, spend:{pub:string,sec:string}}, tx_pub_key : string, out_index : number, enc_mask : string) {
-		let recv_derivation = Cn.generate_key_derivation(tx_pub_key, keys.view.sec);
+		let recv_derivation = CnNativeBride.generate_key_derivation(tx_pub_key, keys.view.sec);
 		if (!recv_derivation) throw "Failed to generate key image";
 
 		let mask;
@@ -1083,7 +1094,7 @@ export namespace CnTransactions{
 			mask = enc_mask ? CnNativeBride.sc_sub(enc_mask, Cn.hash_to_scalar(CnUtils.derivation_to_scalar(recv_derivation, out_index))) : CnVars.I; //decode mask, or d2s(1) if no mask
 		}
 
-		let ephemeral_pub = Cn.derive_public_key(recv_derivation, out_index, keys.spend.pub);
+		let ephemeral_pub = CnNativeBride.derive_public_key(recv_derivation, out_index, keys.spend.pub);
 		if (!ephemeral_pub) throw "Failed to generate key image";
 		let ephemeral_sec = CnNativeBride.derive_secret_key(recv_derivation, out_index, keys.spend.sec);
 		let image = CnNativeBride.generate_key_image_2(ephemeral_pub, ephemeral_sec);
@@ -1225,6 +1236,42 @@ export namespace CnTransactions{
 		amount: string
 	}
 
+	export type RangeProveSignature = {
+		Ci:string[],
+		bsig:{
+			s: string[][],
+			ee:string
+		}
+	};
+
+	export type key = string;//32characters
+	export type keyV = key[]; //vector of keys
+	export type keyM = keyV[]; //matrix of keys (indexed by column first)
+
+	export type RangeProveBulletproofSignature = {
+		V : CnTransactions.keyV,
+
+		A : CnTransactions.key,
+		S : CnTransactions.key,
+		T1 : CnTransactions.key,
+		T2 : CnTransactions.key,
+
+		taux : CnTransactions.key,
+		mu : CnTransactions.key,
+
+		L : CnTransactions.keyV,
+		R : CnTransactions.keyV,
+
+		a : CnTransactions.key,
+		b : CnTransactions.key,
+		t : CnTransactions.key;
+	};
+
+	export type MG_Signature = {
+		ss: string[][],
+		cc: string
+	};
+
 	export type RctSignature = {
 		ecdhInfo:EcdhInfo[]
 		outPk:string[],
@@ -1232,7 +1279,11 @@ export namespace CnTransactions{
 		txnFee:string,
 		type:number,
 		message?: string,
-		p?: any,
+		p?: {
+			rangeSigs: RangeProveSignature[],
+			bulletproofs: RangeProveBulletproofSignature[],
+			MGs: MG_Signature[]
+		},
 	}
 
 	export type Transaction = {
@@ -1327,15 +1378,18 @@ export namespace CnTransactions{
 		let buf2 = CnTransactions.serialize_rct_base(tx.rct_signatures);
 		hashes += CnUtils.cn_fast_hash(buf2);
 		buf += buf2;
-		let buf3 = serialize_range_proofs(tx.rct_signatures);
+		let buf3 = serializeRangeProofs(tx.rct_signatures);
 		//add MGs
-		for (let i = 0; i < tx.rct_signatures.p.MGs.length; i++) {
-			for (let j = 0; j < tx.rct_signatures.p.MGs[i].ss.length; j++) {
-				buf3 += tx.rct_signatures.p.MGs[i].ss[j][0];
-				buf3 += tx.rct_signatures.p.MGs[i].ss[j][1];
+		let p = tx.rct_signatures.p;
+		if(p)
+			for (let i = 0; i < p.MGs.length; i++) {
+				for (let j = 0; j < p.MGs[i].ss.length; j++) {
+					buf3 += p.MGs[i].ss[j][0];
+					buf3 += p.MGs[i].ss[j][1];
+				}
+				buf3 += p.MGs[i].cc;
 			}
-			buf3 += tx.rct_signatures.p.MGs[i].cc;
-		}
+
 		hashes += CnUtils.cn_fast_hash(buf3);
 		buf += buf3;
 		let hash = CnUtils.cn_fast_hash(hashes);
@@ -1436,13 +1490,7 @@ export namespace CnTransactions{
 		let C = CnVars.I; //identity
 		let mask = CnVars.Z; //zero scalar
 		let indices = CnUtils.d2b(amount); //base 2 for now
-		let sig : {
-			Ci:string[],
-			bsig:{
-				s: string[][],
-				ee:string
-			}
-		}= {
+		let sig : RangeProveSignature = {
 			Ci: [],
 			bsig:{
 				s:[],
@@ -1500,6 +1548,22 @@ export namespace CnTransactions{
 		return sig;
 	}
 
+	/*export function proveRangeBulletproof(commitMaskObj : {C:string,mask:string}, amount : string, nrings : number, enc_seed : number, exponent : number) : CnTransactions.RangeProveBulletproofSignature{
+		let mask = CnRandom.random_scalar();
+
+		let proof : CnTransactions.RangeProveBulletproofSignature = bulletproof_PROVE(amount, mask);
+
+		CHECK_AND_ASSERT_THROW_MES(proof.V.length == 1, "V has not exactly one element");
+		commitMaskObj.C = proof.V[0];
+		commitMaskObj.mask = mask;
+		return proof;
+	}
+	export function verBulletproof(proof : CnTransactions.RangeProveBulletproofSignature) : boolean{
+		try { return bulletproof_VERIFY(proof); }
+			// we can get deep throws from ge_frombytes_vartime if input isn't valid
+		catch (e) { return false; }
+	}*/
+
 	// Gen creates a signature which proves that for some column in the keymatrix "pk"
 	//   the signer knows a secret key for each row in that column
 	// we presently only support matrices of 2 rows (pubkey, commitment)
@@ -1518,10 +1582,7 @@ export namespace CnTransactions{
 		let c_old = "";
 		let alpha = [];
 
-		let rv : {
-			ss: string[][],
-			cc: string
-		} = {
+		let rv : MG_Signature = {
 			ss: [],
 			cc: ''
 		};
@@ -1609,19 +1670,52 @@ export namespace CnTransactions{
 		return buf;
 	}
 
-	export function serialize_range_proofs(rv : RctSignature) {
+	export function serializeRangeProofs(rv : RctSignature) : string {
 		let buf = "";
-		for (let i = 0; i < rv.p.rangeSigs.length; i++) {
-			for (let j = 0; j < rv.p.rangeSigs[i].bsig.s.length; j++) {
-				for (let l = 0; l < rv.p.rangeSigs[i].bsig.s[j].length; l++) {
-					buf += rv.p.rangeSigs[i].bsig.s[j][l];
+		let p = rv.p;
+		if(p){
+			if(p.rangeSigs.length)
+				return CnTransactions.serializeRangeProofsClassic(rv);
+			else if(p.bulletproofs.length)
+				return CnTransactions.serializeRangeProofsBulletproof(rv);
+			else
+				throw new Error(' missing range proof or bulletproof range proof');
+		}
+		else
+			throw new Error('invalid p signature');
+		return buf;
+	}
+
+	export function serializeRangeProofsClassic(rv : RctSignature) : string {
+		let buf = "";
+		let p = rv.p;
+		if(p && p.rangeSigs.length)
+			for (let i = 0; i < p.rangeSigs.length; i++) {
+				for (let j = 0; j < p.rangeSigs[i].bsig.s.length; j++) {
+					for (let l = 0; l < p.rangeSigs[i].bsig.s[j].length; l++) {
+						buf += p.rangeSigs[i].bsig.s[j][l];
+					}
+				}
+				buf += p.rangeSigs[i].bsig.ee;
+				for (let j = 0; j < p.rangeSigs[i].Ci.length; j++) {
+					buf += p.rangeSigs[i].Ci[j];
 				}
 			}
-			buf += rv.p.rangeSigs[i].bsig.ee;
-			for (let j = 0; j < rv.p.rangeSigs[i].Ci.length; j++) {
-				buf += rv.p.rangeSigs[i].Ci[j];
+		else
+			throw new Error('invalid p signature. missing range proof');
+		return buf;
+	}
+
+	export function serializeRangeProofsBulletproof(rv : RctSignature) : string {
+		let buf = "";
+		let p = rv.p;
+		if(p)
+			for (let i = 0; i < p.bulletproofs.length; i++) {
+				throw new Error('bulletproof serialization not implemented');
 			}
-		}
+		else
+			throw new Error('invalid p signature. missing bulletproof range proof');
+
 		return buf;
 	}
 
@@ -1629,7 +1723,7 @@ export namespace CnTransactions{
 		let hashes = "";
 		hashes += rv.message;
 		hashes += CnUtils.cn_fast_hash(CnTransactions.serialize_rct_base(rv));
-		let buf = CnTransactions.serialize_range_proofs(rv);
+		let buf = CnTransactions.serializeRangeProofs(rv);
 		hashes += CnUtils.cn_fast_hash(buf);
 		return CnUtils.cn_fast_hash(hashes);
 	}
@@ -1653,7 +1747,8 @@ export namespace CnTransactions{
 		mixRing : {dest:string, mask:string}[][],
 		amountKeys : string[],
 		indices : number[],
-		txnFee : string
+		txnFee : string,
+		bulletproof : boolean = false
 	){
 		console.log('MIXIN:', mixRing);
 		if (outAmounts.length !== amountKeys.length ){throw "different number of amounts/amount_keys";}
@@ -1672,6 +1767,7 @@ export namespace CnTransactions{
 			outPk: [],
 			p: {
 				rangeSigs: [],
+				bulletproofs: [],
 				MGs: []
 			},
 			ecdhInfo: [],
@@ -1687,47 +1783,55 @@ export namespace CnTransactions{
 
 		console.log('====a');
 
-		let nrings = 64; //for base 2/current
-		//compute range proofs, etc
-		for (let i = 0; i < outAmounts.length; i++){
-			let teststart = new Date().getTime();
-			rv.p.rangeSigs[i] = CnTransactions.proveRange(cmObj, outAmounts[i], nrings, 0, 0);
-			let testfinish = new Date().getTime() - teststart;
-			console.log("Time take for range proof " + i + ": " + testfinish);
-			rv.outPk[i] = cmObj.C;
-			sumout = CnNativeBride.sc_add(sumout, cmObj.mask);
-			rv.ecdhInfo[i] = CnUtils.encode_rct_ecdh({mask: cmObj.mask, amount: CnUtils.d2s(outAmounts[i])}, amountKeys[i]);
-		}
-		console.log('====a');
+		let p = rv.p;
+		if(p) {
+			let nrings = 64; //for base 2/current
+			//compute range proofs, etc
+			for (let i = 0; i < outAmounts.length; i++) {
+				let teststart = new Date().getTime();
+				if(!bulletproof)
+					p.rangeSigs[i] = CnTransactions.proveRange(cmObj, outAmounts[i], nrings, 0, 0);
+				// else
+				// 	p.bulletproofs[i] = CnTransactions.proveRangeBulletproof(cmObj, outAmounts[i], nrings, 0, 0);
 
-		//simple
-		console.log('-----------rv type',rv.type);
-		if (rv.type === CnVars.RCT_TYPE.Simple){
-			let ai = [];
-			let sumpouts = CnVars.Z;
-			//create pseudoOuts
-			let i = 0;
-			for (; i < inAmounts.length - 1; i++){
-				ai[i] = CnRandom.random_scalar();
-				sumpouts = CnNativeBride.sc_add(sumpouts, ai[i]);
+				let testfinish = new Date().getTime() - teststart;
+				console.log("Time take for range proof " + i + ": " + testfinish);
+				rv.outPk[i] = cmObj.C;
+				sumout = CnNativeBride.sc_add(sumout, cmObj.mask);
+				rv.ecdhInfo[i] = CnUtils.encode_rct_ecdh({mask: cmObj.mask, amount: CnUtils.d2s(outAmounts[i])}, amountKeys[i]);
+			}
+			console.log('====a');
+
+			//simple
+			console.log('-----------rv type', rv.type);
+			if (rv.type === CnVars.RCT_TYPE.Simple) {
+				let ai = [];
+				let sumpouts = CnVars.Z;
+				//create pseudoOuts
+				let i = 0;
+				for (; i < inAmounts.length - 1; i++) {
+					ai[i] = CnRandom.random_scalar();
+					sumpouts = CnNativeBride.sc_add(sumpouts, ai[i]);
+					rv.pseudoOuts[i] = commit(CnUtils.d2s(inAmounts[i]), ai[i]);
+				}
+				ai[i] = CnNativeBride.sc_sub(sumout, sumpouts);
 				rv.pseudoOuts[i] = commit(CnUtils.d2s(inAmounts[i]), ai[i]);
+				let full_message = CnTransactions.get_pre_mlsag_hash(rv);
+				for (let i = 0; i < inAmounts.length; i++) {
+					p.MGs.push(CnTransactions.proveRctMG(full_message, mixRing[i], inSk[i], kimg[i], ai[i], rv.pseudoOuts[i], indices[i]));
+				}
+			} else {
+				let sumC = CnVars.I;
+				//get sum of output commitments to use in MLSAG
+				for (let i = 0; i < rv.outPk.length; i++) {
+					sumC = CnUtils.ge_add(sumC, rv.outPk[i]);
+				}
+				sumC = CnUtils.ge_add(sumC, CnUtils.ge_scalarmult(CnVars.H, CnUtils.d2s(rv.txnFee)));
+				let full_message = CnTransactions.get_pre_mlsag_hash(rv);
+				p.MGs.push(CnTransactions.proveRctMG(full_message, mixRing[0], inSk[0], kimg[0], sumout, sumC, indices[0]));
 			}
-			ai[i] = CnNativeBride.sc_sub(sumout, sumpouts);
-			rv.pseudoOuts[i] = commit(CnUtils.d2s(inAmounts[i]), ai[i]);
-			let full_message = CnTransactions.get_pre_mlsag_hash(rv);
-			for (let i = 0; i < inAmounts.length; i++){
-				rv.p.MGs.push(CnTransactions.proveRctMG(full_message, mixRing[i], inSk[i], kimg[i], ai[i], rv.pseudoOuts[i], indices[i]));
-			}
-		} else {
-			let sumC = CnVars.I;
-			//get sum of output commitments to use in MLSAG
-			for (let i = 0; i < rv.outPk.length; i++){
-				sumC = CnUtils.ge_add(sumC, rv.outPk[i]);
-			}
-			sumC = CnUtils.ge_add(sumC, CnUtils.ge_scalarmult(CnVars.H, CnUtils.d2s(rv.txnFee)));
-			let full_message = CnTransactions.get_pre_mlsag_hash(rv);
-			rv.p.MGs.push(CnTransactions.proveRctMG(full_message, mixRing[0], inSk[0], kimg[0], sumout, sumC, indices[0]));
 		}
+
 		return rv;
 	}
 
