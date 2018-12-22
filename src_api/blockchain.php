@@ -87,7 +87,8 @@ function createOptimizedBock($startHeight, $endHeight){
 				$minerTx['global_index_start'] = $outCount;
 				$minerTx['ts'] = $blockTimes[$height];
 				$finalTransactions[] = $minerTx;
-				++$outCount;
+				$voutCount = count($minerTx['vout']);
+				$outCount += $voutCount;
 				break;
 			}
 		}
@@ -101,12 +102,18 @@ function createOptimizedBock($startHeight, $endHeight){
 		
 		$resp = curl_exec($curl);
 		$decodedJson = json_decode($resp, true);
-		if(!isset($decodedJson['txs_as_json'])){
-			$rawTransactionsJson = [];
-			$rawTransactions = [];
-		}else{
+		if(isset($decodedJson['txs_as_json'])){
 			$rawTransactionsJson = $decodedJson['txs_as_json'];
 			$rawTransactions = $decodedJson['txs'];
+		} else if(isset($decodedJson['txs']) && count($decodedJson['txs']) > 0){
+			$rawTransactionsJson = [];
+			foreach($decodedJson['txs'] as $tx){
+				$rawTransactionsJson[] = $tx['as_json'];
+			}
+			$rawTransactions = $decodedJson['txs'];
+		} else{
+			$rawTransactionsJson = [];
+			$rawTransactions = [];
 		}
 		
 		for($iTransaction = 0; $iTransaction < count($rawTransactionsJson); ++$iTransaction){
