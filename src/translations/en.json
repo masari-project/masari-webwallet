@@ -13,8 +13,7 @@
 	  "donate": "Donate",
 	  "settings": "Settings",
 	  "disconnect": "Disconnect",
-	  "network": "Network Stats",
-	  "mining": "Mining"
+	  "network": "Network Stats"
 	},
 	"global": {
 	  "loading": "Loading",

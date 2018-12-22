@@ -13,8 +13,7 @@
 	  "donate": "Contribuer",
 	  "settings": "Paramètres",
 	  "disconnect": "Déconnection",
-	  "network": "Stats du réseau",
-	  "mining": "Minage"
+	  "network": "Stats du réseau"
 	},
 	"global": {
 	  "loading": "Chargement",
