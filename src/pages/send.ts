@@ -27,7 +27,6 @@ import {CoinUri} from "../model/CoinUri";
 import {QRReader} from "../model/QRReader";
 import {AppState} from "../model/AppState";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
-import {VueFilterPiconero} from "../filters/Filters";
 import {NdefMessage, Nfc} from "../model/Nfc";
 import {Cn} from "../model/Cn";
 
@@ -36,7 +35,6 @@ let blockchainExplorer: BlockchainExplorerRpc2 = BlockchainExplorerProvider.getI
 
 AppState.enableLeftMenu();
 
-@VueRequireFilter('piconero', VueFilterPiconero)
 class SendView extends DestructableView {
 	@VueVar('') destinationAddressUser !: string;
 	@VueVar('') destinationAddress !: string;
