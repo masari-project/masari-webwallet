@@ -55,7 +55,7 @@ class NetworkView extends DestructableView{
 			url:config.apiUrl+'network.php'
 		}).done(function(data : any){
 			self.networkDifficulty = data.difficulty;
-			self.networkHashrate = data.difficulty/120/1000000;
+			self.networkHashrate = data.difficulty/config.avgBlockTime/1000000;
 			self.blockchainHeight = data.height;
 			self.lastReward = data.reward/Math.pow(10, config.coinUnitPlaces);
 			self.lastBlockFound = parseInt(data.timestamp);
