@@ -167,7 +167,10 @@ function saveCache($startHeight, $endHeight, $content){
 	$writeStatus = file_put_contents($cacheLocation.'/'.$startHeight.'-'.$endHeight, json_encode($content));
 	if($writeStatus === false){
 		echo 'Unable to save cache files';
-		exit;
+		if(@mkdir($cacheLocation.'/') === false){
+			echo 'Unable to create cache directory';
+			exit;
+		}
 	}
 }
 
@@ -205,23 +208,26 @@ if(getenv('generate') !== 'true'){
 		echo json_encode($txForUser);
 	}
 }else{//but if the env. variable exist, generate cache files
+	$checkConcurrentRunsTimeout = getenv('concurrent_timeout') === false ? 60 : (int)getenv('concurrent_timeout');
+	$maxExecutionTime = getenv('max_execution_time') === false ? 59 : (int)getenv('max_execution_time');//59 minutes
 	
-	//use a file to check for anti concurrency, only allow a new process if the last time is at least 60s old
-	$lastRunStored = @file_get_contents('./lastRun.txt');
-	if($lastRunStored===false)
-		$lastRunStored = 0;
-	else
-		$lastRunStored = (int)$lastRunStored;
-	
-	if($lastRunStored+1*60 >= time())//concurrent run, 1min lock
-		exit;
-	file_put_contents('./lastRun.txt', time());
+	if($checkConcurrentRunsTimeout > 0){//a negative or value equal to 0 disable the anti concurrency system
+		//use a file to check for anti concurrency, only allow a new process if the last time is at least 60s old
+		$lastRunStored = @file_get_contents($cacheLocation.'/lastRun.txt');
+		if($lastRunStored === false) $lastRunStored = 0;else
+			$lastRunStored = (int)$lastRunStored;
+		
+		if($lastRunStored + $checkConcurrentRunsTimeout >= time())//concurrent run, 1min lock
+			exit;
+		file_put_contents($cacheLocation.'/lastRun.txt', time());
+	}
 	
 	//loop until the end of the times (59min), and create cache files
 	$lastScanHeight = 0;
 	$timeStart = time();
 	$lastOutCount = 0;
-	while(time() - $timeStart < 59*60){
+	
+	while($maxExecutionTime <= 0 || time() - $timeStart < $maxExecutionTime*60){//a maximum execution time of 0 or less disable the shutdown and makes a long living process
 		$blockchainHeight = getBlockchainHeight();
 		if($blockchainHeight === null){
 			echo 'Cant connect to the daemon';
@@ -283,7 +289,9 @@ if(getenv('generate') !== 'true'){
 		
 		$lastScanHeight = floor($blockchainHeight/100)*100;
 		
-		file_put_contents('./lastRun.txt', time());
+		if($checkConcurrentRunsTimeout){
+			file_put_contents($cacheLocation.'/lastRun.txt', time());
+		}
 		sleep(10);
 	}
 }

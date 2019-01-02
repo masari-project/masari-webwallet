@@ -1,0 +1,54 @@
+version: '3.5'
+
+networks:
+  net:
+    driver: overlay
+    driver_opts:
+      encrypted: ''
+    attachable: true
+
+volumes:
+  blockchain_cache:
+
+services:
+  webserver:
+    image: registry.gitlab.com/gnock/masari-webwallet/webserver
+    networks:
+      - net
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+
+  php:
+    image: registry.gitlab.com/gnock/masari-webwallet/php
+    networks:
+      - net
+    volumes:
+      - blockchain_cache:/cache
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+
+  php_cache_builder:
+    image: registry.gitlab.com/gnock/masari-webwallet/php
+    command: php blockchain.php
+    networks:
+      - net
+    volumes:
+      - blockchain_cache:/cache
+    environment:
+      - cache_location=/cache
+      - generate=true
+      - concurrent_timeout=0
+      - max_execution_time=0
+      - daemon_address=
+      - daemon_rpc_port=
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s

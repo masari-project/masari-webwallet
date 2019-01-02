@@ -1,0 +1,34 @@
+image: docker:stable
+
+variables:
+  DOCKER_DRIVER: overlay
+  DOCKER_CHANNEL: stable
+  DOCKER_VERSION: 17.06.1-ce
+  
+services:
+  - docker:dind
+
+before_script:
+  - apk --update add ca-certificates wget openssl openssh-client curl git grep gmp-dev libmcrypt-dev freetype-dev libxpm-dev libwebp-dev libjpeg-turbo-dev libjpeg bzip2-dev krb5-dev libxml2-dev build-base tar make autoconf re2c bison curl-dev
+  - update-ca-certificates
+
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - apk add --update nodejs nodejs-npm
+  - npm config set unsafe-perm true
+  - npm install
+
+
+buid:
+    script:
+       - npx tsc --project tsconfig.prod.json
+       - nodejs build.js
+       - find . -type f -name '*.ts' -exec rm {} +
+
+       - docker build -t registry.gitlab.com/gnock/masari-webwallet/php -f docker/Webserver-php.dockerfile .
+       - docker push registry.gitlab.com/gnock/masari-webwallet/php
+
+       - docker build -t registry.gitlab.com/gnock/masari-webwallet/webserver -f docker/Webserver.dockerfile .
+       - docker push registry.gitlab.com/gnock/masari-webwallet/webserver
