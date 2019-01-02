@@ -25,8 +25,8 @@ buid:
 
        - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
-       - docker build -t registry.gitlab.com/gnock/masari-webwallet/php -f docker/Webserver-php.dockerfile .
-       - docker push registry.gitlab.com/gnock/masari-webwallet/php
+       - docker build -t registry.gitlab.com/masari-project/masari-webwallet/php -f docker/Webserver-php.dockerfile .
+       - docker push registry.gitlab.com/masari-project/masari-webwallet/php
 
-       - docker build -t registry.gitlab.com/gnock/masari-webwallet/webserver -f docker/Webserver.dockerfile .
-       - docker push registry.gitlab.com/gnock/masari-webwallet/webserver
+       - docker build -t registry.gitlab.com/masari-project/masari-webwallet/webserver -f docker/Webserver.dockerfile .
+       - docker push registry.gitlab.com/masari-project/masari-webwallet/webserver
