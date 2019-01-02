@@ -27,6 +27,10 @@ services:
       - net
     volumes:
       - blockchain_cache:/cache
+    environment:
+      - cache_location=/cache
+      - daemon_address=
+      - daemon_rpc_port=
     deploy:
       replicas: 1
       update_config:
