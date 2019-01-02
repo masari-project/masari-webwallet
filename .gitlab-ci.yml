@@ -20,7 +20,7 @@ before_script:
 buid:
     script:
        - npx tsc --project tsconfig.prod.json
-       - nodejs build.js
+       - node build.js
        - find . -type f -name '*.ts' -exec rm {} +
 
        - docker build -t registry.gitlab.com/gnock/masari-webwallet/php -f docker/Webserver-php.dockerfile .
