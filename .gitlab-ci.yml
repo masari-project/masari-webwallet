@@ -23,7 +23,7 @@ buid:
        - node build.js
        - find . -type f -name '*.ts' -exec rm {} +
 
-       - docker login registry.gitlab.com
+       - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
 
        - docker build -t registry.gitlab.com/gnock/masari-webwallet/php -f docker/Webserver-php.dockerfile .
        - docker push registry.gitlab.com/gnock/masari-webwallet/php
