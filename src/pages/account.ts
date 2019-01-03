@@ -20,6 +20,7 @@ import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {Constants} from "../model/Constants";
 import {AppState} from "../model/AppState";
 import {Transaction, TransactionIn} from "../model/Transaction";
+import {Cn} from "../model/Cn";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
@@ -65,7 +66,7 @@ class AccountView extends DestructableView{
 		let explorerUrlBlock = config.testnet ? config.testnetExplorerUrlBlock : config.mainnetExplorerUrlBlock;
 		let feesHtml = '';
 		if(transaction.getAmount() < 0)
-			feesHtml = `<div>`+i18n.t('accountPage.txDetails.feesOnTx')+`: `+Vue.options.filters.piconero(transaction.fees)+`</a></div>`;
+			feesHtml = `<div>`+i18n.t('accountPage.txDetails.feesOnTx')+`: `+Cn.formatMoneySymbol(transaction.fees)+`</a></div>`;
 
 		let paymentId = '';
 		if(transaction.paymentId !== ''){
