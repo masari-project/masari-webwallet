@@ -74,10 +74,10 @@
 
 <div id="page" ></div>
 
-<div id="copyright" v-cloak="" class="hideOnNative">
-	<div>© 2018 www.masariwallet.com</div>
+<div id="copyright" v-cloak="" >
+	<div class="hideOnNative" >© 2018 www.masariwallet.com</div>
 	<div class="links" >
-		<select v-model="language">
+		<select v-model="language" class="hideOnNative">
 			<option value="en">English</option>
 			<option value="sr">Српски</option>
 			<option value="de">Deutch</option>
@@ -88,11 +88,11 @@
 		</select>
 		<a href="#!termsOfUse" >{{ $t("bottom.termsOfUse") }}</a>
 		<a href="#!privacyPolicy" >{{ $t("bottom.privacyPolicy") }}</a>
-		<a href="#!support" >{{ $t("bottom.support") }}</a>
-		<a href="#!donate" >{{ $t("bottom.donate") }}</a>
-		<a href="#!network" >{{ $t("bottom.network") }}</a>
-		<a href="https://get.masaricoin.com" target="_blank" >{{ $t("bottom.miningPool") }}</a>
-		<a href="https://github.com/gnock/masari-webwallet" target="_blank">{{ $t("bottom.github") }}</a>
+		<a class="hideOnNative" href="#!support" >{{ $t("bottom.support") }}</a>
+		<a class="hideOnNative" href="#!donate" >{{ $t("bottom.donate") }}</a>
+		<a class="hideOnNative" href="#!network" >{{ $t("bottom.network") }}</a>
+		<a class="hideOnNative" href="https://get.masaricoin.com" target="_blank" >{{ $t("bottom.miningPool") }}</a>
+		<a class="hideOnNative" href="https://github.com/gnock/masari-webwallet" target="_blank">{{ $t("bottom.github") }}</a>
 	</div>
 	<div class="cb" ></div>
 </div>
