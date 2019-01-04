@@ -54,6 +54,7 @@
 	},
 	"bottom": {
 	  "termsOfUse": "Felhasználási feltételek",
+	  "privacyPolicy": "Privacy Policy",
 	  "support": "Ügyfélszolgálat",
 	  "donate": "Adományozás",
 	  "network": "Hálózati statisztika",
@@ -425,6 +426,10 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Felhasználási feltételek",
+	  "subtitle":"Kérlek, alaposan olvasd el."
+	},
+	"privacyPolicyPage":{
+	  "title":"Privacy Policy",
 	  "subtitle":"Kérlek, alaposan olvasd el."
 	},
 	"importFromFilePage":{

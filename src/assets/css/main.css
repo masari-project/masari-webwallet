@@ -194,16 +194,17 @@ body.menuHidden #page,body.menuDisabled #page{
 }
 
 #copyright{
-	text-align: left;
 	padding:30px 0;
 	color: #474E5D;
 	font-size: 14px;
 	padding-left:10px;
 	position: relative;
-	left:280px;right:0;
+	left:0;right:0;
+	margin-left:280px;
+	text-align: center;
 }
 body.menuDisabled #copyright{
-	left:0;
+	margin-left:0;
 }
 body.transparent #copyright{
 	display: none;
@@ -211,27 +212,18 @@ body.transparent #copyright{
 /* computer */
 @media screen and (max-width: 600px) {
 	body.menuHidden #copyright{
-		left: 0;
+		margin-left:0;
 	}
 }
 
 
 #copyright a{color: #474E5D;text-decoration: none;}
-#copyright .right{
-	float:right;
-}
-#copyright .right a, #copyright .right select{
+#copyright .links a, #copyright .links select{
 	display:inline-block;
 	margin-right: 10px;
 }
-@media screen and (max-width: 800px) {
-	#copyright,#copyright .right{
-		float:none;
-		text-align: center;
-	}
-	#copyright .right{
-		padding-top:10px;
-	}
+#copyright .links{
+	padding-top:10px;
 }
 
 .transactions table{

@@ -54,6 +54,7 @@
 	},
 	"bottom": {
 	  "termsOfUse": "Conditions générales d'utilisation",
+	  "privacyPolicy": "Privacy Policy",
 	  "support": "Support",
 	  "donate": "Contribuer",
 	  "network": "Stats du réseau",
@@ -425,6 +426,10 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Conditions d'utilisations",
+	  "subtitle":"Merci de les lire et d'y préter attention"
+	},
+	"privacyPolicyPage":{
+	  "title":"Privacy Policy",
 	  "subtitle":"Merci de les lire et d'y préter attention"
 	},
 	"importFromFilePage":{

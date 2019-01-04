@@ -54,6 +54,7 @@
 	},
 	"bottom": {
 	  "termsOfUse": "Όροι χρήσης",
+	  "privacyPolicy": "Privacy Policy",
 	  "support": "Υποστήριξη",
 	  "donate": "Δωρεά",
 	  "network": "Στατιστικά Δικτύου",
@@ -424,6 +425,10 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Όροι χρήσης",
+	  "subtitle":"Παρακαλώ διαβάστε τους προσεκτικά."
+	},
+	"privacyPolicyPage":{
+	  "title":"Privacy Policy",
 	  "subtitle":"Παρακαλώ διαβάστε τους προσεκτικά."
 	},
 	"importFromFilePage":{

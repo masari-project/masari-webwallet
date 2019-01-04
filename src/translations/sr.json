@@ -54,6 +54,7 @@
 	},
 	"bottom": {
 	  "termsOfUse": "Правила коришћења",
+	  "privacyPolicy": "Privacy Policy",
 	  "support": "Подршка",
 	  "donate": "Донирај",
 	  "network": "Статистика Мреже",
@@ -426,6 +427,10 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Правила коришћења",
+	  "subtitle":"Молимо пажљиво прочитајте"
+	},
+	"privacyPolicyPage":{
+	  "title":"Privacy Policy",
 	  "subtitle":"Молимо пажљиво прочитајте"
 	},
 	"importFromFilePage":{
