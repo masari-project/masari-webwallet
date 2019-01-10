@@ -844,7 +844,7 @@ export namespace Cn{
 		let expectedChecksum : string|null = null;
 		let intPaymentId : string|null = null;
 		if (prefix === expectedPrefixInt){
-			let intPaymentId = dec.slice(128, 128 + (INTEGRATED_ID_SIZE * 2));
+			intPaymentId = dec.slice(128, 128 + (INTEGRATED_ID_SIZE * 2));
 			checksum = dec.slice(128 + (INTEGRATED_ID_SIZE * 2), 128 + (INTEGRATED_ID_SIZE * 2) + (ADDRESS_CHECKSUM_SIZE * 2));
 			expectedChecksum = CnUtils.cn_fast_hash(prefix + spend + view + intPaymentId).slice(0, ADDRESS_CHECKSUM_SIZE * 2);
 		} else {
