@@ -279,7 +279,7 @@ if(getenv('generate') !== 'true'){
 		foreach($allBlocksFiles as $filename){
 			if($filename !== '.' && $filename !== '..'){
 				$blocksNumbers = explode('-', $filename);
-				if($blocksNumbers[1] % 100 !== 0){
+				if(count($blocksNumbers) === 2 && $blocksNumbers[1] % 100 !== 0){
 					if($blocksNumbers[1]+1  < $blockchainHeight){//to be sure if other client are using the last one
 						unlink($cacheLocation . '/' . $filename);
 					}
