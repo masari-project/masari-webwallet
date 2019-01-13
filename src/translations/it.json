@@ -62,7 +62,7 @@
 	  "github": "GitHub"
 	},
 	"homepage": {
-	  "mainTitle": "Portafoglio protetto per Masari",
+	  "mainTitle": "Portafoglio sicuro per Masari",
 	  "tagLine": "Il modo più semplice per usare Masari - ovunque e in qualsiasi momento",
 	  "actions": {
 		"loadWallet": "Carica il mio portafoglio",
@@ -77,15 +77,15 @@
 		},
 		"fast": {
 		  "title": "Veloce",
-		  "description": "Invia ovunque e in qualsiasi momento !"
+		  "description": "Invia ovunque e in qualsiasi momento!"
 		},
 		"technology": {
 		  "title": "Tecnologia unica",
-		  "description": "Collegato direttamente alla blockchain di Masari !"
+		  "description": "Collegato direttamente alla blockchain di Masari!"
 		},
 		"openSource": {
 		  "title": "Completamente open-source",
-		  "description": "Disponibile su Github !"
+		  "description": "Disponibile su Github!"
 		}
 	  }
 	},
@@ -166,7 +166,7 @@
 	  },
 	  "disclaimerBlock":{
 		"title":"Rischi nell'usare MasariWallet",
-		"content":"MasariWallet è una interfaccia web-based. Ti aiuta ad usare Masari senza eseguire un full node. <br/>Vi consigliamo di trattare MaraiWallet come trattereste il vostro portafoglio attuale."
+		"content":"MasariWallet è una interfaccia web-based. Ti aiuta ad usare Masari senza eseguire un full node. <br/>Vi consigliamo di trattare MasariWallet come trattereste il vostro portafoglio attuale."
 	  }
 	},
 	"donatePage":{
@@ -426,11 +426,11 @@
 	},
 	"termsOfUsePage":{
 	  "title":"Termini di utilizzo",
-	  "subtitle":"Perfavore leggere attentamente"
+	  "subtitle":"Per favore leggere attentamente"
 	},
 	"privacyPolicyPage":{
 	  "title":"Privacy Policy",
-	  "subtitle":"Perfavore leggere attentamente"
+	  "subtitle":"Per favore leggere attentamente"
 	},
 	"importFromFilePage":{
 	  "title":"Importa un portafoglio da un file di backup",
