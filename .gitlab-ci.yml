@@ -18,6 +18,8 @@ before_script:
 
 
 buid:
+    only:
+    - master
     script:
        - npx tsc --project tsconfig.prod.json
        - node build.js
@@ -30,3 +32,6 @@ buid:
 
        - docker build -t registry.gitlab.com/masari-project/masari-webwallet/webserver -f docker/Webserver.dockerfile .
        - docker push registry.gitlab.com/masari-project/masari-webwallet/webserver
+    artifacts:
+      paths:
+      - src/
