@@ -62,7 +62,7 @@
 	  "github": "GitHub"
 	},
 	"homepage": {
-	  "mainTitle": "Secured Masari Wallet",
+	  "mainTitle": "Secure Masari Wallet",
 	  "tagLine": "The simplest way to use Masari - anywhere and any time",
 	  "actions": {
 		"loadWallet": "Load my wallet",
