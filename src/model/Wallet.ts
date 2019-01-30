@@ -286,7 +286,7 @@ export class Wallet extends Observable{
 			// for(let out of transaction.outs){
 			// 	amount += out.amount;
 			// }
-			if(transaction.isConfirmed(currentBlockHeight) || currentBlockHeight === -1)
+			if(currentBlockHeight === -1)
 				for(let nout of transaction.outs){
 					amount += nout.amount;
 					// console.log('+'+nout.amount);

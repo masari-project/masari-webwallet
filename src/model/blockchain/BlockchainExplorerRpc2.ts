@@ -108,6 +108,8 @@ export class WalletWatchdog{
 				for(let rawTx of data.transactions){
 					let tx = TransactionsExplorer.parse(rawTx.tx_json,self.wallet);
 					if(tx !== null){
+						tx.hash = rawTx.id_hash;
+						tx.fees = rawTx.fee;
 						self.wallet.txsMem.push(tx);
 					}
 				}
@@ -359,6 +361,8 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 
 			let compressedBlocksToGet : {[key : string] : boolean} = {};
 
+			console.log('Requires '+nbOutsNeeded+' outs');
+
 			//select blocks for the final mixin. selection is made with a triangular selection
 			for(let i = 0; i < nbOutsNeeded; ++i){
 				let selectedIndex : number = -1;
@@ -372,6 +376,9 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 				compressedBlocksToGet[Math.floor(selectedIndex/100)*100] = true;
 			}
 
+			console.log('Random blocks required: ', randomBlocksIndexesToGet);
+			console.log('Blocks to get for outputs selections:', compressedBlocksToGet);
+
 			//load compressed blocks (100 blocks) containing the blocks referred by their index
 			for(let compressedBlock in compressedBlocksToGet) {
 				promiseGetCompressedBlocks = promiseGetCompressedBlocks.then(()=>{
@@ -382,6 +389,7 @@ export class BlockchainExplorerRpc2 implements BlockchainExplorer{
 			}
 
 			return promiseGetCompressedBlocks.then(function(){
+				console.log('txs selected for outputs: ', txs);
 				let txCandidates : any = {};
 				for(let iOut  = 0; iOut < txs.length; ++iOut) {
 					let tx = txs[iOut];

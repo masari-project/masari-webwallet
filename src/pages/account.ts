@@ -79,6 +79,10 @@ class AccountView extends DestructableView{
 			txPrivKeyMessage = `<div>`+i18n.t('accountPage.txDetails.txPrivKey')+`: `+txPrivKey+`</a></div>`;
 		}
 
+		let blockHeight = '';
+		if(transaction.blockHeight > 0){
+			blockHeight = `<div>`+i18n.t('accountPage.txDetails.blockHeight')+`: <a href="`+explorerUrlBlock.replace('{ID}', ''+transaction.blockHeight)+`" target="_blank">`+transaction.blockHeight+`</a></div>`;
+		}
 		swal({
 			title:i18n.t('accountPage.txDetails.title'),
 			html:`
@@ -87,7 +91,7 @@ class AccountView extends DestructableView{
 	`+paymentId+`
 	`+feesHtml+`
 	`+txPrivKeyMessage+`
-	<div>`+i18n.t('accountPage.txDetails.blockHeight')+`: <a href="`+explorerUrlBlock.replace('{ID}', ''+transaction.blockHeight)+`" target="_blank">`+transaction.blockHeight+`</a></div>
+	`+blockHeight+`	
 </div>`
 		});
 	}
