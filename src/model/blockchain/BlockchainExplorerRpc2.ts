@@ -173,7 +173,7 @@ export class WalletWatchdog{
 				type:'process',
 				transactions:transactionsToProcess
 			});
-			++this.workerCountProcessed;
+			this.workerCountProcessed+=this.transactionsToProcess.length;
 			this.workerProcessingWorking = true;
 		}else{
 			clearInterval(this.intervalTransactionsProcess);
@@ -234,12 +234,15 @@ export class WalletWatchdog{
 						if(typeof lastTx.height !== 'undefined') {
 							self.lastBlockLoading = lastTx.height + 1;
 						}
+						self.processTransactions(transactions);
+						setTimeout(function () {
+							self.loadHistory();
+						}, 1);
+					}else{
+						setTimeout(function () {
+							self.loadHistory();
+						}, 30*1000);
 					}
-
-					self.processTransactions(transactions);
-					setTimeout(function () {
-						self.loadHistory();
-					}, 1);
 				}).catch(function(){
 					setTimeout(function () {
 						self.loadHistory();
