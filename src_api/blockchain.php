@@ -264,6 +264,10 @@ if(getenv('generate') !== 'true'){
 				
 				var_dump("generating...");
 				$cacheContent = createOptimizedBock($realStartHeight, $endHeight);
+				if($realStartHeight > 100 && $realStartHeight % 100 <= 30 && $blockchainHeight-$realStartHeight <= 200){//in case of a reorg, not clean, only for recent blocks
+					$cacheContentPreviousChunk = createOptimizedBock($realStartHeight-100, $endHeight);
+					saveCache($realStartHeight-100, $realStartHeight, $cacheContentPreviousChunk);
+				}
 				saveCache($realStartHeight, $endHeight, $cacheContent);
 				$cacheContent = json_encode($cacheContent);
 			}
