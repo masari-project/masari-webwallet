@@ -41,7 +41,8 @@ let TX_EXTRA_TAGS = {
 	PADDING: '00',
 	PUBKEY: '01',
 	NONCE: '02',
-	MERGE_MINING: '03'
+	MERGE_MINING: '03',
+	ADDITIONAL_PUBKEY: '04'
 };
 let TX_EXTRA_NONCE_TAGS = {
 	PAYMENT_ID: '00',
@@ -765,13 +766,13 @@ export namespace Cn{
 		return CnUtils.bintohex(nacl.ll.ge_add(CnUtils.hextobin(pub), CnUtils.hextobin(CnUtils.ge_scalarmult_base(s))));
 	}
 
-	export function generate_keys(seed : string) {
+	export function generate_keys(seed : string) : {sec:string, pub:string}{
 		if (seed.length !== 64) throw "Invalid input length!";
 		let sec = CnNativeBride.sc_reduce32(seed);
 		let pub = CnUtils.sec_key_to_pub(sec);
 		return {
-			'sec': sec,
-			'pub': pub
+			sec: sec,
+			pub: pub
 		};
 	}
 
@@ -1173,6 +1174,23 @@ export namespace CnTransactions{
 		extra += TX_EXTRA_TAGS.PUBKEY + pubkey;
 		return extra;
 	}
+
+	//TODO merge
+	export function add_additionnal_pub_keys_to_extra(extra : string, keys : string[]){
+		//do not add if there is no additional keys
+		console.log('Add additionnal keys to extra', keys);
+		if(keys.length === 0)return extra;
+
+		extra += TX_EXTRA_TAGS.ADDITIONAL_PUBKEY;
+		// Encode count of keys
+		extra += ('0' + (keys.length).toString(16)).slice(-2);
+		for(let key of keys){
+			if (key.length !== 64) throw "Invalid pubkey length";
+			extra += key;
+		}
+		return extra;
+	}
+
 	//TODO merge
 	export function add_nonce_to_extra(extra : string, nonce : string) {
 		// Append extra nonce
@@ -1949,23 +1967,70 @@ export namespace CnTransactions{
 		let outputs_money = JSBigInt.ZERO;
 		let out_index = 0;
 		let amountKeys = []; //rct only
+
+		let num_stdaddresses = 0;
+		let num_subaddresses = 0;
+		let single_dest_subaddress : string = '';
+
+		let unique_dst_addresses : {[key : string] : number} = {};
+
 		for (i = 0; i < dsts.length; ++i) {
 			if (new JSBigInt(dsts[i].amount).compare(0) < 0) {
 				throw "dst.amount < 0"; //amount can be zero if no change
 			}
 			let destKeys = Cn.decode_address(dsts[i].address);
 
-			// R = rD for subaddresses
-			if(Cn.is_subaddress(dsts[i].address)) {
-				txkey.pub = CnUtils.ge_scalarmult(destKeys.spend, txkey.sec);
+			if(destKeys.view === keys.view.pub)//change address
+				continue;
+
+			if(typeof unique_dst_addresses[dsts[i].address] === 'undefined'){
+				unique_dst_addresses[dsts[i].address] = 1;
+
+				if(Cn.is_subaddress(dsts[i].address)){
+					++num_subaddresses;
+					single_dest_subaddress = dsts[i].address;
+				}else{
+					++num_stdaddresses;
+				}
+			}
+		}
+
+		console.log('Destinations resume:', unique_dst_addresses, num_stdaddresses, num_subaddresses );
+
+		if (num_stdaddresses == 0 && num_subaddresses == 1) {
+			let uniqueSubaddressDecoded = Cn.decode_address(single_dest_subaddress);
+			txkey.pub = CnUtils.ge_scalarmult(uniqueSubaddressDecoded.spend, txkey.sec);
+		}
+
+		let additional_tx_keys : string[] = [];
+		let additional_tx_public_keys : string[] = [];
+		let need_additional_txkeys : boolean = num_subaddresses > 0 && (num_stdaddresses > 0 || num_subaddresses > 1);
+
+
+		for (i = 0; i < dsts.length; ++i) {
+			let destKeys = Cn.decode_address(dsts[i].address);
+
+			let additional_txkey : {sec:string, pub:string} = {sec:'', pub:''};
+			if(need_additional_txkeys){
+				additional_txkey = Cn.random_keypair();
+				if(Cn.is_subaddress(dsts[i].address)) {
+					// R = rD for subaddresses
+					additional_txkey.pub = CnUtils.ge_scalarmult(destKeys.spend, additional_txkey.sec);
+				}
 			}
 			let out_derivation;
-			// send change to ourselves
 			if(destKeys.view === keys.view.pub) {
 				out_derivation = Cn.generate_key_derivation(txkey.pub, keys.view.sec);
+			} else {
+				if(Cn.is_subaddress(dsts[i].address) && need_additional_txkeys)
+					out_derivation = Cn.generate_key_derivation(destKeys.view, additional_txkey.sec);
+				else
+					out_derivation = Cn.generate_key_derivation(destKeys.view, txkey.sec);
 			}
-			else {
-				out_derivation = Cn.generate_key_derivation(destKeys.view, txkey.sec);
+
+			if (need_additional_txkeys){
+				additional_tx_public_keys.push(additional_txkey.pub);
+				additional_tx_keys.push(additional_txkey.sec);
 			}
 
 			if (rct) {
@@ -1987,6 +2052,7 @@ export namespace CnTransactions{
 
 		// add pub key to extra after we know whether to use R = rG or R = rD
 		tx.extra = CnTransactions.add_pub_key_to_extra(tx.extra, txkey.pub);
+		tx.extra = CnTransactions.add_additionnal_pub_keys_to_extra(tx.extra, additional_tx_public_keys);
 
 		if (outputs_money.add(fee_amount).compare(inputs_money) > 0) {
 			throw "outputs money (" + Cn.formatMoneyFull(outputs_money) + ") + fee (" + Cn.formatMoneyFull(fee_amount) + ") > inputs money (" + Cn.formatMoneyFull(inputs_money) + ")";

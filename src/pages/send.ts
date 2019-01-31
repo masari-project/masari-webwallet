@@ -219,10 +219,12 @@ class SendView extends DestructableView {
 	send() {
 		let self = this;
 		blockchainExplorer.getHeight().then(function (blockchainHeight: number) {
-			let amount = parseFloat(self.amountToSend);
 			if (self.destinationAddress !== null) {
-				//todo use BigInteger
-				if (amount * Math.pow(10, config.coinUnitPlaces) > wallet.unlockedAmount(blockchainHeight)) {
+				let numberDecimals = 0;
+				if(self.amountToSend.indexOf('.') != -1) numberDecimals = self.amountToSend.substring(self.amountToSend.indexOf('.')+1).length;
+
+				let amountToSend = (new JSBigInt(self.amountToSend.replace('.', ''))).exp10(config.coinUnitPlaces-numberDecimals);
+				if (amountToSend.compare(wallet.unlockedAmount(blockchainHeight)) > 0) {
 					swal({
 						type: 'error',
 						title: i18n.t('sendPage.notEnoughMoneyModal.title'),
@@ -231,9 +233,6 @@ class SendView extends DestructableView {
 					});
 					return;
 				}
-
-				//TODO use biginteger
-				let amountToSend = amount * Math.pow(10, config.coinUnitPlaces);
 				let destinationAddress = self.destinationAddress;
 
 				swal({
@@ -243,7 +242,10 @@ class SendView extends DestructableView {
 						swal.showLoading();
 					}
 				});
-				TransactionsExplorer.createTx([{address: destinationAddress, amount: amountToSend}], self.paymentId, wallet, blockchainHeight,
+
+				let destinationAddresses : {address:string, amount:string}[] = [{address: destinationAddress, amount: amountToSend}];
+
+				TransactionsExplorer.createTx(destinationAddresses, self.paymentId, wallet, blockchainHeight,
 					function (numberOuts: number): Promise<any[]> {
 						return blockchainExplorer.getRandomOuts(numberOuts);
 					}
@@ -289,7 +291,7 @@ class SendView extends DestructableView {
 								}).catch(reject);
 							}, 1);
 						});
-					}).then(function (rawTxData: { raw: { hash: string, prvkey: string, raw: string }, signed: any }) {
+				}).then(function (rawTxData: { raw: { hash: string, prvkey: string, raw: string }, signed: any }) {
 					console.log('raw tx', rawTxData);
 					blockchainExplorer.sendRawTx(rawTxData.raw.raw).then(function () {
 						//save the tx private key
@@ -331,7 +333,7 @@ class SendView extends DestructableView {
 					});
 					swal.close();
 				}).catch(function (error: any) {
-					console.log(error);
+					console.error(error);
 					if (error && error !== '') {
 						if (typeof error === 'string')
 							swal({

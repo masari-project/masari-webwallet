@@ -108,6 +108,10 @@ export class TransactionsExplorer {
 	static isMinerTx(rawTransaction: RawDaemon_Transaction) {
 		if (rawTransaction.vin.length > 0)
 			return false;
+		if(rawTransaction.vout.length === 0){
+			console.error('Weird tx !', rawTransaction);
+			return false;
+		}
 		return parseInt(rawTransaction.vout[0].amount) !== 0;
 	}
 
@@ -424,7 +428,7 @@ export class TransactionsExplorer {
 	}
 
 	static createTx(
-		userDestinations: { address: string, amount: number }[],
+		userDestinations: { address: string, amount: string }[],
 		userPaymentId: string = '',
 		wallet: Wallet,
 		blockchainHeight: number,
@@ -436,7 +440,7 @@ export class TransactionsExplorer {
 			// few multiplayers based on uint64_t wallet2::get_fee_multiplier
 			let fee_multiplayers = [1, 4, 20, 166];
 			let default_priority = 2;
-			let feePerKB = new JSBigInt((<any>window).config.feePerKB);
+			let feePerKB = new JSBigInt(config.feePerKB);
 			let priority = default_priority;
 			let fee_multiplayer = fee_multiplayers[priority - 1];
 			let neededFee = feePerKB.multiply(13).multiply(fee_multiplayer);
@@ -456,7 +460,10 @@ export class TransactionsExplorer {
 					paymentId = target.intPaymentId;
 					pid_encrypt = true;
 				}
-				dsts.push(dest);
+				dsts.push({
+					address:dest.address,
+					amount:new JSBigInt(dest.amount)
+				});
 			}
 
 			if (paymentIdIncluded > 1) {
