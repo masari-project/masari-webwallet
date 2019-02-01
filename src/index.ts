@@ -100,13 +100,13 @@ $(window).click(function() {
 
 //mobile swipe
 let pageWidth = window.innerWidth || document.body.clientWidth;
-let treshold = Math.max(1,Math.floor(0.01 * (pageWidth)));
+let treshold = Math.max(1,Math.floor(0.1 * (pageWidth)));
 let touchstartX = 0;
 let touchstartY = 0;
 let touchendX = 0;
 let touchendY = 0;
 
-const limit = Math.tan(45 * 1.5 / 180 * Math.PI);
+const limit = Math.tan(10 * 1.5 / 180 * Math.PI);
 const gestureZone : HTMLElement= $('body')[0];
 
 gestureZone.addEventListener('touchstart', function(event : TouchEvent) {
