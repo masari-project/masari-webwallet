@@ -2016,7 +2016,8 @@ export namespace CnTransactions{
 				if(Cn.is_subaddress(dsts[i].address)) {
 					// R = rD for subaddresses
 					additional_txkey.pub = CnUtils.ge_scalarmult(destKeys.spend, additional_txkey.sec);
-				}
+				}else
+					additional_txkey.pub = CnUtils.ge_scalarmult_base(additional_txkey.sec);
 			}
 			let out_derivation;
 			if(destKeys.view === keys.view.pub) {
