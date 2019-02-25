@@ -74,12 +74,19 @@ export class WalletWatchdog{
 		this.intervalTransactionsProcess = setInterval(function(){
 			self.checkTransactionsInterval();
 		}, this.wallet.options.readSpeed);
+
+		//force mempool update after a wallet update (new tx, ...)
+		self.checkMempool();
 	}
 
 	intervalMempool = 0;
-	initMempool(){
+	initMempool(force : boolean = false){
 		let self = this;
-		if(this.intervalMempool === 0){
+		if(this.intervalMempool === 0 || force){
+			if(force && this.intervalMempool !== 0){
+				clearInterval(this.intervalMempool);
+			}
+
 			this.intervalMempool = setInterval(function(){
 				self.checkMempool();
 			}, config.avgBlockTime/2*1000);
