@@ -82,7 +82,7 @@ export class WalletWatchdog{
 		if(this.intervalMempool === 0){
 			this.intervalMempool = setInterval(function(){
 				self.checkMempool();
-			}, 2*60*1000);
+			}, config.avgBlockTime/2*1000);
 		}
 		self.checkMempool();
 	}
