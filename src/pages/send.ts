@@ -298,9 +298,11 @@ class SendView extends DestructableView {
 						wallet.addTxPrivateKeyWithTxHash(rawTxData.raw.hash, rawTxData.raw.prvkey);
 
 						//force a mempool check so the user is up to date
-						let watchdog: WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
-						if (watchdog !== null)
-							watchdog.checkMempool();
+						setTimeout(function(){
+							let watchdog: WalletWatchdog = DependencyInjectorInstance().getInstance(WalletWatchdog.name);
+							if (watchdog !== null)
+								watchdog.checkMempool();
+						}, 5*1000);
 
 						let promise = Promise.resolve();
 						let donationAddresses = config.donationAddresses ? config.donationAddresses : [];
