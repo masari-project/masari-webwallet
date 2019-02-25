@@ -213,6 +213,8 @@ export class Wallet extends Observable{
 
 	addTxPrivateKeyWithTxHash(txHash : string, txPrivKey : string) : void{
 		this.txPrivateKeys[txHash] = txPrivKey;
+		this.modified = true;
+		this.notify();
 	}
 
 	getTransactionKeyImages(){
