@@ -28,7 +28,7 @@ global.config = {
 	openAliasPrefix: "msr",
 	coinName: 'Masari',
 	coinUriPrefix: 'masari:',
-	avgBlockTime: 120,
+	avgBlockTime: 60,
 	maxBlockNumber: 500000000,
 
 	donationAddresses : [
