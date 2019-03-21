@@ -197,8 +197,8 @@
       "hashrate":"Prędkość sieci",
       "height":"Wysokośc bloku",
       "difficulty":"Trudność wydobycia",
-      "lastTimeBlock":"ostatni znaleziony blok",
-      "lastReward":"ostatnia nagroda za blok"
+      "lastTimeBlock":"Ostatni znaleziony blok",
+      "lastReward":"Ostatnia nagroda za blok"
     }
   },
   "sendPage":{
@@ -420,7 +420,7 @@
     "subtitle":"Z wcześniej utworzonych kluczy, plików lub fraz mnemonicznych",
     "chooseMethod":"Wybierz metodę importu:",
     "fromKeys":"Za pomocą kluczy",
-    "fromFile":"Za pomoćą pliku",
+    "fromFile":"Za pomocą pliku",
     "fromMnemonic":"Za pomocą fraz mnemonicznych",
     "fromQr":"Za pomocą QR kodu"
   },
