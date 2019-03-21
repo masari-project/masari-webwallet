@@ -1,0 +1,493 @@
+{
+  "website":{
+	"title":"Oficjalny portfel internetowy Masari",
+	"description":"Oficjalny portfel online dla waluty Masari - anonimowy, zabezpieczony i w pełni obsługiwany w przeglądarce w celu zapewnienia optymalnego bezpieczeństwa"
+  },
+  "messages": {
+	"menu": {
+    "home": "Home",
+    "account": "Konto",
+    "send": "Wyślij",
+  	"receive": "Odbierz",
+  	"export": "Export",
+  	"donate": "Dotacja",
+  	"settings": "Ustawienia",
+  	"disconnect": "Rozłącz",
+  	"network": "Statystyki sieci"
+	},
+  "global": {
+    "loading": "Wgrywanie",
+    "disableSecurity":"Wyłącz to zabezpiecznie, rozumiem ryzyko",
+    "passwordInvalidRequirements":"Hasło musi mieć co najmniej 8 znaków - 1 wielką literę, 1 małą literę, jedną cyfrę i jeden znak specjalny",
+    "passwordConfirmationNotMatching":"Hasło nie pasuje do pierwszego wpisanego hasła",
+    "download":"Pobierz",
+    "newVersionModal":{
+    "title":"Nowa wersja jest dostepna",
+    "content":"Czy chcesz ponownie załadować, aby uzyskać nową wersję?",
+    "confirmText":"Tak",
+    "cancelText":"Wstecz"
+	  },
+    "openWalletModal":{
+  	"title":"Hasło portfela",
+  	"confirmText":"Otwórz",
+  	"cancelText":"przerwij"
+  	 },
+  	"invalidPasswordModal":{
+  	"title":"Oops...",
+  	"content":"Twoje hasło jest nie prawidłowe",
+  	"confirmText":"OK"
+  	 },
+  	"invalidMnemonicModal":{
+  	"title":"Oops...",
+  	"content":"Twój mnemonic jest nie prawidłowy",
+  	"confirmText":"OK"
+    },
+    "passwordNotComplexEnoughModal":{
+		"title":"Hasło nie jest wystarczająco złożone",
+		"confirmText":"OK"
+	  },
+	  "permissionRequiredForCameraModal":{
+		"title":"Oops...",
+		"content":"Zezwolenie na dostęp do kamery jest wymagane do zeskanowania kodu QR",
+		"confirmText":"OK"
+	  }
+  },
+  "bottom": {
+	  "termsOfUse": "Warunki korzystania",
+	  "privacyPolicy": "Polityka prywatności",
+	  "support": "Wsparcie",
+	  "donate": "Dotacja",
+	  "network": "Statystyki Sieci",
+	  "miningPool": "Kopalnia",
+	  "github": "GitHub"
+	},
+	 "homepage": {
+	    "mainTitle": "Bezpieczny Masari Wallet",
+	    "tagLine": "Najprostrzy sposób na używanie Masari - wszędzie o każdej porze",
+	    "actions": {
+	    "loadWallet": "Otwórz mój portfel",
+	    "importWallet": "Zaimportuj portfel",
+	    "create": "Utwórz",
+	    "createWallet": "Utwórz portfel"
+  },
+   "notes": {
+    "secure": {
+     "title": "Bezpieczny",
+     "description": "Brak serwerów, w pełny szyfrowany!"
+   },
+   "fast": {
+     "title": "Szybki",
+     "description": "Wyślij wszędzie, zawsze!"
+   },
+   "technology": {
+     "title": "Unikalna Technologia",
+     "description": "Podłączony bezpośrednio do sieci Masari"
+   },
+    "openSource": {
+     "title": "W pełni Open-source",
+     "description": "Dostępny on Github!"
+   }
+   }
+},
+    "accountPage": {
+        "title": "Konto",
+        "subtitle": "Przegląd Twojego konta i historia transakcji",
+        "synchronizingBlock": {
+        "text": "Synchronizuję..."
+      },
+      "balanceBlock": {
+        "title": "Stan konta",
+        "unlocked": "Odblokowany"
+      },
+      "historyBlock": {
+        "title": "Historia transakcji",
+        "pendingTxStatus": "Oczekujące",
+        "emptyWallet": "Obecnie nie masz środków w tym portfelu.",
+        "waitSync": "Poczekaj, aż portfel zostanie zaktualizowany.",
+        "beReallyPatient": "Wstępna konfiguracja może zająć trochę czasu...",
+        "getMSRAddress": "Odbierz MSR"
+      },
+      "txDetails":{
+        "title":"Szczegóły stransakcji",
+        "txHash":"Tx hash",
+        "feesOnTx":"Tx fees",
+        "blockHeight":"Wysokość bloku",
+        "paymentId":"ID płatności",
+        "txPrivKey":"Prywatny klucz transakcji"
+      }
+    },
+    "changeWalletPasswordPage":{
+      "title":"Zmień swoje hasło",
+      "oldPassword":{
+        "label":"Stare hasło",
+        "invalid":"Hasło jest nieprawidłowe"
+      },
+      "newPassword":{
+        "label":"Wybierz nowe hasło, aby chronić swój portfel"
+      },
+      "newPasswordConfirm":{
+        "label":"Potwierdź nowe hasło"
+      },
+      "confirm":"Zmień hasło",
+      "modalSuccess":{
+        "title":"Hasło zmienione!",
+        "confirmText":"OK"
+      }
+    },
+	"createWalletPage":{
+	  "generatingStep":{
+		"title":"Twój portfel jest generowany...",
+		"subtitle":"Prawie skończone",
+		"waitingMessage":"Generowanie portfela..."
+	  },
+	  "finalizationStep":{
+		"title":"To było proste. Twoje konto jest gotowe!",
+		"subtitle":"Bądź gotowy do użycia Masari, jak nigdy dotąd",
+		"passwordSelectionBlock":{
+		  "label":"Chroń swój portfel"
+		},
+		"passwordConfirmBlock":{
+		  "label":"Potwierdź hasło"
+		},
+		"validPassword":"Użyj tego hasła",
+		"backupBlock":{
+		  "title":"Zapisz swoje osobiste poświadczenia do odzyskania.",
+      "option1":"Opcja 1: ",
+		  "option2":"Opcja 2: ",
+      "titlePdf":"Pobierz kopię PDF",
+      "titleManualWrite":"Zapisz moje klucze",
+		  "privateKeys":"Prywatny klucz",
+		  "mnemonicPhrase":"Mnemoniczna fraza",
+		  "separatorManualMethodsSolution":" lub ",
+		  "confirmManuallyWritten":"Zapisalem mój mnemonic",
+		  "warningMessage":"**Nie zgub go!** Nie można go odzyskać, jeśli go stracisz.<br/>**Nie udostępniaj tego!** Twoje fundusze zostaną skradzione, jeśli użyjesz tego pliku na złośliwej stronie.<br/>**Zrób kopie!** Zabezpiecz go jak miliony dolarów, które pewnego dnia mogą być tyle warte.<br/>",
+		  "finishButton":"Rozumiem. Dalej."
+		}
+  },
+    "disclaimerBlock":{
+		"title":"Ryzyko użycia Portfela Masari",
+		"content":"Portfel Masari jest interfejsem internetowym. Pomaga ci używać Masari bez uruchamiania pełnego węzła Masari. <br/>Zalecamy traktowanie Masari-Wallet tak, jakbyś traktował swój rzeczywisty portfel."
+	  }
+  },
+  "donatePage":{
+    "title":"Dotacja",
+    "subtitle":"Pomóż sfinansować rozwój i opłacaj rachunki",
+    "webwalletBlock":{
+    "title":"Portfel Web",
+    "content":"Ten portfel internetowy został opracowany przez Gnock w wolnym czasie.<br/>Jeśli chcesz pomóc w rozwoju, pomóc zapłacić za serwery i podobnie jak ta aplikacja, rozważ darowiznę: <br/><br/>"
+  },
+    "MasariFundBlock":{
+      "title":"Masari Deweloper fundusz",
+      "content":"Aby wspomóc Masari, możesz przekazać darowiznę na te adresy"
+  }
+  },
+  "supportPage":{
+    "title":"Wsparcie",
+    "subtitle":"Jesteśmy tutaj aby pomóc!",
+    "getInTouchBlock":{
+      "title":"Bądźmy w kontakcie!",
+      "content":"Czy masz pomysły lub opinie, które mogą pomóc nam ulepszyć portfel? Skontaktuj się z nami!",
+      "discord":"Masari Discord"
+    }
+  },
+  "networkPage":{
+    "title":"Statystki Sieci",
+    "subtitle":"Spostrzeżenia na temat sieci Masari",
+    "statsBlock":{
+      "hashrate":"Prędkość sieci",
+      "height":"Wysokośc bloku",
+      "difficulty":"Trudność wydobycia",
+      "lastTimeBlock":"ostatni znaleziony blok",
+      "lastReward":"ostatnia nagroda za blok"
+    }
+  },
+  "sendPage":{
+    "title":"Wyślij MSR",
+    "sendBlock":{
+      "address":{
+        "label":"Adres dotacji",
+        "invalid":"Adres docelowy jest nieprawidłowy",
+        "fundsTo":"Środki zostaną wysłane na adres",
+        "receiver":"Odbiorca",
+        "description":"Opis"
+      },
+      "amount":{
+        "label":"Kwota do wysłania",
+        "invalid":"Kwota nie prawidłowa"
+      },
+      "paymentId":{
+        "label":"Identyfikator płatności (opcjonalnie)",
+        "invalid":"Identyfikator płatności jest nieprawidłowy. Długość musi wynosić 16 lub 64 znaki"
+      },
+      "sendButton":"Wyślij",
+      "cancelButton":"Przerwij"
+    },
+    "qrCodeScanning":{
+      "explication":"Pokaż kod QR"
+    },
+    "notEnoughMoneyModal":{
+      "title":"Oops...",
+      "content":"Nie masz wystarczających środków w portfelu, aby wykonać ten transfer",
+      "confirmText":"OK"
+    },
+    "thankYouDonationModal":{
+      "title":"Dziękuję za darowiznę!",
+      "content":"Twoja pomoc jest doceniana. <br/>Ta darowizna pomoże ulepszyć Masari",
+      "confirmText":"OK"
+    },
+    "transferSentModal":{
+      "title":"Przesłano pomyślnie!",
+      "confirmText":"OK"
+    },
+    "transferExceptionModal":{
+      "title":"Oops...",
+      "content":"Wystąpił błąd. Zgłoś ten błąd: {details}",
+      "confirmText":"OK"
+    },
+    "invalidAmountModal":{
+      "title":"Oops...",
+      "content":"Nieprawidłowa kwota",
+      "confirmText":"OK"
+    },
+    "creatingTransferModal":{
+      "title":"Tworzenie transferu ...",
+      "content":"Proszę czekać..."
+    },
+    "finalizingTransferModal":{
+      "title":"Kończenie transferu ...",
+      "content":"Proszę czekać..."
+    },
+    "confirmTransactionModal":{
+      "title":"Potwierdz transfer?",
+      "content":"Ilość: {amount}<br/>Opłata transakcyjna: {fees}<br/>W całości: {total}",
+      "confirmText":"Potwierdź",
+      "cancelText":"Przerwij"
+    },
+	  "waitingNfcModal":{
+		  "title":"oczekiwanie na NFC",
+		  "content":"Zbliż telefon do drugiego urządzenia"
+	  }
+	},
+  "receivePage":{
+	  "title":"Odbierz MSR",
+	  "receiveBlock":{
+		"address":{
+		  "title":"Twój adres, aby otrzymać fundusze:",
+		  "label":"Podaj ten adres, aby otrzymać fundusze"
+		},
+		"qrCode":{
+		  "title":"Lub spersonalizuj kod QR:",
+		  "labelAmount":"Ilość (opcjonalnie)",
+		  "labelRecipient":"Nazwa odbiorcy (opcjonalnie)",
+		  "labelDescription":"Opis transakcji (opcjonalnie)",
+		  "updateButton":"Zaktualizuj"
+		}
+	  },
+	  "qrBlock":{
+		"title":"Twój dostosowany kod QR"
+    },
+	  "waitingNfcToWriteModal":{
+		  "title":"Oczekiwanie na NFC",
+		  "titleSuccess":"NFC Tag Zapisany",
+		  "content":"Zbliż telefon do tagu NFC, aby odczytać"
+	  },
+	  "nfcErrorModal":{
+		"titleInsufficientCapacity":"Niewystarczająca pojemność tagu"
+	  }
+	},
+  "miningPage":{
+  	  "title":"Kop bezpośrednio w przeglądarce",
+  	  "subtitle":"Wspieraj sieć przez wydobycie i zostań nagrodzony w MSR",
+  	  "parameterBlock":{
+  		"title":"Parametry",
+  		"labelDestinationAddress":"Portfel do kopania",
+  		"labelThreads":"Liczba wątków (więcej = wyższy hashrate)",
+  		"start":"Start",
+  		"stop":"Stop"
+  	  },
+  	  "statisticsBlocks":{
+  		"title":"Statistyki",
+  		"validShares":"Ważne akcje",
+  		"hashrate":"Prędkość",
+  		"maxHashrate":"Maksymalna prędkość",
+  		"dedicatedHardware":"Dzięki dedykowanemu oprogramowaniu i sprzętowi górniczemu możesz zarabiać więcej i pomagać w decentralizacji sieci.",
+      "miningHandledBy":"To wydobycie jest obsługiwane przez kopalnie get.masaricoin.com"
+	  }
+	},
+	"settingsPage":{
+    "title":"Ustawienia",
+    "subtitle":"Zmień swoje parametry tutaj",
+	  "versionBlock":{
+		"versionNumber":"Numer wersji: ",
+		"versionCode":"Wersja kodu: "
+	  },
+	  "settingsBlock":{
+		"speed":{
+      "label":"Szybkość aktualizacji portfela (zużyje więcej zasobów)",
+		  "fastest":"Najszybszy",
+		  "fast":"Szybki",
+		  "medium":"Średni",
+      "slow":"Wolny"
+		},
+		"language":{
+		  "label":"Język"
+		},
+		"readMinerTx":{
+		  "label":"Czytaj transakcje dla górników (tylko w przypadku wydobycia solo)"
+		}
+	  },
+    "changePasswordButton":"Zmień moje hasło do portfela",
+	  "deleteWalletButton":"Usuń mój portfel (kopia lokalna)",
+	  "walletSettings":{
+		"creationHeight":{
+		  "label":"Wysokość bloku tworzenia portfela"
+		},
+		"currentScanningHeight": {
+		  "label": "Aktualna wysokość skanowania"
+		},
+		"updateButton":"Aktualizacja"
+	  },
+	  "deleteWalletModal":{
+		"title":"Usuń mój portfel (kopia lokalna)",
+		"content":"Czy jesteś pewny i NAPRAWDĘ chcesz usunąc swój portfel ?",
+		"confirmText":"Tak, jestem pewny",
+		"cancelButtonText":"Przerwij"
+	  }
+  },
+  "importBasePage":{
+    "parametersBlock":{
+      "title":"Parametry",
+      "password":{
+        "label":"Hasło do ochrony portfela"
+      },
+      "passwordConfirm":{
+        "label":"Potwierdz Hasło",
+        "invalid":"Hasło nie pasuje do pierwszego wpisanego hasła"
+      },
+      "importHeight":{
+        "label":"Wysokość do importu:"
+      }
+    }
+  },
+  "importFromQrPage":{
+	  "title":"Importowanie portfela z kodu QR",
+	  "subtitle":"Zaimportuj portfel z kopii zapasowej offline",
+	  "qrCodeBlock":{
+		"title":"Kod QR",
+		"startScanButton":"Rozpocznij skanowanie",
+		"importButton":"Import"
+	  },
+	  "qrScanningBlock":{
+		"title":"Pokarz kod QR"
+	  }
+  },
+  "exportPage":{
+    "title":"Utwórz kopię zapasową swoich poświadczeń",
+    "publicAddressBlock":{
+      "title":"Twój publiczny adres"
+    },
+    "pdfBlock":{
+      "title":"Kopia PDF",
+      "downloadButton":"Pobierz"
+    },
+    "warningBlock":{
+      "title":"Ostrzeżenie",
+      "content":"Jeśli zdecydujesz się zapisać swoje prywatne klucze lub swój mnemonic, NIE przechowuj ich w czystym tekście dla własnego bezpieczeństwa.<br/>Plik jest alternatywnym rozwiązaniem, w którym klucze są zaszyfrowane i zawierają kopię zapasową wszystkich transakcji, aby oszczędzić ci przyszłej synchronizacji."
+    },
+    "exportBlock":{
+      "title":"Wyeksportuj swoje poświadczenia RAW",
+      "privateKeysButton":"Pokaż moje prywatne klucze",
+      "mnemonicKeysButton":"Pokaż mój mnemonic",
+      "fileButton":"Exportuj do pliku"
+    },
+    "walletKeysModal":{
+      "title":"Prywatne klucze",
+      "confirmText":"OK",
+      "content":"Proszę uważnie przechowywać te klucze. <b> Posiadanie ich oznacza posiadanie powiązanych funduszy</b> !<br/>Klucz wydawania: {privSpendKey}<br/>Prywatny klucz do podglądu: {privViewKey}"
+    },
+    "mnemonicKeyModal":{
+      "title":"Mnemonic",
+      "confirmText":"OK",
+      "content":"Zachowaj ostrożnie ten mnemonic. <b> Posiadanie go oznacza posiadanie funduszy powiązanych </b>! Twój mnemonic to:<br/>{mnemonic}"
+    },
+    "mnemonicLangSelectionModal":{
+      "title":"W jakim języku chcesz wygenerowany mnemonic?",
+      "confirmText":"Export"
+    }
+  },
+  "importPage":{
+    "title":"Utwórz portfel",
+    "subtitle":"Z wcześniej utworzonych kluczy, plików lub fraz mnemonicznych",
+    "chooseMethod":"Wybierz metodę importu:",
+    "fromKeys":"Za pomocą kluczy",
+    "fromFile":"Za pomoćą pliku",
+    "fromMnemonic":"Za pomocą fraz mnemonicznych",
+    "fromQr":"Za pomocą QR kodu"
+  },
+  "termsOfUsePage":{
+    "title":"Warunki korzystania",
+    "subtitle":"Przeczytaj je uważnie."
+  },
+  "privacyPolicyPage":{
+	  "title":"Polityka prywatności",
+	  "subtitle":"przeczytaj uwaznie."
+	},
+  "importFromFilePage":{
+    "title":"Importowanie portfela z pliku kopii zapasowej",
+    "subtitle":"Użyj pliku kopii zapasowej, aby utworzyć portfel",
+    "walletBlock":{
+      "title":"Plik portfela",
+      "label":"Wybierz plik",
+      "importButton":"Import"
+    }
+  },
+  "importFromMnemonicPage":{
+    "title":"Importowanie portfela z mnemonicznych fraz",
+    "subtitle":"Użyj mnemonicznych fraz które otrzymałeś przy zakładaniu portfela",
+    "mnemonicBlock":{
+      "title":"Mnemoniczna fraza",
+      "mnemonic":{
+        "label":"Mnemoniczna fraza: 25 słów",
+        "invalid":"Zwrot mnemoniczny jest nieprawidłowy",
+        "language":"Język"
+      },
+      "importButton":"Import"
+    }
+  },
+  "importFromKeysPage":{
+    "title":"Importowanie portfela z kluczy",
+    "subtitle":"Użyj kluczy, aby utworzyć portfel",
+    "parametersBlock":{
+      "viewOnlyWallet":{
+        "label":"Chcesz portfel tylko do podglądu?"
+      }
+    },
+    "keysBlock":{
+      "titleNotViewOnly":"Klucze do portfela",
+      "titleViewOnly":"Portfel tylko do odczytu",
+      "privateSpend":{
+        "label":"Prywatny klucz wydawania"
+      },
+      "privateView":{
+        "label":"Prywatny klucz do podglądu",
+        "optional":"(opcjonalnie)"
+      },
+      "publicKey":{
+        "label":"Klucz publiczny"
+      },
+      "importButton":"Import"
+      }
+    }
+  },
+  "number":{
+  },
+  "date":{
+	"short": {
+	  "year": "numeric", "month": "short", "day": "numeric"
+	},
+	"long": {
+	  "year": "numeric", "month": "short", "day": "numeric",
+	  "weekday": "short", "hour": "numeric", "minute": "numeric", "hour12": true
+	}
+  }
+}
