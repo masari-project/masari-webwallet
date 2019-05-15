@@ -39,11 +39,11 @@
 	  },
 	  "invalidMnemonicModal":{
 		"title":"Oops...",
-		"content":"The mnemonic phrase is invalid",
+		"content":"La frase mnemonic es inválida",
 		"confirmText":"OK"
 	  },
 	  "passwordNotComplexEnoughModal":{
-		"title":"The password is not complex enough",
+		"title":"Tu contraseña no es lo suficientemente compleja",
 		"confirmText":"OK"
 	  },
 	  "permissionRequiredForCameraModal":{
@@ -76,7 +76,7 @@
 		  "description": "Sin servidores, totalmente encriptados.!"
 		},
 		"fast": {
-		  "title": "rápido",
+		  "title": "Rápido",
 		  "description": "Enviar a todas partes, en cualquier momento!"
 		},
 		"technology": {
@@ -153,7 +153,7 @@
 		"backupBlock":{
 		  "title":"Guarda tus credenciales privadas para la recuperación.",
 		  "option1":"Opción 1: ",
-		  "option2":"Octión 2: ",
+		  "option2":"Opción 2: ",
 			  "titlePdf":"Descarga una copia en PDF",
 		  "titleManualWrite":"Escribe mis llaves",
 		  "privateKeys":"Llave privada",
@@ -487,7 +487,7 @@
 	},
 	"long": {
 	  "year": "numérico", "month": "corto", "day": "numérico",
-	  "weekday": "short", "hour": "numérico", "minute": "numérico", "hour12": true
+	  "weekday": "corto", "hour": "numérico", "minute": "numérico", "hour12": true
 	}
   }
 }
