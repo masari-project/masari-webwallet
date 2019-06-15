@@ -112,7 +112,14 @@ export class TransactionsExplorer {
 			console.error('Weird tx !', rawTransaction);
 			return false;
 		}
-		return parseInt(rawTransaction.vout[0].amount) !== 0;
+		
+		try {
+			return parseInt(rawTransaction.vout[0].amount) !== 0;
+		}
+		catch(err) {
+			return parseInt(rawTransaction.vout[0].amount) !== 0;
+			return false;
+		}
 	}
 
 	static parse(rawTransaction: RawDaemon_Transaction, wallet: Wallet): Transaction | null {

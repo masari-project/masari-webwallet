@@ -1,7 +1,7 @@
 {
   "website":{
 	"title":"Official Masari Web Wallet",
-	"description":"Official online wallet for Masari currency - anonymous, secured, and fully handled in your browser for optimal security"
+	"description":"Official online wallet for Masari currency - fast, anonymous, and fully handled in your browser for optimal security"
   },
   "messages": {
 	"menu": {
@@ -403,12 +403,12 @@
 	  "walletKeysModal":{
 		"title":"Private keys",
 		"confirmText":"OK",
-		"content":"Please carefully store these keys. <b>Possessing them means possessing the funds associated</b> !<br/>Spend key: {privSpendKey}<br/>Private view key: {privViewKey}"
+		"content":"Please store these keys carefully. <b>Possessing them means possessing the funds associated</b> !<br/>Spend key: {privSpendKey}<br/>Private view key: {privViewKey}"
 	  },
 	  "mnemonicKeyModal":{
 		"title":"Mnemonic phrase",
 		"confirmText":"OK",
-		"content":"Please store carefully this mnemonic phrase. <b>Possessing it means possessing the funds associated</b> ! The phrase is:<br/>{mnemonic}"
+		"content":"Please store this mnemonic phrase carefully. <b>Possessing it means possessing the funds associated</b> ! The phrase is:<br/>{mnemonic}"
 	  },
 	  "mnemonicLangSelectionModal":{
 		"title":"In which language do you want your mnemonic phrase?",
