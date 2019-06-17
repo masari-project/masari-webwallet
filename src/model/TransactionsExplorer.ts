@@ -115,9 +115,7 @@ export class TransactionsExplorer {
 		
 		try {
 			return parseInt(rawTransaction.vout[0].amount) !== 0;
-		}
-		catch(err) {
-			return parseInt(rawTransaction.vout[0].amount) !== 0;
+		} catch(err) {
 			return false;
 		}
 	}
@@ -186,7 +184,13 @@ export class TransactionsExplorer {
 		for (let iOut = 0; iOut < rawTransaction.vout.length; ++iOut) {
 			let out = rawTransaction.vout[iOut];
 			let txout_k = out.target;
-			let amount : number = parseInt(out.amount);
+			let amount : number = 0;
+			try {
+				amount = parseInt(out.amount);
+			}catch (e) {
+				console.error(e);
+				continue;
+			}
 			let output_idx_in_tx = iOut;
 
 			let generated_tx_pubkey = CnNativeBride.derive_public_key(derivation,output_idx_in_tx,wallet.keys.pub.spend);//5.5ms
