@@ -16,16 +16,17 @@
 import {Constants} from "../model/Constants";
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
+import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
+import {BlockchainExplorerRpcDaemon} from "../model/blockchain/BlockchainExplorerRpcDaemon";
 
 export class BlockchainExplorerProvider{
-
-	static getInstance() : BlockchainExplorerRpc2{
-		let blockchainExplorer : BlockchainExplorerRpc2 = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
+	static getInstance() : BlockchainExplorer{
+		let blockchainExplorer : BlockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
 		if(blockchainExplorer === null) {
-			blockchainExplorer = new BlockchainExplorerRpc2();
+			// blockchainExplorer = new BlockchainExplorerRpc2();
+			blockchainExplorer = new BlockchainExplorerRpcDaemon();
 			DependencyInjectorInstance().register(Constants.BLOCKCHAIN_EXPLORER, blockchainExplorer);
 		}
 		return blockchainExplorer;
 	}
-
 }

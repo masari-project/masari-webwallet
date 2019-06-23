@@ -1,6 +1,10 @@
 let global : any = typeof window !== 'undefined' ? window : self;
 global.config = {
 	apiUrl:typeof window !== 'undefined' && window.location ? window.location.href.substr(0,window.location.href.lastIndexOf('/')+1)+'api/' : 'https://www.masariwallet.com/api/',
+	trustedDaemonsAddresses:[
+		'https://www.masariwallet.com:38084/'
+	],
+	phpRelay:typeof window !== 'undefined' && window.location.host.indexOf('localhost') !== -1 ? true : false,
 	mainnetExplorerUrl: "https://msrchain.net/",
 	mainnetExplorerUrlHash: "https://msrchain.net/tx/{ID}",
 	mainnetExplorerUrlBlock: "https://msrchain.net/block/{ID}",

@@ -1,5 +1,6 @@
 declare var config : {
 	apiUrl:string,
+	trustedDaemonsAddresses:string[],
 	mainnetExplorerUrl: string,
 	mainnetExplorerUrlHash: string,
 	mainnetExplorerUrlBlock: string,

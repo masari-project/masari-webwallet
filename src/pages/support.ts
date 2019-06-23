@@ -12,14 +12,7 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {DestructableView} from "../lib/numbersLab/DestructableView";
-import {KeysRepository} from "../model/KeysRepository";
-import {Wallet} from "../model/Wallet";
-import {Password} from "../model/Password";
-import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
-import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
-import {Mnemonic} from "../model/Mnemonic";
 import {AppState} from "../model/AppState";
 
 class SupportView extends DestructableView{

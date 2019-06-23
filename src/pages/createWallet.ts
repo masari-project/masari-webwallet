@@ -17,7 +17,6 @@ import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {KeysRepository} from "../model/KeysRepository";
 import {Wallet} from "../model/Wallet";
 import {Password} from "../model/Password";
-import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {Mnemonic} from "../model/Mnemonic";
 import {AppState} from "../model/AppState";
@@ -25,8 +24,9 @@ import {WalletRepository} from "../model/WalletRepository";
 import {Translations} from "../model/Translations";
 import {MnemonicLang} from "../model/MnemonicLang";
 import {Cn, CnNativeBride, CnRandom} from "../model/Cn";
+import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
 
-let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
+let blockchainExplorer : BlockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 class CreateViewWallet extends DestructableView{
 	@VueVar(0) step !: number;

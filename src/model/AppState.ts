@@ -14,14 +14,13 @@
  */
 
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
-import {BlockchainExplorerRpc2, WalletWatchdog} from "./blockchain/BlockchainExplorerRpc2";
 import {Wallet} from "./Wallet";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {Observable} from "../lib/numbersLab/Observable";
 import {WalletRepository} from "./WalletRepository";
 import {BlockchainExplorer, RawDaemon_Transaction} from "./blockchain/BlockchainExplorer";
-import {Constants} from "./Constants";
 import {TransactionsExplorer} from "./TransactionsExplorer";
+import {WalletWatchdog} from "./WalletWatchdog";
 
 export class WalletWorker{
 	wallet : Wallet;
@@ -128,9 +127,9 @@ export class AppState{
 											blockchainHeightToRescanObj[tx.blockHeight] = true;
 										}
 									}
-									let blockchainHeightToRescan = Object.keys(blockchainHeightToRescanObj);
+									/*let blockchainHeightToRescan = Object.keys(blockchainHeightToRescanObj);
 									if (blockchainHeightToRescan.length > 0) {
-										let blockchainExplorer: BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
+										let blockchainExplorer: BlockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 										let promisesBlocks = [];
 										for (let height of blockchainHeightToRescan) {
@@ -147,7 +146,7 @@ export class AppState{
 												}
 											}
 										});
-									}
+									}*/
 									swal.close();
 									resolve();
 

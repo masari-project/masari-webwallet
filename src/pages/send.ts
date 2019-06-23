@@ -16,7 +16,6 @@
 import {DestructableView} from "../lib/numbersLab/DestructableView";
 import {VueRequireFilter, VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {TransactionsExplorer} from "../model/TransactionsExplorer";
-import {BlockchainExplorerRpc2, WalletWatchdog} from "../model/blockchain/BlockchainExplorerRpc2";
 import {Autowire, DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Wallet} from "../model/Wallet";
 import {Url} from "../utils/Url";
@@ -26,9 +25,11 @@ import {AppState} from "../model/AppState";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {NdefMessage, Nfc} from "../model/Nfc";
 import {Cn} from "../model/Cn";
+import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
+import {WalletWatchdog} from "../model/WalletWatchdog";
 
 let wallet: Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
-let blockchainExplorer: BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
+let blockchainExplorer: BlockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 AppState.enableLeftMenu();
 

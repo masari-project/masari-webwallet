@@ -29,19 +29,37 @@ export type RawDaemon_RctSignature = {
 export type RawDaemon_Transaction = {
 	extra : number[],
 	vout : CnTransactions.Vout[],
-	vin : {key:CnTransactions.Vin}[],
+	vin : {
+		key?:CnTransactions.Vin,
+		gen?:{height:number},
+	}[],
 	rct_signatures:CnTransactions.RctSignature,
 	unlock_time:number,
 	version:number,
 	ctsig_prunable:any,
 	global_index_start?:number,
 	height?:number,
-	ts?:number
+	ts?:number,//timestamp
 	hash?:string,
 };
 
+export type NetworkInfo = {
+	major_version:number,
+	hash:string,
+	reward:number,
+	height:number,
+	timestamp:number,
+	difficulty:number,
+};
+
 export interface BlockchainExplorer{
+	resolveOpenAlias(str : string) : Promise<{ address: string, name: string | null }>;
 	getHeight() : Promise<number>;
 	getScannedHeight() : number;
 	watchdog(wallet : Wallet) : void;
+	getTransactionPool() : Promise<RawDaemon_Transaction[]>;
+	getTransactionsForBlocks(startBlock : number, endBlock : number, includeMinerTx : boolean) : Promise<RawDaemon_Transaction[]>;
+	sendRawTx(rawTx : string) : Promise<any>;
+	getRandomOuts(numberOuts : number) : Promise<any[]>;
+	getNetworkInfo() : Promise<NetworkInfo>;
 }

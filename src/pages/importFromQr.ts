@@ -21,15 +21,15 @@ import {Password} from "../model/Password";
 import {Wallet} from "../model/Wallet";
 import {KeysRepository} from "../model/KeysRepository";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
-import {BlockchainExplorerRpc2} from "../model/blockchain/BlockchainExplorerRpc2";
 import {QRReader} from "../model/QRReader";
 import {CoinUri} from "../model/CoinUri";
 import {Mnemonic} from "../model/Mnemonic";
-import {Cn, CnNativeBride, CnUtils} from "../model/Cn";
+import {Cn, CnUtils} from "../model/Cn";
+import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
 
 AppState.enableLeftMenu();
 
-let blockchainExplorer : BlockchainExplorerRpc2 = BlockchainExplorerProvider.getInstance();
+let blockchainExplorer : BlockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 class ImportView extends DestructableView{
 	@VueVar('') password !: string;
