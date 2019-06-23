@@ -220,7 +220,7 @@ export class WalletWatchdog{
 				if(previousStartBlock >= self.lastMaximumHeight)previousStartBlock = self.lastMaximumHeight;
 				if(endBlock >= self.lastMaximumHeight)endBlock = self.lastMaximumHeight;
 
-				self.explorer.getTransactionsForBlocks(previousStartBlock, endBlock, false).then(function(transactions : RawDaemon_Transaction[]){
+				self.explorer.getTransactionsForBlocks(previousStartBlock, endBlock, true).then(function(transactions : RawDaemon_Transaction[]){
 					//to ensure no pile explosion
 					if(transactions.length > 0){
 						let lastTx = transactions[transactions.length-1];
@@ -232,9 +232,6 @@ export class WalletWatchdog{
 							self.loadHistory();
 						}, 1);
 					}else{
-						self.lastBlockLoading = endBlock+1;
-						if(self.lastBlockLoading >= self.lastMaximumHeight)self.lastBlockLoading = self.lastMaximumHeight;
-
 						setTimeout(function () {
 							self.loadHistory();
 						}, 30*1000);
