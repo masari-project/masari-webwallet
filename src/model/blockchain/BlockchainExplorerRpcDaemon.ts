@@ -58,9 +58,6 @@ export class BlockchainExplorerRpcDaemon implements BlockchainExplorer{
 		if(daemonAddress !== null && daemonAddress.trim() !== ''){
 			this.daemonAddress = daemonAddress;
 		}
-		if(this.daemonAddress.indexOf('localhost') !== -1 || this.daemonAddress.indexOf('127.0.0.1') !== -1){
-			this.phpProxy = true;
-		}
 	}
 
 	protected makeRpcRequest(method : string, params : any = {}) : Promise<any>{

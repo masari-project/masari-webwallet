@@ -4,7 +4,7 @@ global.config = {
 	trustedDaemonsAddresses:[
 		'https://www.masariwallet.com:38084/'
 	],
-	phpRelay:typeof window !== 'undefined' && window.location.host.indexOf('localhost') !== -1 ? true : false,
+	phpRelay:typeof window !== 'undefined' ? true : false,
 	mainnetExplorerUrl: "https://msrchain.net/",
 	mainnetExplorerUrlHash: "https://msrchain.net/tx/{ID}",
 	mainnetExplorerUrlBlock: "https://msrchain.net/block/{ID}",
