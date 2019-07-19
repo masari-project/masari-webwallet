@@ -169,6 +169,7 @@ export class BlockchainExplorerRpcDaemon implements BlockchainExplorer{
 				if(tx !== null) {
 					tx.ts = rawTx.block_timestamp;
 					tx.height = rawTx.block_height;
+                                        tx.hash = rawTx.tx_hash;
 					if (rawTx.output_indices.length > 0)
 						tx.global_index_start = rawTx.output_indices[0];
 
