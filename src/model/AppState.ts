@@ -127,13 +127,13 @@ export class AppState{
 											blockchainHeightToRescanObj[tx.blockHeight] = true;
 										}
 									}
-									/*let blockchainHeightToRescan = Object.keys(blockchainHeightToRescanObj);
+									let blockchainHeightToRescan = Object.keys(blockchainHeightToRescanObj);
 									if (blockchainHeightToRescan.length > 0) {
 										let blockchainExplorer: BlockchainExplorer = BlockchainExplorerProvider.getInstance();
 
 										let promisesBlocks = [];
 										for (let height of blockchainHeightToRescan) {
-											promisesBlocks.push(blockchainExplorer.getTransactionsForBlocks(parseInt(height)));
+											promisesBlocks.push(blockchainExplorer.getTransactionsForBlocks(parseInt(height),parseInt(height),false));
 										}
 										Promise.all(promisesBlocks).then(function (arrayOfTxs: Array<RawDaemon_Transaction[]>) {
 											for (let txs of arrayOfTxs) {
@@ -146,7 +146,7 @@ export class AppState{
 												}
 											}
 										});
-									}*/
+									}
 									swal.close();
 									resolve();
 
