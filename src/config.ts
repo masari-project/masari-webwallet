@@ -1,13 +1,13 @@
 let global : any = typeof window !== 'undefined' ? window : self;
 global.config = {
-	apiUrl:typeof window !== 'undefined' && window.location ? window.location.href.substr(0,window.location.href.lastIndexOf('/')+1)+'api/' : 'https://www.masariwallet.com/api/',
+	apiUrl:typeof window !== 'undefined' && window.location ? window.location.href.substr(0,window.location.href.lastIndexOf('/')+1)+'api/' : 'https://wallet.getmasari.org/api/',
 	trustedDaemonsAddresses:[
-		'https://www.masariwallet.com:38084/'
+		'https://wallet.getmasari.org:38084/'
 	],
 	phpRelay:typeof window !== 'undefined' ? true : false,
-	mainnetExplorerUrl: "https://msrchain.net/",
-	mainnetExplorerUrlHash: "https://msrchain.net/tx/{ID}",
-	mainnetExplorerUrlBlock: "https://msrchain.net/block/{ID}",
+	mainnetExplorerUrl: "https://explorer.getmasari.org/",
+	mainnetExplorerUrlHash: "https://explorer.getmasari.org/transaction.html?hash={ID}",
+	mainnetExplorerUrlBlock: "https://explorer.getmasari.org/block.html?height={ID}",
 	testnetExplorerUrl: "http://testnet.msrchain.net/",
 	testnetExplorerUrlHash: "http://testnet.msrchain.net/tx/{ID}",
 	testnetExplorerUrlBlock: "http://testnet.msrchain.net/block/{ID}",
