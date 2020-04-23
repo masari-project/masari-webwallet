@@ -39,3 +39,13 @@ export function VueFilterFiat (value: number, currency: string) {
         return 'kr' + value.toFixed(2);
     }
 }
+
+export function VueFilterHashrate(hashrate : number){
+	let i = 0;
+	let byteUnits = [' H', ' kH', ' MH', ' GH', ' TH', ' PH', ' EH', ' ZH', ' YH' ];
+	while (hashrate > 1000){
+		hashrate = hashrate / 1000;
+		i++;
+	}
+	return hashrate.toFixed(2) + byteUnits[i];
+}

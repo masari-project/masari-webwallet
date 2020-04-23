@@ -14,13 +14,16 @@
  */
 
 import {DestructableView} from "../lib/numbersLab/DestructableView";
-import {VueVar} from "../lib/numbersLab/VueAnnotate";
+import {VueVar, VueRequireFilter} from "../lib/numbersLab/VueAnnotate";
 import {AppState} from "../model/AppState";
 import {BlockchainExplorer, NetworkInfo} from "../model/blockchain/BlockchainExplorer";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
+import {VueFilterHashrate} from "../filters/Filters";
 
 AppState.enableLeftMenu();
 let blockchainExplorer: BlockchainExplorer = BlockchainExplorerProvider.getInstance();
+
+@VueRequireFilter('hashrate', VueFilterHashrate)
 
 class NetworkView extends DestructableView{
 	@VueVar(0) networkHashrate !: number;
@@ -49,7 +52,7 @@ class NetworkView extends DestructableView{
 	refreshStats() {
 		blockchainExplorer.getNetworkInfo().then((info : NetworkInfo)=>{
 			this.networkDifficulty = info.difficulty;
-			this.networkHashrate = info.difficulty/config.avgBlockTime/1000000;
+			this.networkHashrate = info.difficulty/config.avgBlockTime;
 			this.blockchainHeight = info.height;
 			this.lastReward = info.reward/Math.pow(10, config.coinUnitPlaces);
 			this.lastBlockFound = info.timestamp;
