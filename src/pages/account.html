@@ -22,7 +22,15 @@
 			<div class="body" >
 				<div class="header-title" >{{ $t("accountPage.balanceBlock.title") }}</div>
 				<div class="content" >
-					<span class="walletAmount" >{{ $n(walletAmount / currencyDivider) }}</span> MSR
+					<span class="walletAmount" >{{ $n(walletAmount / currencyDivider) }} MSR</span> 
+					<span class="btcValue" v-if="geckoCurrentPrice.market_data != null">
+						{{ (geckoCurrentPrice.market_data.current_price.btc)* $n(walletAmount / currencyDivider) | satoshis }}
+					</span>
+					<span class="USDValue" v-if="geckoCurrentPrice.market_data != null">
+						<span v-for="(value, key) in geckoCurrentPrice.market_data.current_price" v-if="key == currency">						
+							{{ (value) * $n(walletAmount / currencyDivider) | fiat(currency) }}
+						</span>
+					</span>
 					<tempate class="amount unlocked" v-if="unlockedWalletAmount !== walletAmount" >
 						<br/><span class="walletAmount" >{{ $t("accountPage.balanceBlock.unlocked") }}: {{ $n(unlockedWalletAmount / currencyDivider) }}</span> MSR
 					</tempate>

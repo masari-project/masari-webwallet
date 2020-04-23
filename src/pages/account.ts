@@ -13,7 +13,7 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {VueClass, VueRequireFilter, VueVar} from "../lib/numbersLab/VueAnnotate";
+import {VueClass, VueRequireFilter, VueVar, VueWatched} from "../lib/numbersLab/VueAnnotate";
 import {DependencyInjectorInstance} from "../lib/numbersLab/DependencyInjector";
 import {Wallet} from "../model/Wallet";
 import {DestructableView} from "../lib/numbersLab/DestructableView";
@@ -21,10 +21,15 @@ import {Constants} from "../model/Constants";
 import {AppState} from "../model/AppState";
 import {Transaction, TransactionIn} from "../model/Transaction";
 import {Cn} from "../model/Cn";
+import {VueFilterSatoshis, VueFilterFiat} from "../filters/Filters";
+import {Currency} from "../model/Currency";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name,'default', false);
 let blockchainExplorer = DependencyInjectorInstance().getInstance(Constants.BLOCKCHAIN_EXPLORER);
 (<any>window).wallet = wallet;
+
+@VueRequireFilter('satoshis', VueFilterSatoshis)
+@VueRequireFilter('fiat', VueFilterFiat)
 
 class AccountView extends DestructableView{
 	@VueVar([]) transactions !: Transaction[];
@@ -35,7 +40,11 @@ class AccountView extends DestructableView{
 	@VueVar(0) blockchainHeight !: number;
 	@VueVar(Math.pow(10, config.coinUnitPlaces)) currencyDivider !: number;
 
+	@VueVar(0) geckoCurrentPrice !: string[];
+	@VueVar(0) currency !: string;
+
 	intervalRefresh : number = 0;
+	intervalValues : number = 0;
 
 	constructor(container : string){
 		super(container);
@@ -44,7 +53,14 @@ class AccountView extends DestructableView{
 		this.intervalRefresh = setInterval(function(){
 			self.refresh();
 		}, 1*1000);
+		this.intervalValues = setInterval(function() {
+			self.getValues();
+		}, 1000*10) // get values of currencies every 10 seconds.
 		this.refresh();
+		this.getValues();
+		Currency.getBrowserCurrency().then((userCurrency : string) => { 
+			this.currency = userCurrency
+		})
 	}
 
 	destruct(): Promise<void> {
@@ -59,6 +75,13 @@ class AccountView extends DestructableView{
 		});
 
 		this.refreshWallet();
+	}
+
+	getValues() {
+		this.getCoin('masari')
+			.then(json => {
+			this.geckoCurrentPrice = json;
+		  })
 	}
 
 	moreInfoOnTx(transaction : Transaction){
@@ -96,13 +119,19 @@ class AccountView extends DestructableView{
 		});
 	}
 
+	// grab coin info from coingecko
+	getCoin(coin: string): Promise<string[]> {
+		return fetch(`https://api.coingecko.com/api/v3/coins/${coin}`)
+		.then(res => res.json())
+	}
+
 	refreshWallet(){
 		this.currentScanBlock = wallet.lastHeight;
 		this.walletAmount = wallet.amount;
 		this.unlockedWalletAmount = wallet.unlockedAmount(this.currentScanBlock);
 		if(wallet.getAll().length+wallet.txsMem.length !== this.transactions.length) {
 			this.transactions = wallet.txsMem.concat(wallet.getTransactionsCopy().reverse());
-		}
+		}		
 	}
 }
 

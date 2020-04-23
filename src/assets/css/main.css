@@ -1050,3 +1050,19 @@ body{
 .progress .label{
 	display: block;
 }
+
+.walletAmount {
+    display: block;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.btcValue {
+    display: block;
+    font-size: 1rem;
+}
+
+.USDValue {
+    display: block;
+    font-size: 1rem;
+}

@@ -42,6 +42,27 @@
 			<div class="body" >
 				<div class="content" >
 					<div class="field">
+						<label>Currency</label>
+						<select v-model="userCurrency">
+							<option value="usd">USD</option>
+							<option value="eur">EUR</option>
+							<option value="jpy">JPY</option>
+							<option value="gbp">GBP</option>
+							<option value="aud">AUD</option>
+							<option value="cad">CAD</option>
+							<option value="chf">CHF</option>
+							<option value="sek">SEK</option>
+							<option value="nzd">NZD</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel">
+			<div class="body" >
+				<div class="content" >
+					<div class="field">
 						<label>{{ $t("settingsPage.settingsBlock.speed.label") }}</label>
 						<select v-model="readSpeed" >
 							<option value="2" >{{ $t("settingsPage.settingsBlock.speed.fastest") }}</option>

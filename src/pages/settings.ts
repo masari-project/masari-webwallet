@@ -23,6 +23,7 @@ import {Translations} from "../model/Translations";
 import {BlockchainExplorerProvider} from "../providers/BlockchainExplorerProvider";
 import {BlockchainExplorer} from "../model/blockchain/BlockchainExplorer";
 import {WalletWatchdog} from "../model/WalletWatchdog";
+import {Currency} from "../model/Currency";
 
 let wallet : Wallet = DependencyInjectorInstance().getInstance(Wallet.name, 'default', false);
 let blockchainExplorer : BlockchainExplorer = BlockchainExplorerProvider.getInstance();
@@ -37,6 +38,7 @@ class SendView extends DestructableView{
 
 	@VueVar(-1) maxHeight !: number;
 	@VueVar('en') language !: string;
+	@VueVar('usd') userCurrency !: string;
 
 	@VueVar(0) nativeVersionCode !: number;
 	@VueVar('') nativeVersionNumber !: string;
@@ -58,6 +60,10 @@ class SendView extends DestructableView{
 			this.language = userLang;
 		});
 
+		Currency.getBrowserCurrency().then((userCur : string) => { 
+			this.userCurrency = userCur;
+		})
+
 		if(typeof (<any>window).cordova !== 'undefined' && typeof (<any>window).cordova.getAppVersion !== 'undefined') {
 			(<any>window).cordova.getAppVersion.getVersionNumber().then((version : string) => {
 				this.nativeVersionNumber = version;
@@ -72,6 +78,11 @@ class SendView extends DestructableView{
 	languageWatch() {
 		Translations.setBrowserLang(this.language);
 		Translations.loadLangTranslation(this.language);
+	}
+	
+	@VueWatched() 
+	userCurrencyWatch() {
+		Currency.setBrowserCurrency(this.userCurrency);
 	}
 
 	deleteWallet() {
